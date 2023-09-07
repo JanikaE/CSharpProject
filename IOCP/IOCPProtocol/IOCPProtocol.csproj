@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <BaseOutputPath>D:\docs\code\C#_Study\Client\UnityIOCP\Assets\Scripts\NetService</BaseOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="newtonsoft.json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IOCPNet\IOCPNet.csproj" />
+  </ItemGroup>
+
+</Project>
