@@ -39,7 +39,7 @@ namespace Maze
         /// <summary>
         /// 获取某格的四周的格子中未连通的格子
         /// </summary>
-        public List<Point2D> GetNeighborUnreachedBlocks(Point2D point)
+        protected List<Point2D> GetNeighborUnreachedBlocks(Point2D point)
         {
             List<Point2D> points = GetNeighborBlocks(point.X, point.Y);
             List<Point2D> subPoints = new();

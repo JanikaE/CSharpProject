@@ -2,6 +2,9 @@
 
 namespace Maze
 {
+    /// <summary>
+    /// 迷宫生成基类
+    /// </summary>
     public abstract class Maze
     {
         public int height;
@@ -10,18 +13,26 @@ namespace Maze
         public bool[,] wall_vertical;
         public bool[,] wall_horizontal;
 
+        public List<Point2D> way;
+
         public Maze(int height, int width)
         {
             this.height = height;
             this.width = width;
             wall_vertical = new bool[height, width];
             wall_horizontal = new bool[height, width];
+            way = new();
         }
 
         public abstract void Generate();
 
-        public void Show()
+        public void Show(bool showWay = false)
         {
+            if (showWay)
+            {
+                FindWay();
+            }
+
             for (int i = 0; i < width * 2 + 1; i++)
             {
                 Console.Write('#');
@@ -32,7 +43,19 @@ namespace Maze
                 Console.Write('#');
                 for (int j = 0; j < width; j++)
                 {
-                    Console.Write(' ');
+                    if (showWay)
+                    {
+                        if (way.FindAll(p => p.X == j && p.Y == i).Count > 0)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.Write('*');
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                        }                            
+                        else
+                            Console.Write(' ');
+                    }
+                    else
+                        Console.Write(' ');
                     if (wall_vertical[i, j])
                         Console.Write(' ');
                     else
@@ -52,10 +75,16 @@ namespace Maze
             }
         }
 
+        public void FindWay()
+        {
+            Solve solve = new(this);
+            way = solve.FindWay();
+        }
+
         /// <summary>
         /// 获取某格的四周的格子
         /// </summary>
-        public List<Point2D> GetNeighborBlocks(int x, int y)
+        protected List<Point2D> GetNeighborBlocks(int x, int y)
         {
             List<Point2D> points = new();
             if (x > 0)
@@ -72,7 +101,7 @@ namespace Maze
         /// <summary>
         /// 打通两相邻格之间的墙
         /// </summary>
-        public void BreakWall(Point2D point1, Point2D point2)
+        protected void BreakWall(Point2D point1, Point2D point2)
         {
             int x = point1.X;
             int y = point1.Y;
@@ -96,7 +125,7 @@ namespace Maze
         /// <summary>
         /// 计算两个相邻格子的相对位置
         /// </summary>
-        public static RelativePosition GetRelativePosition(Point2D me, Point2D another)
+        protected static RelativePosition GetRelativePosition(Point2D me, Point2D another)
         {
             if (another.X - me.X == 1 && another.Y == me.Y)
                 return RelativePosition.Right;
