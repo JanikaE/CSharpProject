@@ -1,4 +1,4 @@
-﻿namespace Stare.Common.Dto
+﻿namespace Stare.Common.Constant
 {
     /// <summary>对局流水</summary>
     public class FlowingDto
@@ -12,10 +12,10 @@
         /// <summary>金币数量</summary>
         public int goldNum;
 
-        public FlowingDto(int position, int round, int level, int goldNum) 
+        public FlowingDto(int position, int round, int level, int goldNum)
         {
             this.position = position;
-            this.round = round;                
+            this.round = round;
             this.level = level;
             this.goldNum = goldNum;
         }

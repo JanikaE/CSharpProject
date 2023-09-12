@@ -1,56 +1,65 @@
-﻿namespace Stare.Common
+﻿using System.Xml.Linq;
+
+namespace Stare.Common
 {
     [Serializable]
     public class Poker
     {
+        public string name;
         /// <summary>花色</summary>
         public PokerType type;
-        /// <summary>点数，以及万能牌所代替的数字</summary>
+        /// <summary>点数</summary>
         public PokerValue value;
         /// <summary>万能牌原来的数字</summary>
-        public PokerValue originValue;
-        // tip: 大小比较一律用value，originValue只用于判断万能牌的状态
+        public PokerValue OriginValue
+        {
+            get
+            {
+                if (name == "SJoker") return PokerValue.SJoker;
+                else if (name == "LJoker") return PokerValue.LJoker;
+                if (!IsRogue()) return value;
+                string str = name.Split(',')[1];
 
+                return (PokerValue)Enum.Parse(typeof(PokerValue), str);
+            }
+        }
 
         public Poker(PokerType type, PokerValue value)
         {
             this.type = type;
             this.value = value;
-            originValue = value;
+            if (value == PokerValue.SJoker || value == PokerValue.LJoker)
+            {
+                name = value.ToString();
+            }
+            else
+            {
+                name = type.ToString() + "," + value.ToString();
+            }
         }
 
-        public override string ToString()
+        public bool Equals(Poker poker)
         {
-            return type.ToString() + value.ToString();
+            return poker.name.Equals(name);
         }
+
+        /// <summary>
+        /// 最小的非万能牌的值
+        /// </summary>
+        internal const int startValue = 5;
 
         /// <summary>
         /// 判断万能牌
         /// </summary>
         public bool IsRogue()
         {
-            if (originValue == PokerValue.Three ||
-                originValue == PokerValue.Four ||
-                originValue == PokerValue.SJoker ||
-                originValue == PokerValue.LJoker) 
+            if (OriginValue == PokerValue.Three ||
+                OriginValue == PokerValue.Four ||
+                OriginValue == PokerValue.SJoker ||
+                OriginValue == PokerValue.LJoker)
                 return true;
-            else 
-                return false;
-        }
-        
-        /// <summary>
-        /// 万能牌是否有指代
-        /// </summary>
-        /// <returns>不是万能牌返回null，还没指代返回false，已经有指代返回true</returns>
-        public bool? HasChange()
-        {
-            if (!IsRogue())
-                return null;
             else
-            {
-                return originValue != value;
-            }
-            
+                return false;
         }
     }
 
