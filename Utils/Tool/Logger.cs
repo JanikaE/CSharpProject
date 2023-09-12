@@ -7,7 +7,6 @@ namespace Utils.Tool
     /// </summary>
     public static class Logger
     {
-        private static ConsoleColor defaultColor = ConsoleColor.Gray;
         /// <summary>
         /// 是否显示时间戳
         /// </summary>
@@ -18,27 +17,19 @@ namespace Utils.Tool
         public static bool ShowThread { get; set; } = true;
 
         /// <summary>
-        /// 设置终端默认颜色
-        /// </summary>
-        public static void SetDefaultColor(ConsoleColor color)
-        {
-            defaultColor = color;
-        }
-
-        /// <summary>
         /// 消息（绿色）
         /// </summary>
         public static void Info(string s)
         {
-            Log("INFO|" + s, LogColor.Green);
+            Log("INFO|" + s, ConsoleColor.Green);
         }
 
         /// <summary>
-        /// Debug（默认颜色）
+        /// Debug（自定义颜色）
         /// </summary>
-        public static void Debug(string s)
+        public static void Debug(string s, ConsoleColor color = ConsoleColor.Gray)
         {
-            Log("DEBUG|" + s, LogColor.None);
+            Log("DEBUG|" + s, color);
         }
 
         /// <summary>
@@ -46,7 +37,7 @@ namespace Utils.Tool
         /// </summary>
         public static void Warn(string s)
         {
-            Log("WARN|" + s, LogColor.Yellow);
+            Log("WARN|" + s, ConsoleColor.Yellow);
         }
 
         /// <summary>
@@ -54,18 +45,12 @@ namespace Utils.Tool
         /// </summary>
         public static void Error(string s)
         {
-            Log("ERROR|" + s, LogColor.Red);
+            Log("ERROR|" + s, ConsoleColor.Red);
         }
 
-        private static void Log(string s, LogColor color = LogColor.None)
+        private static void Log(string s, ConsoleColor color)
         {
-            Console.ForegroundColor = color switch
-            {
-                LogColor.Red => ConsoleColor.Red,
-                LogColor.Green => ConsoleColor.Green,
-                LogColor.Yellow => ConsoleColor.Yellow,
-                _ => defaultColor,
-            };
+            Console.ForegroundColor = color;
             string pre = "";
             if (ShowDateTime)
             {
@@ -76,15 +61,7 @@ namespace Utils.Tool
                 pre += Environment.CurrentManagedThreadId + "|";
             }
             Console.WriteLine(pre + s);
-            Console.ForegroundColor = defaultColor;
-        }
-
-        private enum LogColor
-        {
-            None,
-            Red,
-            Yellow,
-            Green
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
 }

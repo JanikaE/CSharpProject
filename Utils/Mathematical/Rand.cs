@@ -1,4 +1,6 @@
-﻿namespace Utils.Mathematical
+﻿using System;
+
+namespace Utils.Mathematical
 {
     public static class Rand
     {
