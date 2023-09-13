@@ -1,4 +1,6 @@
-﻿namespace Maze
+﻿using Maze.WayFinding;
+
+namespace Maze
 {
     public class Program
     {
@@ -8,6 +10,7 @@
             maze.Generate();
             maze.Show();
             Console.WriteLine();
+            maze.FindWay(new(2, 2), new(5, 5), FindMode.DFS);
             maze.Show(true);
 
             Console.ReadLine();

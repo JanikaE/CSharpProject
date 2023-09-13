@@ -1,9 +1,10 @@
-﻿using Utils.Mathematical;
+﻿using Maze.WayFinding;
+using Utils.Mathematical;
 
 namespace Maze
 {
     /// <summary>
-    /// 迷宫生成基类
+    /// 迷宫基类
     /// </summary>
     public abstract class Maze
     {
@@ -26,13 +27,12 @@ namespace Maze
 
         public abstract void Generate();
 
+        /// <summary>
+        /// 终端显示迷宫
+        /// </summary>
+        /// <param name="showWay">是否显示路径（如果有的话）</param>
         public void Show(bool showWay = false)
         {
-            if (showWay)
-            {
-                FindWay();
-            }
-
             for (int i = 0; i < width * 2 + 1; i++)
             {
                 Console.Write('#');
@@ -75,10 +75,22 @@ namespace Maze
             }
         }
 
-        public void FindWay()
+        public List<Point2D> FindWay(Point2D start, Point2D end, FindMode solveType = FindMode.DFS)
         {
-            Solve solve = new(this);
+            if (!CheckPoint(start))
+                throw new ArgumentOutOfRangeException(nameof(start), "Start point is out of the maze.");
+            if (!CheckPoint(end))
+                throw new ArgumentOutOfRangeException(nameof(end), "End point is out of the maze.");
+            Find solve = solveType switch
+            {
+                FindMode.BFSTree => new Tree(this, start, end, TreeType.BFS),
+                FindMode.DFSTree => new Tree(this, start, end, TreeType.DFS),
+                FindMode.DFSRTree => new Tree(this, start, end, TreeType.DFSR),
+                FindMode.DFS => new DFS(this, start, end),
+                _ => throw new Exception("Unknown solve mode."),
+            };
             way = solve.FindWay();
+            return way;
         }
 
         /// <summary>
@@ -136,6 +148,16 @@ namespace Maze
             if (another.X == me.X && another.Y - me.Y == -1)
                 return RelativePosition.Up;
             return RelativePosition.None;
+        }
+    
+        /// <summary>
+        /// 检查某格是否在迷宫范围内
+        /// </summary>
+        private bool CheckPoint(Point2D point)
+        {
+            if (point.X < 0 || point.X >= width || point.Y < 0 || point.Y >= height)
+                return false;
+            return true;
         }
     }
 }

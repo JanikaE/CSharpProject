@@ -1,4 +1,4 @@
-﻿namespace Maze
+﻿namespace Maze.Generate
 {
     /// <summary>
     /// 十字递归分割算法

@@ -57,6 +57,24 @@ namespace Utils.Mathematical
             return new Vector2D(point.X, point.Y);
         }
 
+        /// <summary>
+        /// 曼哈顿距离
+        /// </summary>
+        public static int Manhattan(Point2D a, Point2D b)
+        {
+            return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
+        }
+
+        /// <summary>
+        /// 切比雪夫距离
+        /// </summary>
+        public static int Chebyshev(Point2D a, Point2D b)
+        {
+            int x = Math.Abs(a.X - b.X);
+            int y = Math.Abs(a.Y - b.Y);
+            return Math.Max(x, y);
+        }
+
         public readonly bool Equals(Point2D other)
         {
             return this == other;

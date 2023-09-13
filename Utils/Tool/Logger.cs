@@ -21,7 +21,7 @@ namespace Utils.Tool
         /// </summary>
         public static void Info(string s)
         {
-            Log("INFO|" + s, ConsoleColor.Green);
+            Log(" INFO " + s, ConsoleColor.Green);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Utils.Tool
         /// </summary>
         public static void Debug(string s, ConsoleColor color = ConsoleColor.Gray)
         {
-            Log("DEBUG|" + s, color);
+            Log(" DEBUG " + s, color);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Utils.Tool
         /// </summary>
         public static void Warn(string s)
         {
-            Log("WARN|" + s, ConsoleColor.Yellow);
+            Log(" WARN " + s, ConsoleColor.Yellow);
         }
 
         /// <summary>
@@ -45,21 +45,22 @@ namespace Utils.Tool
         /// </summary>
         public static void Error(string s)
         {
-            Log("ERROR|" + s, ConsoleColor.Red);
+            Log(" ERROR " + s, ConsoleColor.Red);
         }
 
         private static void Log(string s, ConsoleColor color)
         {
             Console.ForegroundColor = color;
-            string pre = "";
+            string pre = "#";
             if (ShowDateTime)
             {
-                pre += DateTime.Now + "|";
+                pre += " " + DateTime.Now + " ";
             }
             if (ShowThread)
             {
-                pre += Environment.CurrentManagedThreadId + "|";
+                pre += " " + Environment.CurrentManagedThreadId + " ";
             }
+            pre += ">> ";
             Console.WriteLine(pre + s);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
