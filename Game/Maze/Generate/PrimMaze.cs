@@ -1,11 +1,12 @@
-﻿using Utils.Mathematical;
+﻿using Maze.Base;
+using Utils.Mathematical;
 
 namespace Maze
 {
     /// <summary>
     /// 随机Prim算法
     /// </summary>
-    public class PrimMaze : Maze
+    public class PrimMaze : MazeByWall
     {
         public bool[,] canReach;
         public bool CanReach(Point2D point) => canReach[point.Y, point.X];

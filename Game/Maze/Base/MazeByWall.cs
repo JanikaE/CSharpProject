@@ -1,12 +1,12 @@
 ﻿using Maze.WayFinding;
 using Utils.Mathematical;
 
-namespace Maze
+namespace Maze.Base
 {
     /// <summary>
-    /// 迷宫基类
+    /// 迷宫基类，由格子和墙构成的迷宫
     /// </summary>
-    public abstract class Maze
+    public abstract class MazeByWall
     {
         public int height;
         public int width;
@@ -14,15 +14,14 @@ namespace Maze
         public bool[,] wall_vertical;
         public bool[,] wall_horizontal;
 
-        public List<Point2D> way;
+        private List<Point2D> way = new();
 
-        public Maze(int height, int width)
+        public MazeByWall(int height, int width)
         {
             this.height = height;
             this.width = width;
             wall_vertical = new bool[height, width];
             wall_horizontal = new bool[height, width];
-            way = new();
         }
 
         public abstract void Generate();
@@ -50,25 +49,37 @@ namespace Maze
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.Write('*');
                             Console.ForegroundColor = ConsoleColor.Gray;
-                        }                            
+                        }
                         else
+                        {
                             Console.Write(' ');
+                        }
                     }
                     else
+                    {
                         Console.Write(' ');
+                    }
                     if (wall_vertical[i, j])
+                    {
                         Console.Write(' ');
+                    }
                     else
+                    {
                         Console.Write('#');
+                    }
                 }
                 Console.Write('\n');
                 Console.Write('#');
                 for (int j = 0; j < width; j++)
                 {
                     if (wall_horizontal[i, j])
+                    {
                         Console.Write(' ');
+                    }
                     else
+                    {
                         Console.Write('#');
+                    }
                     Console.Write('#');
                 }
                 Console.Write('\n');
@@ -109,7 +120,7 @@ namespace Maze
                 points.Add(new(x, y + 1));
             return points;
         }
-        
+
         /// <summary>
         /// 打通两相邻格之间的墙
         /// </summary>
@@ -149,7 +160,7 @@ namespace Maze
                 return RelativePosition.Up;
             return RelativePosition.None;
         }
-    
+
         /// <summary>
         /// 检查某格是否在迷宫范围内
         /// </summary>

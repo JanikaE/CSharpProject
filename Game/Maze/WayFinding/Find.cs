@@ -1,4 +1,5 @@
-﻿using Utils.Mathematical;
+﻿using Maze.Base;
+using Utils.Mathematical;
 
 namespace Maze.WayFinding
 {
@@ -7,7 +8,9 @@ namespace Maze.WayFinding
     /// </summary>
     public abstract class Find
     {
-        public Maze maze;
+        public MazeByWall? maze1;
+        public MazeByBlock? maze2;
+        private readonly int type;
 
         protected readonly bool[,] isMark;
         protected bool IsMark(Point2D p) => isMark[p.Y, p.X];
@@ -16,13 +19,26 @@ namespace Maze.WayFinding
         protected Point2D start;
         protected Point2D end;
 
-        public Find(Maze maze, Point2D start, Point2D end) 
+        public Find(MazeByWall maze, Point2D start, Point2D end) 
         {
-            this.maze = maze;
+            maze1 = maze;
+            maze2 = null;
+            type = 1;
             isMark = new bool[maze.height, maze.width];
-            isMark[0, 0] = true;
+            Mark(start);
             this.start = start;
             this.end = end;
+        }
+
+        public Find(MazeByBlock maze)
+        {
+            maze1 = null;
+            maze2 = maze;
+            type = 2;
+            isMark = new bool[maze.Height, maze.Width];
+            isMark[1, 1] = true;
+            start = new(1, 1);
+            end = new(maze.Width - 2, maze.Height - 2);
         }
 
         public abstract List<Point2D> FindWay();
@@ -32,42 +48,92 @@ namespace Maze.WayFinding
         /// </summary>
         protected List<Point2D> GetRelatedPoint(Point2D p)
         {
-            List<Point2D> result = new();
-            int x = p.X;
-            int y = p.Y;
-            if (x > 0)
+            if (type == 1)
             {
-                Point2D left = new(x - 1, y);
-                if (!IsMark(left) && maze.wall_vertical[y, x - 1])
+                if (maze1 == null)
+                    throw new NullReferenceException("type==1 but maze1 is null");
+                List<Point2D> result = new();
+                int x = p.X;
+                int y = p.Y;
+                if (x > 0)
                 {
-                    result.Add(left);
+                    Point2D left = new(x - 1, y);
+                    if (!IsMark(left) && maze1.wall_vertical[y, x - 1])
+                    {
+                        result.Add(left);
+                    }
                 }
+                if (x < maze1.width - 1)
+                {
+                    Point2D right = new(x + 1, y);
+                    if (!IsMark(right) && maze1.wall_vertical[y, x])
+                    {
+                        result.Add(right);
+                    }
+                }
+                if (y > 0)
+                {
+                    Point2D up = new(x, y - 1);
+                    if (!IsMark(up) && maze1.wall_horizontal[y - 1, x])
+                    {
+                        result.Add(up);
+                    }
+                }
+                if (y < maze1.height - 1)
+                {
+                    Point2D down = new(x, y + 1);
+                    if (!IsMark(down) && maze1.wall_horizontal[y, x])
+                    {
+                        result.Add(down);
+                    }
+                }
+                return result;
             }
-            if (x < maze.width - 1)
+            else if (type == 2)
             {
-                Point2D right = new(x + 1, y);
-                if (!IsMark(right) && maze.wall_vertical[y, x])
+                if (maze2 == null)
+                    throw new NullReferenceException("type==2 but maze2 is null");
+                List<Point2D> result = new();
+                int x = p.X;
+                int y = p.Y;
+                if (x > 0)
                 {
-                    result.Add(right);
+                    Point2D left = new(x - 1, y);
+                    if (!IsMark(left) && !maze2.isWall[y, x - 1])
+                    {
+                        result.Add(left);
+                    }
                 }
+                if (x < maze2.Width - 1)
+                {
+                    Point2D right = new(x + 1, y);
+                    if (!IsMark(right) && !maze2.isWall[y, x + 1])
+                    {
+                        result.Add(right);
+                    }
+                }
+                if (y > 0)
+                {
+                    Point2D up = new(x, y - 1);
+                    if (!IsMark(up) && !maze2.isWall[y - 1, x])
+                    {
+                        result.Add(up);
+                    }
+                }
+                if (y < maze2.Height - 1)
+                {
+                    Point2D down = new(x, y + 1);
+                    if (!IsMark(down) && !maze2.isWall[y + 1, x])
+                    {
+                        result.Add(down);
+                    }
+                }
+                return result;
             }
-            if (y > 0)
+            else
             {
-                Point2D up = new(x, y - 1);
-                if (!IsMark(up) && maze.wall_horizontal[y - 1, x])
-                {
-                    result.Add(up);
-                }
+                throw new NotImplementedException("UnKnown type.");
             }
-            if (y < maze.height - 1)
-            {
-                Point2D down = new(x, y + 1);
-                if (!IsMark(down) && maze.wall_horizontal[y, x])
-                {
-                    result.Add(down);
-                }
-            }
-            return result;
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using Utils.Mathematical;
+﻿using Maze.Base;
+using Utils.Mathematical;
 
 namespace Maze.WayFinding
 {
@@ -9,8 +10,12 @@ namespace Maze.WayFinding
     {
         private readonly Stack<Point2D> stack = new();
 
-        public DFS(Maze maze, Point2D start, Point2D end) : base(maze, start, end)
+        public DFS(MazeByWall maze, Point2D start, Point2D end) : base(maze, start, end)
         {
+        }
+
+        public DFS(MazeByBlock maze) : base(maze) 
+        { 
         }
 
         public override List<Point2D> FindWay()

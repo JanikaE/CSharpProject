@@ -1,5 +1,6 @@
 ﻿using Utils.Mathematical;
 using Utils.Structure;
+using Maze.Base;
 
 namespace Maze.WayFinding
 {
@@ -15,11 +16,18 @@ namespace Maze.WayFinding
         private readonly Queue<Node<Point2D>> queue = new();
         private readonly Stack<Node<Point2D>> stack = new();
 
-        public Tree(Maze maze, Point2D start, Point2D end, TreeType tree) : base(maze, start, end)
+        public Tree(MazeByWall maze, Point2D start, Point2D end, TreeType tree) : base(maze, start, end)
         {
-            this.tree = tree;            
+            this.tree = tree;
             // 将迷宫起点设为根节点
             root = new(start, null);            
+            endNode = null;
+        }
+
+        public Tree(MazeByBlock maze, TreeType tree) : base(maze)
+        {
+            this.tree = tree;
+            root = new(new(1, 1), null);
             endNode = null;
         }
 
