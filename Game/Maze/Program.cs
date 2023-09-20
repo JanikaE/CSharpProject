@@ -21,7 +21,7 @@ namespace Maze
             maze2.Show();
             Console.WriteLine();
 
-            maze2.FindWay(FindMode.DFSRTree);
+            maze2.FindWay(solveType: FindMode.DFSRTree);
             maze2.Show(true);
 
             Console.ReadLine();

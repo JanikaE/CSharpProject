@@ -66,17 +66,21 @@ namespace Utils.Mathematical
             return new(left.X + right.X, left.Y + right.Y, left.X + right.X);
         }
 
-        public static Vector3D operator *(Vector3D vector, float scale)
+        public static Vector3D operator *(Vector3D vector, float num)
         {
-            vector.X *= scale;
-            vector.Y *= scale;
-            vector.Z *= scale;
-            return vector;
+            return new(vector.X * num, vector.Y * num, vector.Z * num);
         }
 
-        public static Vector3D operator *(float scale, Vector3D vector)
+        public static Vector3D operator *(float num, Vector3D vector)
         {
-            return vector * scale;
+            return vector * num;
+        }
+
+        public static Vector3D operator /(Vector3D vector, float num)
+        {
+            if (num == 0)
+                throw new DivideByZeroException("除数不能为0");
+            return new(vector.X / num, vector.Y / num, vector.Z / num);
         }
 
         public static bool operator ==(Vector3D left, Vector3D right)

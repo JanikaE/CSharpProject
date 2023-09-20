@@ -11,7 +11,10 @@ namespace Maze.Base
         public int height;
         public int width;
 
+        /// <summary>竖直的墙，true为可通过</summary>
         public bool[,] wall_vertical;
+
+        /// <summary>水平的墙，true为可通过</summary>
         public bool[,] wall_horizontal;
 
         private List<Point2D> way = new();
@@ -86,12 +89,17 @@ namespace Maze.Base
             }
         }
 
-        public List<Point2D> FindWay(Point2D start, Point2D end, FindMode solveType = FindMode.DFS)
+        public List<Point2D> FindWay(Point2D start = default, Point2D end = default, FindMode solveType = FindMode.DFS)
         {
             if (!CheckPoint(start))
                 throw new ArgumentOutOfRangeException(nameof(start), "Start point is out of the maze.");
             if (!CheckPoint(end))
                 throw new ArgumentOutOfRangeException(nameof(end), "End point is out of the maze.");
+            
+            if (start == default)
+                start = new Point2D(0, 0);
+            if (end == default)
+                end = new Point2D(width - 1, height - 1);
             Find solve = solveType switch
             {
                 FindMode.BFSTree => new Tree(this, start, end, TreeType.BFS),

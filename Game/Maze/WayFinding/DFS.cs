@@ -10,12 +10,20 @@ namespace Maze.WayFinding
     {
         private readonly Stack<Point2D> stack = new();
 
+        public DFS(MazeByWall maze) : base(maze)
+        {
+        }
+
         public DFS(MazeByWall maze, Point2D start, Point2D end) : base(maze, start, end)
         {
         }
 
         public DFS(MazeByBlock maze) : base(maze) 
         { 
+        }
+
+        public DFS(MazeByBlock maze, Point2D start, Point2D end) : base(maze, start, end)
+        {
         }
 
         public override List<Point2D> FindWay()

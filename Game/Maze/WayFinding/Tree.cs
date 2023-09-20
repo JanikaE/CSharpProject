@@ -16,18 +16,31 @@ namespace Maze.WayFinding
         private readonly Queue<Node<Point2D>> queue = new();
         private readonly Stack<Node<Point2D>> stack = new();
 
+        public Tree(MazeByWall maze, TreeType tree) : base(maze)
+        {
+            this.tree = tree;
+            root = new(start, null);
+            endNode = null;
+        }
+
         public Tree(MazeByWall maze, Point2D start, Point2D end, TreeType tree) : base(maze, start, end)
         {
             this.tree = tree;
-            // 将迷宫起点设为根节点
-            root = new(start, null);            
+            root = new(this.start, null);
             endNode = null;
         }
 
         public Tree(MazeByBlock maze, TreeType tree) : base(maze)
         {
             this.tree = tree;
-            root = new(new(1, 1), null);
+            root = new(start, null);
+            endNode = null;
+        }
+
+        public Tree(MazeByBlock maze, Point2D start, Point2D end, TreeType tree) : base(maze, start, end)
+        {
+            this.tree = tree;
+            root = new(this.start, null);
             endNode = null;
         }
 
@@ -166,6 +179,9 @@ namespace Maze.WayFinding
         }
     }
 
+    /// <summary>
+    /// 建树的方法
+    /// </summary>
     public enum TreeType
     {
         /// <summary>广度优先（队列）</summary>

@@ -68,9 +68,7 @@ namespace Utils.Mathematical
 
         public static Vector2D operator -(Vector2D me)
         {
-            me.X = -me.X;
-            me.Y = -me.Y;
-            return me;
+            return new(-me.X, -me.Y);
         }
 
         public static Vector2D operator -(Vector2D left, Vector2D right)
@@ -83,16 +81,21 @@ namespace Utils.Mathematical
             return new(left.X + right.X, left.Y + right.Y);
         }
 
-        public static Vector2D operator *(Vector2D vector, float scale)
+        public static Vector2D operator *(Vector2D vector, float num)
         {
-            vector.X *= scale;
-            vector.Y *= scale;
-            return vector;
+            return new(vector.X * num, vector.Y * num);
         }
 
-        public static Vector2D operator *(float scale, Vector2D vector)
+        public static Vector2D operator *(float num, Vector2D vector)
         {
-            return vector * scale;
+            return vector * num;
+        }
+
+        public static Vector2D operator /(Vector2D vector, float num)
+        {
+            if (num == 0)
+                throw new DivideByZeroException("除数不能为0");
+            return new(vector.X / num, vector.Y / num);
         }
 
         public static bool operator ==(Vector2D left, Vector2D right)

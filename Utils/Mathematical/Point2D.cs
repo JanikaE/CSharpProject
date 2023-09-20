@@ -32,24 +32,41 @@ namespace Utils.Mathematical
             return new Point2D(-me.X, -me.Y);
         }
 
-        public static Point2D operator -(Point2D a, Point2D b)
+        public static Point2D operator -(Point2D left, Point2D right)
         {
-            return new Point2D(a.X - b.X, a.Y - b.Y);
+            return new Point2D(left.X - right.X, left.Y - right.Y);
         }
 
-        public static Point2D operator +(Point2D a, Point2D b)
+        public static Point2D operator +(Point2D left, Point2D right)
         {
-            return new Point2D(a.X + b.X, a.Y + b.Y);
+            return new Point2D(left.X + right.X, left.Y + right.Y);
         }
 
-        public static bool operator ==(Point2D a, Point2D b)
+        public static Point2D operator *(Point2D point, int num)
         {
-            return a.X == b.X && a.Y == b.Y;
+            return new Point2D(point.X * num, point.Y * num);
         }
 
-        public static bool operator !=(Point2D a, Point2D b)
+        public static Point2D operator *(int num, Point2D point)
         {
-            return a.X != b.X || a.Y != b.Y;
+            return new Point2D(point.X * num, point.Y * num);
+        }
+
+        public static Point2D operator /(Point2D point, int num)
+        {
+            if (num == 0)
+                throw new DivideByZeroException("除数不能为0");
+            return new Point2D(point.X / num, point.Y / num);
+        }
+
+        public static bool operator ==(Point2D left, Point2D right)
+        {
+            return left.X == right.X && left.Y == right.Y;
+        }
+
+        public static bool operator !=(Point2D left, Point2D right)
+        {
+            return left.X != right.X || left.Y != right.Y;
         }
 
         public static explicit operator Vector2D(Point2D point)
@@ -60,18 +77,18 @@ namespace Utils.Mathematical
         /// <summary>
         /// 曼哈顿距离
         /// </summary>
-        public static int Manhattan(Point2D a, Point2D b)
+        public static int Manhattan(Point2D left, Point2D right)
         {
-            return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
+            return Math.Abs(left.X - right.X) + Math.Abs(left.Y - right.Y);
         }
 
         /// <summary>
         /// 切比雪夫距离
         /// </summary>
-        public static int Chebyshev(Point2D a, Point2D b)
+        public static int Chebyshev(Point2D left, Point2D right)
         {
-            int x = Math.Abs(a.X - b.X);
-            int y = Math.Abs(a.Y - b.Y);
+            int x = Math.Abs(left.X - right.X);
+            int y = Math.Abs(left.Y - right.Y);
             return Math.Max(x, y);
         }
 

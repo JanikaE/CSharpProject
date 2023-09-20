@@ -19,6 +19,17 @@ namespace Maze.WayFinding
         protected Point2D start;
         protected Point2D end;
 
+        public Find(MazeByWall maze)
+        {
+            maze1 = maze;
+            maze2 = null;
+            type = 1;
+            isMark = new bool[maze.height, maze.width];
+            isMark[0, 0] = true;
+            start = new(0, 0);
+            end = new(maze.width - 1, maze.height - 1);
+        }
+
         public Find(MazeByWall maze, Point2D start, Point2D end) 
         {
             maze1 = maze;
@@ -39,6 +50,17 @@ namespace Maze.WayFinding
             isMark[1, 1] = true;
             start = new(1, 1);
             end = new(maze.Width - 2, maze.Height - 2);
+        }
+
+        public Find(MazeByBlock maze, Point2D start, Point2D end)
+        {
+            maze1 = null;
+            maze2 = maze;
+            type = 2;
+            isMark = new bool[maze.Height, maze.Width];
+            Mark(start);
+            this.start = start;
+            this.end = end;
         }
 
         public abstract List<Point2D> FindWay();
