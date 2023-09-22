@@ -91,21 +91,23 @@ namespace Maze.Base
 
         public List<Point2D> FindWay(Point2D start = default, Point2D end = default, FindMode solveType = FindMode.DFS)
         {
+            if (start == default)
+                start = new Point2D(0, 0);
+            if (end == default)
+                end = new Point2D(width - 1, height - 1);
+
             if (!CheckPoint(start))
                 throw new ArgumentOutOfRangeException(nameof(start), "Start point is out of the maze.");
             if (!CheckPoint(end))
                 throw new ArgumentOutOfRangeException(nameof(end), "End point is out of the maze.");
             
-            if (start == default)
-                start = new Point2D(0, 0);
-            if (end == default)
-                end = new Point2D(width - 1, height - 1);
             Find solve = solveType switch
             {
                 FindMode.BFSTree => new Tree(this, start, end, TreeType.BFS),
                 FindMode.DFSTree => new Tree(this, start, end, TreeType.DFS),
                 FindMode.DFSRTree => new Tree(this, start, end, TreeType.DFSR),
                 FindMode.DFS => new DFS(this, start, end),
+                FindMode.AStar => new AStar(this, start, end),
                 _ => throw new Exception("Unknown solve mode."),
             };
             way = solve.FindWay();

@@ -5,9 +5,9 @@ namespace Maze.Generate
     /// <summary>
     /// 十字递归分割算法
     /// </summary>
-    public class CrossRecursionMaze : MazeByWall
+    public class CrossRecursion : MazeByWall
     {
-        public CrossRecursionMaze(int height, int width) : base(height, width)
+        public CrossRecursion(int height, int width) : base(height, width)
         {
         }
 

@@ -5,12 +5,12 @@ namespace Maze
     /// <summary>
     /// 深度优先算法
     /// </summary>
-    internal class DepthFirstMaze : PrimMaze
+    internal class DepthFirst : Prim
     {
         private readonly Stack<Point2D> blockStack;
         private Point2D currentBlock;
 
-        public DepthFirstMaze(int height, int width) : base(height, width)
+        public DepthFirst(int height, int width) : base(height, width)
         {
             blockStack = new();
             currentBlock = new(0, 0);

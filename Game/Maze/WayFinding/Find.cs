@@ -175,5 +175,8 @@ namespace Maze.WayFinding
 
         /// <summary>深度优先</summary>
         DFS,
+
+        /// <summary>A*</summary>
+        AStar,
     }
 }

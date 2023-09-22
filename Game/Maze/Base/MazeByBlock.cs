@@ -52,6 +52,41 @@ namespace Maze.Base
             this.isWall = isWall;
         }
 
+        public MazeByBlock(int[,] isWall)
+        {
+            int height = isWall.GetLength(0);
+            int width = isWall.GetLength(1);
+            this.isWall = new bool[height, width];
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    this.isWall[i, j] = !(isWall[i, j] == 0);
+                }
+            }
+        }
+
+        public MazeByBlock(int height, int width, int wallNum)
+        {
+            isWall = new bool[height, width];
+            for (int i = 0; i < width; i++)
+            {
+                isWall[0, i] = true;
+                isWall[height - 1, i] = true;
+            }
+            for (int i = 0; i < height; i++)
+            {
+                isWall[i, 0] = true;
+                isWall[i, width - 1] = true;
+            }
+            for (int i = 0; i < wallNum; i++)
+            {
+                int x = Random.Shared.Next(width);
+                int y = Random.Shared.Next(height);
+                isWall[y, x] = true;
+            }
+        }
+
         public void Show(bool showWay = false)
         {
             for (int i = 0; i < Height; i++)
@@ -61,7 +96,7 @@ namespace Maze.Base
                     if (isWall[i, j])
                     {
                         Console.Write('#');
-                    }                        
+                    }
                     else
                     {
                         if (showWay)
@@ -81,7 +116,7 @@ namespace Maze.Base
                         {
                             Console.Write(' ');
                         }
-                    }                        
+                    }
                 }
                 Console.Write('\n');
             }
@@ -102,13 +137,14 @@ namespace Maze.Base
                 throw new ArgumentOutOfRangeException(nameof(start), "Start point is out of the maze.");
             if (!CheckPoint(end))
                 throw new ArgumentOutOfRangeException(nameof(end), "End point is out of the maze.");
-            
+
             Find solve = solveType switch
             {
                 FindMode.BFSTree => new Tree(this, start, end, TreeType.BFS),
                 FindMode.DFSTree => new Tree(this, start, end, TreeType.DFS),
                 FindMode.DFSRTree => new Tree(this, start, end, TreeType.DFSR),
                 FindMode.DFS => new DFS(this, start, end),
+                FindMode.AStar => new AStar(this, start, end),
                 _ => throw new Exception("Unknown solve mode."),
             };
             way = solve.FindWay();

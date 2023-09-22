@@ -6,7 +6,7 @@ namespace Maze
     /// <summary>
     /// 随机Prim算法
     /// </summary>
-    public class PrimMaze : MazeByWall
+    public class Prim : MazeByWall
     {
         public bool[,] canReach;
         public bool CanReach(Point2D point) => canReach[point.Y, point.X];
@@ -15,7 +15,7 @@ namespace Maze
         /// <summary>所有格子都连通时判定迷宫生成完成</summary>
         private bool IsComplete() => reachNum == height * width;
 
-        public PrimMaze(int height, int width) : base(height, width)
+        public Prim(int height, int width) : base(height, width)
         {
             canReach = new bool[height, width];
             canReach[0, 0] = true;

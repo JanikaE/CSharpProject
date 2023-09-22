@@ -26,7 +26,7 @@ namespace Maze.WayFinding
         public Tree(MazeByWall maze, Point2D start, Point2D end, TreeType tree) : base(maze, start, end)
         {
             this.tree = tree;
-            root = new(this.start, null);
+            root = new(start, null);
             endNode = null;
         }
 
@@ -40,7 +40,7 @@ namespace Maze.WayFinding
         public Tree(MazeByBlock maze, Point2D start, Point2D end, TreeType tree) : base(maze, start, end)
         {
             this.tree = tree;
-            root = new(this.start, null);
+            root = new(start, null);
             endNode = null;
         }
 
