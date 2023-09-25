@@ -1,4 +1,5 @@
 ﻿using Maze.WayFinding;
+using Utils.Extend;
 using Utils.Mathematical;
 
 namespace Maze.Base
@@ -17,7 +18,7 @@ namespace Maze.Base
 
         public bool IsWall(Point2D p) => isWall[p.Y, p.X];
 
-        private List<Point2D> way = new();
+        public List<Point2D> way = new();
 
         public MazeByBlock(MazeByWall maze)
         {
@@ -47,11 +48,19 @@ namespace Maze.Base
             }
         }
 
+        /// <summary>
+        /// 用bool数组构造迷宫
+        /// </summary>
+        /// <param name="isWall">false表示可通过</param>
         public MazeByBlock(bool[,] isWall)
         {
             this.isWall = isWall;
         }
 
+        /// <summary>
+        /// 用int数组构造迷宫
+        /// </summary>
+        /// <param name="isWall">0表示可通过</param>
         public MazeByBlock(int[,] isWall)
         {
             int height = isWall.GetLength(0);
@@ -66,9 +75,17 @@ namespace Maze.Base
             }
         }
 
-        public MazeByBlock(int height, int width, int wallNum)
+        /// <summary>
+        /// 随机构造一个由障碍物构成的迷宫，起点和终点处不会生成障碍物
+        /// </summary>
+        public MazeByBlock(int height, int width, int wallNum, Point2D start = default, Point2D end = default)
         {
             isWall = new bool[height, width];
+            if (start == default)
+                start = new Point2D(1, 1);
+            if (end == default)
+                end = new Point2D(width - 2, height - 2);
+
             for (int i = 0; i < width; i++)
             {
                 isWall[0, i] = true;
@@ -81,8 +98,14 @@ namespace Maze.Base
             }
             for (int i = 0; i < wallNum; i++)
             {
-                int x = Random.Shared.Next(width);
-                int y = Random.Shared.Next(height);
+                int x = Random.Shared.Next(1, width - 1);
+                int y = Random.Shared.Next(1, height - 1);
+                Point2D point = new(x, y);
+                if (point == start || point == end)
+                {
+                    i--;
+                    continue;
+                }
                 isWall[y, x] = true;
             }
         }
@@ -149,6 +172,71 @@ namespace Maze.Base
             };
             way = solve.FindWay();
             return way;
+        }
+
+        /// <summary>
+        /// 检查迷宫能否从起点走到终点
+        /// </summary>
+        public bool Check(Point2D start = default, Point2D end = default)
+        {
+            if (start == default)
+                start = new Point2D(1, 1);
+            if (end == default)
+                end = new Point2D(Width - 2, Height - 2);
+
+            if (!CheckPoint(start))
+                throw new ArgumentOutOfRangeException(nameof(start), "Start point is out of the maze.");
+            if (!CheckPoint(end))
+                throw new ArgumentOutOfRangeException(nameof(end), "End point is out of the maze.");
+
+            List<Point2D> open = new() { start };
+            List<Point2D> close = new();
+            while (open.Count > 0)
+            {
+                Point2D now = open[0];
+                if (Point2D.Manhattan(now, end) == 1)
+                {
+                    return true;
+                }
+                open.RemoveAt(0);
+                close.Add(now);
+
+                int x = now.X;
+                int y = now.Y;
+                if (x > 0)
+                {
+                    Point2D left = new(x - 1, y);
+                    if (close.FindAll(p => p == left).Count == 0 && open.FindAll(p => p == left).Count == 0 && !IsWall(left))
+                    {
+                        open.Add(left);
+                    }
+                }
+                if (x < Width - 1)
+                {
+                    Point2D right = new(x + 1, y);
+                    if (close.FindAll(p => p == right).Count == 0 && open.FindAll(p => p == right).Count == 0 && !IsWall(right))
+                    {
+                        open.Add(right);
+                    }
+                }
+                if (y > 0)
+                {
+                    Point2D up = new(x, y - 1);
+                    if (close.FindAll(p => p == up).Count == 0 && open.FindAll(p => p == up).Count == 0 && !IsWall(up))
+                    {
+                        open.Add(up);
+                    }
+                }
+                if (y < Height - 1)
+                {
+                    Point2D down = new(x, y + 1);
+                    if (close.FindAll(p => p == down).Count == 0 && open.FindAll(p => p == down).Count == 0 && !IsWall(down))
+                    {
+                        open.Add(down);
+                    }
+                }
+            }
+            return false;
         }
 
         /// <summary>

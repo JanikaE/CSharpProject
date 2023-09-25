@@ -1,6 +1,6 @@
 ﻿using Maze.Base;
-using Maze.Generate;
 using Maze.WayFinding;
+using Utils.Mathematical;
 
 namespace Maze
 {
@@ -8,7 +8,7 @@ namespace Maze
     {
         public static void Main(string[] args)
         {
-            bool test = true;
+            bool test = false;
             if (test)
             {
                 MazeByWall maze = new DepthFirst(10, 30);
@@ -29,18 +29,27 @@ namespace Maze
             }
             else
             {
-                MazeByBlock maze = new(10, 30, 20);
+                Point2D start = Point2D.RandomPoint(1, 29, 1, 9);
+                Point2D end = Point2D.RandomPoint(1, 29, 1, 9);
+                Console.WriteLine("start:" + start + " end:" + end);
+
+                MazeByBlock maze = new(10, 30, 60, start, end);
                 maze.Show();
                 Console.WriteLine();
 
-                maze.FindWay(solveType: FindMode.AStar);
-                maze.Show(true);
-                Console.WriteLine();
-
-                maze.FindWay(solveType: FindMode.DFSRTree);
-                maze.Show(true);
-                Console.WriteLine();
-            }           
+                if (maze.Check(start, end))
+                {
+                    maze.FindWay(start, end, FindMode.AStar);
+                    maze.Show(true);
+                    Console.WriteLine();
+                }
+                else
+                {
+                    maze.way = new() { start, end };
+                    maze.Show(true);
+                    Console.WriteLine();
+                }
+            }
 
             Console.ReadLine();
         }

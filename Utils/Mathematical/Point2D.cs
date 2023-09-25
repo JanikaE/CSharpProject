@@ -29,34 +29,34 @@ namespace Utils.Mathematical
 
         public static Point2D operator -(Point2D me)
         {
-            return new Point2D(-me.X, -me.Y);
+            return new(-me.X, -me.Y);
         }
 
         public static Point2D operator -(Point2D left, Point2D right)
         {
-            return new Point2D(left.X - right.X, left.Y - right.Y);
+            return new(left.X - right.X, left.Y - right.Y);
         }
 
         public static Point2D operator +(Point2D left, Point2D right)
         {
-            return new Point2D(left.X + right.X, left.Y + right.Y);
+            return new(left.X + right.X, left.Y + right.Y);
         }
 
         public static Point2D operator *(Point2D point, int num)
         {
-            return new Point2D(point.X * num, point.Y * num);
+            return new(point.X * num, point.Y * num);
         }
 
         public static Point2D operator *(int num, Point2D point)
         {
-            return new Point2D(point.X * num, point.Y * num);
+            return new(point.X * num, point.Y * num);
         }
 
         public static Point2D operator /(Point2D point, int num)
         {
             if (num == 0)
                 throw new DivideByZeroException("除数不能为0");
-            return new Point2D(point.X / num, point.Y / num);
+            return new(point.X / num, point.Y / num);
         }
 
         public static bool operator ==(Point2D left, Point2D right)
@@ -90,6 +90,18 @@ namespace Utils.Mathematical
             int x = Math.Abs(left.X - right.X);
             int y = Math.Abs(left.Y - right.Y);
             return Math.Max(x, y);
+        }
+
+        public static Point2D RandomPoint(int maxX, int maxY)
+        {
+            return RandomPoint(0, maxX, 0, maxY);
+        }
+
+        public static Point2D RandomPoint(int minX, int maxX, int minY, int maxY)
+        {
+            int x = Random.Shared.Next(minX, maxX);
+            int y = Random.Shared.Next(minY, maxY);
+            return new Point2D(x, y);
         }
 
         public readonly bool Equals(Point2D other)

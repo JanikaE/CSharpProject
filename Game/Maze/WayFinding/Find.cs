@@ -121,7 +121,7 @@ namespace Maze.WayFinding
                 if (x > 0)
                 {
                     Point2D left = new(x - 1, y);
-                    if (!IsMark(left) && !maze2.isWall[y, x - 1])
+                    if (!IsMark(left) && !maze2.IsWall(left))
                     {
                         result.Add(left);
                     }
@@ -129,7 +129,7 @@ namespace Maze.WayFinding
                 if (x < maze2.Width - 1)
                 {
                     Point2D right = new(x + 1, y);
-                    if (!IsMark(right) && !maze2.isWall[y, x + 1])
+                    if (!IsMark(right) && !maze2.IsWall(right))
                     {
                         result.Add(right);
                     }
@@ -137,7 +137,7 @@ namespace Maze.WayFinding
                 if (y > 0)
                 {
                     Point2D up = new(x, y - 1);
-                    if (!IsMark(up) && !maze2.isWall[y - 1, x])
+                    if (!IsMark(up) && !maze2.IsWall(up))
                     {
                         result.Add(up);
                     }
@@ -145,7 +145,7 @@ namespace Maze.WayFinding
                 if (y < maze2.Height - 1)
                 {
                     Point2D down = new(x, y + 1);
-                    if (!IsMark(down) && !maze2.isWall[y + 1, x])
+                    if (!IsMark(down) && !maze2.IsWall(down))
                     {
                         result.Add(down);
                     }

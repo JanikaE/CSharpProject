@@ -51,9 +51,7 @@ namespace Utils.Mathematical
 
         public static Vector3D operator -(Vector3D me)
         {
-            me.X = -me.X;
-            me.Y = -me.Y;
-            return me;
+            return new(-me.X, -me.Y, -me.Z);
         }
 
         public static Vector3D operator -(Vector3D left, Vector3D right)
