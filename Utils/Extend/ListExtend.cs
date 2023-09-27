@@ -33,6 +33,23 @@ namespace Utils.Extend
         }
 
         /// <summary>
+        /// 排序并去除重复数据
+        /// </summary>
+        /// <param name="comparison">排序方法</param>
+        public static void SortAndDeduplicate<T>(this List<T> list, Comparison<T> comparison) where T : IEquatable<T>
+        {
+            list.Sort(comparison);
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                if (list[i].Equals(list[i + 1]))
+                {
+                    list.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
+
+        /// <summary>
         /// 去除重复数据
         /// </summary>
         public static void Deduplicate<T>(this List<T> list) where T : IEquatable<T>

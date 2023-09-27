@@ -55,12 +55,15 @@ namespace Maze
                     break;
                 case 3:
                     List<Point2D> list = new();
-                    for (int i = 0; i < 10; i++)
+                    for (int i = 0; i < 20; i++)
                     {
-                        list.Add(Point2D.RandomPoint(2, 2));
+                        list.Add(Point2D.RandomPoint(3, 3));
                     }
                     Console.WriteLine(list.ToStringByItem());
-                    list.Deduplicate();
+                    list.SortAndDeduplicate((a, b) =>
+                    {
+                        return (a.X * 10 + a.Y).CompareTo(b.X * 10 + b.Y);
+                    });
                     Console.WriteLine(list.ToStringByItem());
                     break;
             }
