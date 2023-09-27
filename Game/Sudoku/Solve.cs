@@ -106,7 +106,7 @@ namespace Sudoku
                     result.Add(i * Length + j);
                 }
             }
-            result.Deduplicate();
+            result.SortAndDeduplicate();
             return result;
         }
     }
