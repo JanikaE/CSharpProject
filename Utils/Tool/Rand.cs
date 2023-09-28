@@ -27,6 +27,7 @@ namespace Utils.Tool
         /// <summary>
         /// 指数分布
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">参数不能为0</exception>
         public static double Exponential(double lambda)
         {
             if (lambda == 0)

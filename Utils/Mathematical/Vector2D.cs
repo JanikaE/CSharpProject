@@ -91,6 +91,7 @@ namespace Utils.Mathematical
             return vector * num;
         }
 
+        /// <exception cref="DivideByZeroException">除数不能为0</exception>
         public static Vector2D operator /(Vector2D vector, float num)
         {
             if (num == 0)

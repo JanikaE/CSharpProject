@@ -31,12 +31,12 @@ namespace Utils.Mathematical
         public double Imaginary
         {
             readonly get
-            { 
+            {
                 return b;
             }
-            set 
-            { 
-                b = value; 
+            set
+            {
+                b = value;
             }
         }
 
@@ -103,6 +103,7 @@ namespace Utils.Mathematical
             return new(left * right.a, left * right.b);
         }
 
+        /// <exception cref="DivideByZeroException">除数不能为0</exception>
         public static Complex operator /(Complex left, Complex right)
         {
             if (right.Modulu == 0)
@@ -110,6 +111,7 @@ namespace Utils.Mathematical
             return left * right.ToConjugate() / right.ModuluSquared;
         }
 
+        /// <exception cref="DivideByZeroException">除数不能为0</exception>
         public static Complex operator /(Complex left, double right)
         {
             if (right == 0)
@@ -117,6 +119,7 @@ namespace Utils.Mathematical
             return new(left.a / right, left.b / right);
         }
 
+        /// <exception cref="DivideByZeroException">除数不能为0</exception>
         public static Complex operator /(double left, Complex right)
         {
             if (right.Modulu == 0)
@@ -159,7 +162,7 @@ namespace Utils.Mathematical
 
         public override readonly string ToString()
         {
-            if (b == 0) 
+            if (b == 0)
                 return a.ToString();
             else
                 return $"{a} + {b}i";

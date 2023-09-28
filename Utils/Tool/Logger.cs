@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Diagnostics;
 
 namespace Utils.Tool
 {
@@ -41,11 +43,29 @@ namespace Utils.Tool
         }
 
         /// <summary>
+        /// 警告（黄色）, 包含调用堆栈
+        /// </summary>
+        /// <param name="e">异常</param>
+        public static void Warn(Exception e)
+        {
+            Log(" WARN " + e.Message + "\n" + Environment.StackTrace, ConsoleColor.Yellow);
+        }
+
+        /// <summary>
         /// 错误（红色）
         /// </summary>
         public static void Error(string s)
         {
             Log(" ERROR " + s, ConsoleColor.Red);
+        }
+
+        /// <summary>
+        /// 错误（红色）, 包含调用堆栈
+        /// </summary>
+        /// <param name="e">异常</param>
+        public static void Error(Exception e)
+        {
+            Log(" ERROR " + e.Message + "\n" + Environment.StackTrace, ConsoleColor.Red);
         }
 
         private static void Log(string s, ConsoleColor color)

@@ -74,6 +74,7 @@ namespace Utils.Mathematical
             return vector * num;
         }
 
+        /// <exception cref="DivideByZeroException">除数不能为0</exception>
         public static Vector3D operator /(Vector3D vector, float num)
         {
             if (num == 0)

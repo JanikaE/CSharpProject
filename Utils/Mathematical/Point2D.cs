@@ -52,6 +52,7 @@ namespace Utils.Mathematical
             return new(point.X * num, point.Y * num);
         }
 
+        /// <exception cref="DivideByZeroException">除数不能为0</exception>
         public static Point2D operator /(Point2D point, int num)
         {
             if (num == 0)

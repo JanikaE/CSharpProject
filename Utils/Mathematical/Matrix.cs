@@ -1,4 +1,7 @@
-﻿using System;
+﻿
+using System;
+using Utils.MyException;
+using Utils.Tool;
 
 namespace Utils.Mathematical
 {
@@ -22,12 +25,24 @@ namespace Utils.Mathematical
         public bool IsSymmetric => TransposedMatrix() == this;
 
         /// <summary>是否为正交矩阵</summary>
-        public bool IsOrthogonal => IsSquare && this * TransposedMatrix() == IdentityMatrix(Width);
+        public bool IsOrthogonal => IsSquare && this * TransposedMatrix() == IdentityMatrix(Math.Max(Width, Height));
 
+        /// <summary>
+        /// <br>给定宽高与默认值构造矩阵</br>
+        /// <br>若宽高为0或负数则将其设为1</br>
+        /// </summary>
         public Matrix(int height, int width, float value = 0)
         {
-            if (height <= 0 || width <= 0)
-                throw new ArgumentException("宽高不能为负数或0");
+            if (height <= 0)
+            {
+                height = 1;
+                Logger.Warn(new ArgumentException("宽不能为负数或0"));
+            }
+            if (width <= 0)
+            {
+                width = 1;
+                Logger.Warn(new ArgumentException("高不能为负数或0"));
+            }
             Values = new float[height, width];
             for (int i = 0; i < height; i++)
             {
@@ -43,6 +58,12 @@ namespace Utils.Mathematical
             Values = values;
         }
 
+        /// <summary>
+        /// 矩阵i行j列位置的值
+        /// </summary>
+        /// <param name="i">行号</param>
+        /// <param name="j">列号</param>
+        /// <exception cref="IndexOutOfRangeException">数组越界</exception>
         public float this[int i, int j]
         {
             get
@@ -85,10 +106,11 @@ namespace Utils.Mathematical
             return result;
         }
 
+        /// <exception cref="MatrixException">运算只能用于同型矩阵</exception>
         public static Matrix operator -(Matrix left, Matrix right)
         {
             if (left.Width != right.Width || right.Height != left.Height)
-                throw new InvalidOperationException("运算只能用于同型矩阵");
+                throw new MatrixException("运算只能用于同型矩阵");
             int width = left.Width;
             int height = left.Height;
             Matrix result = new(width, height);
@@ -102,10 +124,11 @@ namespace Utils.Mathematical
             return result;
         }
 
+        /// <exception cref="MatrixException">运算只能用于同型矩阵</exception>
         public static Matrix operator +(Matrix left, Matrix right)
         {
             if (left.Width != right.Width || right.Height != left.Height)
-                throw new InvalidOperationException("运算只能用于同型矩阵");
+                throw new MatrixException("运算只能用于同型矩阵");
             int width = left.Width;
             int height = left.Height;
             Matrix result = new(width, height);
@@ -119,10 +142,11 @@ namespace Utils.Mathematical
             return result;
         }
 
+        /// <exception cref="MatrixException">左矩阵的列数需要等于右矩阵的行数</exception>
         public static Matrix operator *(Matrix left, Matrix right)
         {
             if (left.Width != right.Height)
-                throw new InvalidOperationException("左矩阵的列数需要等于右矩阵的行数");
+                throw new MatrixException("左矩阵的列数需要等于右矩阵的行数");
             int width = right.Width;
             int height = left.Height;
             Matrix result = new(width, height);
@@ -184,10 +208,11 @@ namespace Utils.Mathematical
         /// <summary>
         /// 哈达玛积（对应元素相乘）
         /// </summary>
+        /// <exception cref="MatrixException">运算只能用于同型矩阵</exception>
         public static Matrix HadamardProduct(Matrix left, Matrix right)
         {
             if (left.Width != right.Width || right.Height != left.Height)
-                throw new InvalidOperationException("运算只能用于同型矩阵");
+                throw new MatrixException("运算只能用于同型矩阵");
             int width = left.Width;
             int height = left.Height;
             Matrix result = new(width, height);
@@ -204,6 +229,7 @@ namespace Utils.Mathematical
         /// <summary>
         /// 获得特定的行
         /// </summary>
+        /// <exception cref="IndexOutOfRangeException">数组越界</exception>
         public float[] Line(int num)
         {
             if (num < 0 || num >= Height)
@@ -219,6 +245,7 @@ namespace Utils.Mathematical
         /// <summary>
         /// 获得特定的列
         /// </summary>
+        /// <exception cref="IndexOutOfRangeException">数组越界</exception>
         public float[] Column(int num)
         {
             if (num < 0 || num >= Width)
@@ -229,136 +256,6 @@ namespace Utils.Mathematical
                 values[i] = Values[i, num];
             }
             return values;
-        }
-
-        /// <summary>
-        /// 迹
-        /// </summary>
-        public float Trace()
-        {
-            if (!IsSquare)
-                throw new InvalidOperationException("该方法只能用于方阵");
-            float result = 0;
-            for (int i = 0; i < Width; i++)
-            {
-                result += Values[i, i];
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 行列式
-        /// </summary>
-        public float Determinant()
-        {
-            if (!IsSquare)
-                throw new InvalidOperationException("该方法只能用于方阵");
-            return CalculateDeterminant(Values);
-        }
-
-        /// <summary>
-        /// 递归计算行列式
-        /// </summary>
-        private float CalculateDeterminant(float[,] matrix)
-        {
-            int n = matrix.GetLength(0);
-            float determinant = 0;
-
-            if (n == 2)
-            {
-                determinant = (matrix[0, 0] * matrix[1, 1]) - (matrix[0, 1] * matrix[1, 0]);
-            }
-            else
-            {
-                for (int i = 0; i < n; i++)
-                {
-                    float[,] subMatrix = new float[n - 1, n - 1];
-                    for (int j = 1; j < n; j++)
-                    {
-                        for (int k = 0, l = 0; k < n; k++)
-                        {
-                            if (k != i)
-                            {
-                                subMatrix[j - 1, l] = matrix[j, k];
-                                l++;
-                            }
-                        }
-                    }
-                    determinant += (float)Math.Pow(-1, i) * matrix[0, i] * CalculateDeterminant(subMatrix);
-                }
-            }
-            return determinant;
-        }
-
-        /// <summary>
-        /// 伴随矩阵
-        /// </summary>
-        public Matrix AdjointMatrix()
-        {
-            if (!IsSquare)
-                throw new InvalidOperationException("该方法只能用于方阵");
-            int n = Width;
-            Matrix result = new(n, n);
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    result[i, j] = AlgebraicCofactor(i, j);
-                }
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 逆矩阵
-        /// </summary>
-        public Matrix InverseMatrix()
-        {
-            if (!IsSquare)
-                throw new InvalidOperationException("该方法只能用于方阵");
-            float determinant = Determinant();
-            if (Math.Abs(determinant) < 1E-6)
-                throw new InvalidOperationException("矩阵不可逆");
-            int n = Width;
-            Matrix result = AdjointMatrix();
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    result[i, j] /= determinant;
-                }
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 第a行第b列的余子式
-        /// </summary>
-        public float Cofactor(int a, int b)
-        {
-            if (!IsSquare)
-                throw new InvalidOperationException("该方法只能用于方阵");
-            if (a < 0 || a >= Height || b < 0 || b >= Width)
-                throw new IndexOutOfRangeException("数组越界");
-            int n = Width;
-            Matrix matrix = new(n - 1, n - 1);
-
-            for (int i = 0; i < n - 1; i++)
-            {
-                for (int j = 0; j < n - 1; j++)
-                {
-                    matrix[i, j] = Values[i < a ? i : i + 1, j < b ? j : j + 1];
-                }
-            }
-            return matrix.Determinant();
-        }
-
-        /// <summary>
-        /// 第a行第b列的代数余子式
-        /// </summary>
-        public float AlgebraicCofactor(int a, int b)
-        {
-            return ((a + b) % 2 == 0 ? 1 : -1) * Cofactor(a, b);
         }
 
         /// <summary>
