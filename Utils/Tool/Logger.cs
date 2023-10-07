@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Diagnostics;
 
 namespace Utils.Tool
 {
@@ -23,7 +21,7 @@ namespace Utils.Tool
         /// </summary>
         public static void Info(string s)
         {
-            Log(" INFO " + s, ConsoleColor.Green);
+            Log(" INFO: " + s, ConsoleColor.Green);
         }
 
         /// <summary>
@@ -31,7 +29,7 @@ namespace Utils.Tool
         /// </summary>
         public static void Debug(string s, ConsoleColor color = ConsoleColor.Gray)
         {
-            Log(" DEBUG " + s, color);
+            Log(" DEBUG: " + s, color);
         }
 
         /// <summary>
@@ -39,7 +37,7 @@ namespace Utils.Tool
         /// </summary>
         public static void Warn(string s)
         {
-            Log(" WARN " + s, ConsoleColor.Yellow);
+            Log(" WARN: " + s, ConsoleColor.Yellow);
         }
 
         /// <summary>
@@ -48,7 +46,7 @@ namespace Utils.Tool
         /// <param name="e">异常</param>
         public static void Warn(Exception e)
         {
-            Log(" WARN " + e.Message + "\n" + Environment.StackTrace, ConsoleColor.Yellow);
+            Log(" WARN: " + e.Message + "\n" + Environment.StackTrace, ConsoleColor.Yellow);
         }
 
         /// <summary>
@@ -56,7 +54,7 @@ namespace Utils.Tool
         /// </summary>
         public static void Error(string s)
         {
-            Log(" ERROR " + s, ConsoleColor.Red);
+            Log(" ERROR: " + s, ConsoleColor.Red);
         }
 
         /// <summary>
@@ -65,7 +63,7 @@ namespace Utils.Tool
         /// <param name="e">异常</param>
         public static void Error(Exception e)
         {
-            Log(" ERROR " + e.Message + "\n" + Environment.StackTrace, ConsoleColor.Red);
+            Log(" ERROR: " + e.Message + "\n" + Environment.StackTrace, ConsoleColor.Red);
         }
 
         private static void Log(string s, ConsoleColor color)

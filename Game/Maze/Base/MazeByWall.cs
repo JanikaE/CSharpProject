@@ -89,6 +89,15 @@ namespace Maze.Base
             }
         }
 
+        /// <summary>
+        /// 寻路
+        /// </summary>
+        /// <param name="start">起点（默认为左上角）</param>
+        /// <param name="end">终点（默认为右下角）</param>
+        /// <param name="solveType">寻路方式</param>
+        /// <returns>返回从起点到终点经过的点</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public List<Point2D> FindWay(Point2D start = default, Point2D end = default, FindMode solveType = FindMode.DFS)
         {
             if (start == default)
@@ -108,7 +117,7 @@ namespace Maze.Base
                 FindMode.DFSRTree => new Tree(this, start, end, TreeType.DFSR),
                 FindMode.DFS => new DFS(this, start, end),
                 FindMode.AStar => new AStar(this, start, end),
-                _ => throw new Exception("Unknown solve mode."),
+                _ => throw new ArgumentException("Unknown solve mode.", nameof(solveType)),
             };
             way = solve.FindWay();
             return way;

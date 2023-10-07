@@ -110,6 +110,10 @@ namespace Maze.Base
             }
         }
 
+        /// <summary>
+        /// 终端显示迷宫
+        /// </summary>
+        /// <param name="showWay">是否显示路径（如果有的话）</param>
         public void Show(bool showWay = false)
         {
             for (int i = 0; i < Height; i++)
@@ -145,6 +149,15 @@ namespace Maze.Base
             }
         }
 
+        /// <summary>
+        /// 寻路
+        /// </summary>
+        /// <param name="start">起点（默认为左上角）</param>
+        /// <param name="end">终点（默认为右下角）</param>
+        /// <param name="solveType">寻路方式</param>
+        /// <returns>返回从起点到终点经过的点</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public List<Point2D> FindWay(Point2D start = default, Point2D end = default, FindMode solveType = FindMode.DFS)
         {
             if (start == default)
@@ -155,7 +168,7 @@ namespace Maze.Base
             if (IsWall(start))
                 throw new ArgumentException("Start point is wall.", nameof(start));
             if (IsWall(end))
-                throw new ArgumentException("Start point is wall.", nameof(end));
+                throw new ArgumentException("End point is wall.", nameof(end));
             if (!CheckPoint(start))
                 throw new ArgumentOutOfRangeException(nameof(start), "Start point is out of the maze.");
             if (!CheckPoint(end))
@@ -168,7 +181,7 @@ namespace Maze.Base
                 FindMode.DFSRTree => new Tree(this, start, end, TreeType.DFSR),
                 FindMode.DFS => new DFS(this, start, end),
                 FindMode.AStar => new AStar(this, start, end),
-                _ => throw new Exception("Unknown solve mode."),
+                _ => throw new ArgumentException("Unknown solve mode.", nameof(solveType)),
             };
             way = solve.FindWay();
             return way;
@@ -177,6 +190,9 @@ namespace Maze.Base
         /// <summary>
         /// 检查迷宫能否从起点走到终点
         /// </summary>
+        /// <param name="start">起点</param>
+        /// <param name="end">终点</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public bool Check(Point2D start = default, Point2D end = default)
         {
             if (start == default)
