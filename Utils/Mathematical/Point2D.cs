@@ -105,6 +105,27 @@ namespace Utils.Mathematical
             return new Point2D(x, y);
         }
 
+        public void Normalize()
+        {
+            if (X < 0)
+            {
+                X = -1;
+            }
+            else if (X > 0)
+            {
+                X = 1;
+            }
+
+            if (Y < 0)
+            {
+                Y = -1;
+            }
+            else if (Y > 0)
+            {
+                Y = 1;
+            }
+        }
+
         public readonly bool Equals(Point2D other)
         {
             return this == other;
