@@ -1,6 +1,7 @@
 #define Console
 
 using Utils.Mathematical;
+using Utils.Tool;
 
 namespace Reversi
 {
@@ -16,8 +17,9 @@ namespace Reversi
             Box game = new();
             while (true)
             {                
-                Console.Clear();
-                game.Print();
+                Console.SetCursorPosition(0, 0);
+                game.PrintToConsole();
+                ConsoleTool.ClearCurrentConsoleLine();
                 if (game.state == State.End)
                 {
                     break;

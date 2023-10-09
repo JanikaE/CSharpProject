@@ -9,7 +9,7 @@
             box.Init(Seed.seeds[0]);
             while (true)
             {
-                Console.Clear();
+                Console.SetCursorPosition(0, 0);
                 box.Print();
                 box.Update();
                 Thread.Sleep(200);

@@ -181,7 +181,7 @@ namespace Reversi
         /// <summary>
         /// 将棋盘显示在终端
         /// </summary>
-        public void Print()
+        public void PrintToConsole()
         {
             Console.WriteLine("  0 1 2 3 4 5 6 7");
             for (int i = 0; i < 8; i++)
