@@ -39,7 +39,7 @@ namespace PokerGame.Stare
                 return result;
             }
             int length = pokers.Count;
-            SortPokerSubList(pokers);
+            SortPokerListByValue(pokers);
             switch (length)
             {
                 case 0:
@@ -172,14 +172,14 @@ namespace PokerGame.Stare
             {
                 if (isAsc)
                 {
-                    int r1 = p1.IsRogue() & p1.value == p1.OriginValue ? -1000 : 0;
-                    int r2 = p2.IsRogue() & p2.value == p2.OriginValue ? -1000 : 0;
+                    int r1 = p1.IsRogue() ? -1000 : 0;
+                    int r2 = p2.IsRogue() ? -1000 : 0;
                     return (r1 + (int)p1.value * 10 + (int)p1.type).CompareTo(r2 + (int)p2.value * 10 + (int)p2.type);
                 }
                 else
                 {
-                    int r1 = p1.IsRogue() & p1.value == p1.OriginValue ? 1000 : 0;
-                    int r2 = p2.IsRogue() & p2.value == p2.OriginValue ? 1000 : 0;
+                    int r1 = p1.IsRogue() ? 1000 : 0;
+                    int r2 = p2.IsRogue() ? 1000 : 0;
                     return (r2 + (int)p2.value * 10 + (int)p2.type).CompareTo(r1 + (int)p1.value * 10 + (int)p1.type);
                 }
             });
@@ -188,7 +188,7 @@ namespace PokerGame.Stare
         /// <summary>
         /// 对特定的一组牌进行排序
         /// </summary>
-        private static void SortPokerSubList(List<Poker> pokers, bool isAsc = true)
+        private static void SortPokerListByValue(List<Poker> pokers, bool isAsc = true)
         {
             if (isAsc)
             {
@@ -456,15 +456,22 @@ namespace PokerGame.Stare
             }
             else if (result.Count == 1)
             {
-                List<int> index = GetRogueIndex(pokers);
-                if (index.Count == 0)
+                if (target == 4)
                 {
                     result.Clear();
                 }
                 else
                 {
-                    result.Add(pokers[index[0]]);
-                }
+                    List<int> index = GetRogueIndex(pokers);
+                    if (index.Count == 0)
+                    {
+                        result.Clear();
+                    }
+                    else
+                    {
+                        result.Add(pokers[index[0]]);
+                    }
+                }                
             }
             return result;
         }
@@ -475,8 +482,8 @@ namespace PokerGame.Stare
         /// <param name="target">顺子中最小的点数</param>
         private static List<Poker> GetStraight(List<Poker> pokers, int target, int length)
         {
-            SortPokerList(pokers);
             ResetRogue(pokers);
+            SortPokerList(pokers);
             int rogueCnt = GetRogueCnt(pokers);
             List<Poker> result = new();
             if (target + length - 1 > 14)
@@ -679,7 +686,7 @@ namespace PokerGame.Stare
         /// </summary>
         private static bool IsListStraight(List<Poker> pokers)
         {
-            SortPokerSubList(pokers);
+            SortPokerListByValue(pokers);
             if (GetSingleIndex(pokers, PokerValue.Two).Count > 0)
                 return false;
             for (int i = 0; i < pokers.Count - 1; i++)
@@ -757,6 +764,7 @@ namespace PokerGame.Stare
                     result.Add(new List<Poker>(pokers));
                 }
                 StareList target = GetPokerListType(lastPokers);
+                ResetRogue(pokers);
                 switch (target.type)
                 {
                     case StareListType.Single:
@@ -820,7 +828,7 @@ namespace PokerGame.Stare
                 }
                 else
                 {
-                    result.AddRange(GetStraight(pokers, true));
+                    result.AddRange(GetStraight(pokers, false));
                     for (int i = Poker.startValue; i <= 15; i++)
                     {
                         list = GetTargetPoker(pokers, i);
