@@ -38,7 +38,7 @@ namespace GameOfLife
             next = (bool[,])map.Clone();
         }
 
-        public void Init(int height, int width)
+        public void RandomInit(int height, int width)
         {
             map = new bool[height, width];
             for (int i = 0; i < height; i++)
@@ -46,6 +46,21 @@ namespace GameOfLife
                 for (int j = 0; j < width; j++)
                 {
                     map[i, j] = Random.Shared.Next(2) != 0;
+                }
+            }
+            next = (bool[,])map.Clone();
+        }
+
+        public void RandomInit(int height, int width, int maxHeight, int maxWidth)
+        {
+            if (height > maxHeight) height = maxHeight;
+            if (width > maxWidth) width = maxWidth;
+            map = new bool[maxHeight, maxWidth];
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    map[(maxHeight - height) / 2 + i, (maxWidth - width) / 2 + j] = Random.Shared.Next(2) != 0;
                 }
             }
             next = (bool[,])map.Clone();
