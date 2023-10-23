@@ -1,4 +1,4 @@
-﻿namespace Stare.Common.Constant
+﻿namespace PokerGame.Common
 {
     /// <summary>
     /// 玩家在房间中与其他玩家的相对位置

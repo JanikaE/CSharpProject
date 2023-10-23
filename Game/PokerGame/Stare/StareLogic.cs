@@ -1,23 +1,25 @@
-﻿namespace Stare.Common
+﻿using PokerGame.Common;
+
+namespace PokerGame.Stare
 {
-    public static class StareUtils
+    public static class StareLogic
     {
         /// <summary>
         /// 获取一组牌的牌型（考虑万能牌）
         /// </summary>
-        public static PokerList GetPokerListType(List<Poker> pokers)
+        public static StareList GetPokerListType(List<Poker> pokers)
         {
-            PokerList result = new();
+            StareList result = new();
             if (pokers == null)
             {
-                result.type = PokerListType.None;
+                result.type = StareListType.None;
                 return result;
             }
             if (HasRogue(pokers))
             {
                 if (!ChangeRogue(pokers))
                 {
-                    result.type = PokerListType.None;
+                    result.type = StareListType.None;
                     ResetRogue(pokers);
                     return result;
                 }
@@ -28,12 +30,12 @@
         /// <summary>
         /// 获取一组牌的牌型（万能牌已变换）
         /// </summary>
-        private static PokerList GetPokerListTypeWithoutRogue(List<Poker> pokers)
+        private static StareList GetPokerListTypeWithoutRogue(List<Poker> pokers)
         {
-            PokerList result = new();
+            StareList result = new();
             if (pokers == null)
             {
-                result.type = PokerListType.None;
+                result.type = StareListType.None;
                 return result;
             }
             int length = pokers.Count;
@@ -41,46 +43,46 @@
             switch (length)
             {
                 case 0:
-                    result.type = PokerListType.None;
+                    result.type = StareListType.None;
                     break;
 
                 case 1:
-                    result.type = PokerListType.Single;
+                    result.type = StareListType.Single;
                     result.value = (int)pokers[0].value;
                     break;
 
                 case 2:
                     if (IsListSame(pokers))
                     {
-                        result.type = PokerListType.Pair;
-                        result.value = (int)(pokers[0].value);
+                        result.type = StareListType.Pair;
+                        result.value = (int)pokers[0].value;
                     }
                     else if (IsJokerBoom(pokers))
                     {
-                        result.type = PokerListType.JokerBoom;
+                        result.type = StareListType.JokerBoom;
                     }
                     else
                     {
-                        result.type = PokerListType.None;
+                        result.type = StareListType.None;
                     }
                     break;
 
                 default:
                     if (IsListSame(pokers))
                     {
-                        result.type = PokerListType.Boom;
+                        result.type = StareListType.Boom;
                         result.value = (int)pokers[0].value;
                         result.length = length;
                     }
                     else if (IsListStraight(pokers))
                     {
-                        result.type = PokerListType.Straight;
+                        result.type = StareListType.Straight;
                         result.value = (int)pokers[0].value;
                         result.length = length;
                     }
                     else
                     {
-                        result.type = PokerListType.None;
+                        result.type = StareListType.None;
                     }
                     break;
             }
@@ -91,9 +93,9 @@
         /// 比较两组牌的大小（确定了牌型之后的牌组）
         /// </summary>
         /// <returns>p1压过p2返回true</returns>
-        private static bool ComparePokerList(PokerList p1, PokerList p2)
+        private static bool ComparePokerList(StareList p1, StareList p2)
         {
-            if (p1.type == PokerListType.None || p2.type == PokerListType.None)
+            if (p1.type == StareListType.None || p2.type == StareListType.None)
                 return false;
             if (p1.GetLevel() == 1 && p2.GetLevel() == 1)
             {
@@ -103,16 +105,16 @@
                 {
                     switch (p1.type)
                     {
-                        case PokerListType.Single:
-                        case PokerListType.Pair:
+                        case StareListType.Single:
+                        case StareListType.Pair:
                             if (p1.value == p2.value + 1 ||
-                                (p1.value == (int)PokerValue.Two &&
-                                 p2.value != (int)PokerValue.Two))
+                                p1.value == (int)PokerValue.Two &&
+                                 p2.value != (int)PokerValue.Two)
                                 return true;
                             else
                                 return false;
 
-                        case PokerListType.Straight:
+                        case StareListType.Straight:
                             if (p1.length != p2.length)
                                 return false;
                             else if (p1.value == p2.value + 1)
@@ -127,8 +129,8 @@
             }
             else if (p1.GetLevel() == 2 && p2.GetLevel() == 2)
             {
-                double len1 = p1.type == PokerListType.JokerBoom ? PokerList.JokerBoomLength : p1.length;
-                double len2 = p2.type == PokerListType.JokerBoom ? PokerList.JokerBoomLength : p2.length;
+                double len1 = p1.type == StareListType.JokerBoom ? StareList.JokerBoomLength : p1.length;
+                double len2 = p2.type == StareListType.JokerBoom ? StareList.JokerBoomLength : p2.length;
                 if (len1 > len2)
                     return true;
                 else if (len1 == len2)
@@ -223,7 +225,7 @@
         /// </summary>
         /// <param name="tar">上家的出牌牌型，主要用于顺子判定</param>
         /// <returns>变换后没有相应牌型返回false</returns>
-        private static bool ChangeRogue(List<Poker> pokers, PokerList tar = null)
+        private static bool ChangeRogue(List<Poker> pokers, StareList? tar = null)
         {
             ResetRogue(pokers);
             int length = pokers.Count;
@@ -431,7 +433,7 @@
         }
 
         /// <summary>
-        /// 获取牌组中特定的对子（考虑万能牌），没有则返回null
+        /// 获取牌组中特定的对子（考虑万能牌），没有则返回空的list
         /// </summary>
         private static List<Poker> GetPair(List<Poker> pokers, int target)
         {
@@ -450,14 +452,14 @@
             }
             if (result.Count == 0)
             {
-                result = null;
+                result.Clear();
             }
             else if (result.Count == 1)
             {
                 List<int> index = GetRogueIndex(pokers);
                 if (index.Count == 0)
                 {
-                    result = null;
+                    result.Clear();
                 }
                 else
                 {
@@ -468,7 +470,7 @@
         }
 
         /// <summary>
-        /// 获取牌组中特定的顺子（考虑万能牌），没有则返回null
+        /// 获取牌组中特定的顺子（考虑万能牌），没有则返回空的list
         /// </summary>
         /// <param name="target">顺子中最小的点数</param>
         private static List<Poker> GetStraight(List<Poker> pokers, int target, int length)
@@ -478,7 +480,7 @@
             int rogueCnt = GetRogueCnt(pokers);
             List<Poker> result = new();
             if (target + length - 1 > 14)
-                return null;
+                return result;
             for (int i = target; i < target + length; i++)
             {
                 List<int> index = GetSingleIndex(pokers, i);
@@ -487,7 +489,8 @@
                     rogueCnt--;
                     if (rogueCnt < 0)
                     {
-                        return null;
+                        result.Clear();
+                        return result;
                     }
                     else
                     {
@@ -501,7 +504,8 @@
             }
             if (GetRogueCnt(result) >= result.Count - 1)
             {
-                return null;
+                result.Clear();
+                return result;
             }
             else
             {
@@ -530,7 +534,7 @@
                     {
                         List<Poker> newPokers = new(pokers);
                         result = GetStraight(newPokers, (int)poker.value, i);
-                        if (result != null)
+                        if (result.Count > 0)
                         {
                             results.Add(result);
                         }
@@ -595,7 +599,7 @@
         /// 获取牌组中所有能压过目标的炸弹，没有则返回null
         /// </summary>
         /// <param name="target">目标，如果不是炸弹就传入null</param>
-        private static List<List<Poker>> GetAllBoom(List<Poker> pokers, PokerList target = null)
+        private static List<List<Poker>> GetAllBoom(List<Poker> pokers, StareList? target = null)
         {
             List<List<Poker>> result = new();
             ResetRogue(pokers);
@@ -625,7 +629,7 @@
             if (target == null || target.length <= 4)
             {
                 List<Poker> jokerBoom = GetJokerBoom(pokers);
-                if (jokerBoom != null)
+                if (jokerBoom.Count > 0)
                 {
                     result.Add(jokerBoom);
                 }
@@ -634,7 +638,7 @@
         }
 
         /// <summary>
-        /// 获取牌组中的王炸，没有则返回null
+        /// 获取牌组中的王炸，没有则返回空的list
         /// </summary>
         private static List<Poker> GetJokerBoom(List<Poker> pokers)
         {
@@ -651,7 +655,7 @@
             }
             else
             {
-                return null;
+                return new List<Poker>();
             }
         }
 
@@ -693,8 +697,8 @@
         {
             if (pokers.Count != 2)
                 return false;
-            return (pokers[0].value == PokerValue.SJoker && pokers[1].value == PokerValue.LJoker) ||
-                    (pokers[0].value == PokerValue.LJoker && pokers[1].value == PokerValue.SJoker);
+            return pokers[0].value == PokerValue.SJoker && pokers[1].value == PokerValue.LJoker ||
+                    pokers[0].value == PokerValue.LJoker && pokers[1].value == PokerValue.SJoker;
         }
 
         /// <summary>
@@ -752,10 +756,10 @@
                 {
                     result.Add(new List<Poker>(pokers));
                 }
-                PokerList target = GetPokerListType(lastPokers);
+                StareList target = GetPokerListType(lastPokers);
                 switch (target.type)
                 {
-                    case PokerListType.Single:
+                    case StareListType.Single:
                         List<Poker> singles = new();
                         if (target.value != (int)PokerValue.Two)
                         {
@@ -772,25 +776,25 @@
                         }
                         break;
 
-                    case PokerListType.Pair:
+                    case StareListType.Pair:
                         if (target.value != (int)PokerValue.Two)
                         {
                             list = GetPair(pokers, target.value + 1);
-                            if (list != null)
+                            if (list.Count > 0)
                             {
                                 result.Add(list);
                             }
                             list = GetPair(pokers, (int)PokerValue.Two);
-                            if (list != null)
+                            if (list.Count > 0)
                             {
                                 result.Add(list);
                             }
                         }
                         break;
 
-                    case PokerListType.Straight:
+                    case StareListType.Straight:
                         list = GetStraight(pokers, target.value + 1, target.length);
-                        if (list != null)
+                        if (list.Count > 0)
                         {
                             result.Add(list);
                         }
@@ -799,7 +803,7 @@
                     default:
                         break;
                 }
-                if (target.type == PokerListType.Boom || target.type == PokerListType.JokerBoom)
+                if (target.type == StareListType.Boom || target.type == StareListType.JokerBoom)
                 {
                     result.AddRange(GetAllBoom(pokers, target));
                 }
@@ -810,7 +814,7 @@
             }
             else
             {
-                if (GetPokerListType(pokers).type != PokerListType.None)
+                if (GetPokerListType(pokers).type != StareListType.None)
                 {
                     result.Add(new List<Poker>(pokers));
                 }

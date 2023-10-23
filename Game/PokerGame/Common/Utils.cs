@@ -1,6 +1,4 @@
-﻿using Stare.Common.Constant;
-
-namespace Stare.Common
+﻿namespace PokerGame.Common
 {
     public static class Utils
     {

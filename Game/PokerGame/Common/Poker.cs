@@ -1,8 +1,5 @@
-﻿using System.Xml.Linq;
-
-namespace Stare.Common
+﻿namespace PokerGame.Common
 {
-    [Serializable]
     public class Poker
     {
         public string name;
@@ -10,6 +7,7 @@ namespace Stare.Common
         public PokerType type;
         /// <summary>点数</summary>
         public PokerValue value;
+
         /// <summary>万能牌原来的数字</summary>
         public PokerValue OriginValue
         {
@@ -17,10 +15,14 @@ namespace Stare.Common
             {
                 if (name == "SJoker") return PokerValue.SJoker;
                 else if (name == "LJoker") return PokerValue.LJoker;
-                if (!IsRogue()) return value;
-                string str = name.Split(',')[1];
 
-                return (PokerValue)Enum.Parse(typeof(PokerValue), str);
+                if (!IsRogue())
+                    return value;
+                else
+                {
+                    string str = name.Split(',')[1];
+                    return (PokerValue)Enum.Parse(typeof(PokerValue), str);
+                }
             }
         }
 

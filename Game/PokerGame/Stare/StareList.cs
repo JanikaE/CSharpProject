@@ -1,12 +1,12 @@
-﻿namespace Stare.Common
+﻿namespace PokerGame.Stare
 {
     /// <summary>
     /// 特定的牌型
     /// </summary>
-    public class PokerList
+    public class StareList
     {
         /// <summary>牌型</summary>
-        public PokerListType type;
+        public StareListType type;
         /// <summary>顺子或炸弹的长度</summary>
         public int length;
         /// <summary>大小，顺子用最小的一张牌指代</summary>
@@ -15,7 +15,7 @@
         /// <summary>双王炸的大小</summary>
         public const double JokerBoomLength = 4.5;
 
-        public PokerList() { }
+        public StareList() { }
 
         /// <summary>
         /// 获取牌型对应的级别。
@@ -25,32 +25,18 @@
         {
             return type switch
             {
-                PokerListType.None => 0,
-                PokerListType.Single or PokerListType.Pair or PokerListType.Straight => 1,
-                PokerListType.Boom => 2,
+                StareListType.None => 0,
+                StareListType.Single or StareListType.Pair or StareListType.Straight => 1,
+                StareListType.Boom or StareListType.JokerBoom => 2,
                 _ => 0,
             };
-        }
-
-        /// <summary>
-        /// 获取炸弹对应的倍率
-        /// </summary>
-        /// <returns></returns>
-        public int GetBoomRate()
-        {
-            if (type == PokerListType.Boom)
-                return (int)Math.Pow(2, length - 2);
-            else if (type == PokerListType.JokerBoom)
-                return 4;
-            else
-                return 1;
         }
     }
 
     /// <summary>
     /// 牌型
     /// </summary>
-    public enum PokerListType
+    public enum StareListType
     {
         None,
 
