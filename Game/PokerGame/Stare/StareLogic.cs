@@ -745,7 +745,7 @@ namespace PokerGame.Stare
         /// <summary>
         /// 提示，包含所有能出的牌
         /// </summary>
-        public static List<List<Poker>> SuggestList(List<Poker> pokers, List<Poker> lastPokers)
+        public static List<List<Poker>> SuggestList(List<Poker> pokers, List<Poker>? lastPokers)
         {
             List<List<Poker>> result = new();
             List<Poker> list;
@@ -836,5 +836,167 @@ namespace PokerGame.Stare
             return result;
         }
 
+        public static void TestFaPai()
+        {
+            float winCnt = 0;
+            float totalCnt = 1000000;
+            int straightCnt = 0;
+            int boomCnt = 0;
+            int errorCnt = 0;
+            bool changeFaPai = true;
+            List<Poker> pokerList = new();
+            foreach (PokerValue value in Enum.GetValues(typeof(PokerValue)))
+            {
+                if (value == PokerValue.None)
+                    continue;
+                else if (value == PokerValue.SJoker || value == PokerValue.LJoker)
+                {
+                    PokerType type = PokerType.None;
+                    pokerList.Add(new Poker(type, value));
+                }
+                else
+                {
+                    foreach (PokerType type in Enum.GetValues(typeof(PokerType)))
+                    {
+                        if (type == PokerType.None)
+                            continue;
+                        pokerList.Add(new Poker(type, value));
+                    }
+                }
+            }
+            for (int i = 0; i < totalCnt; i++)
+            {
+                if ((i + 1) % 10000 == 0)
+                    Console.WriteLine("已完成" + ((i + 1) / 10000) + "w次，前44张" + errorCnt + "次");
+
+                List<Poker> newList = new();
+                Random rand = new();
+                foreach (Poker poker in pokerList)
+                {
+                    int index = rand.Next(0, newList.Count + 1);
+                    newList.Insert(index, poker);
+                }
+                if (changeFaPai)
+                {
+                    for (int j = newList.Count - 1; j > newList.Count - 11; j--)
+                    {
+                        if (newList[j].IsRogue())
+                        {
+                            int changeIndex;
+                            do
+                            {
+                                changeIndex = rand.Next(44);
+                            } while (newList[changeIndex].IsRogue());
+                            (newList[j], newList[changeIndex]) = (newList[changeIndex], newList[j]);
+                        }
+                    }
+                }
+
+                int rogueCnt = 0;
+                for (int j = 0; j < 44; j++)
+                {
+                    if (newList[j].IsRogue())
+                        rogueCnt++;
+                }
+                if (rogueCnt == 10)
+                {
+                    errorCnt++;
+                }
+
+                List<Poker> subList = new();
+                for (int j = 0; j < 6; j++)
+                {
+                    subList.Add(newList[j]);
+                }
+                StareList list = GetPokerListType(subList);
+                if (list.type != StareListType.None)
+                {
+                    winCnt++;
+                    if (list.type == StareListType.Straight)
+                        straightCnt++;
+                    if (list.type == StareListType.Boom)
+                        boomCnt++;
+                }
+            }
+            Console.WriteLine($"结束，出完次数{winCnt}，概率{winCnt / totalCnt * 100}%");
+            Console.WriteLine($"顺子次数{straightCnt}，炸弹次数{boomCnt}");
+        }
+
+        public static void TestChuPai()
+        {
+            int errCnt = 0;
+            Random random = new();
+            for (int i = 0; i < 1000000; i++)
+            {
+                if ((i + 1) % 10000 == 0)
+                    Console.WriteLine("已完成" + ((i + 1) / 10000) + "w次");
+
+                List<Poker> list1 = new();
+                List<Poker> list2 = new();
+                int pokerNum1 = random.Next(1, 6);
+                int pokerNum2 = random.Next(1, 6);
+                for (int j = 0; j < pokerNum1; j++)
+                {
+                    int add = random.Next(3, 16);
+                    if (list1.FindAll(x => (int)x.value == add).Count < 4)
+                    {
+                        Poker poker = new(PokerType.Square, (PokerValue)add);
+                        list1.Add(poker);
+                    }
+                }
+                for (int j = 0; j < pokerNum2; j++)
+                {
+                    int add = random.Next(3, 16);
+                    if (list2.FindAll(x => (int)x.value == add).Count < 4)
+                    {
+                        Poker poker = new(PokerType.Square, (PokerValue)add);
+                        list2.Add(poker);
+                    }
+                }
+
+                List<List<Poker>> lists1 = SuggestList(list1, null);
+                if (lists1.Count == 0)
+                {
+                    Console.WriteLine("error");
+                    Print(list1, "list1:");
+                    errCnt++;
+                    continue;
+                }
+                List<Poker> sublist1 = lists1[0];
+                if (GetPokerListType(sublist1).type == StareListType.None)
+                {
+                    Console.WriteLine("error");
+                    Print(list1, "list1:");
+                    Print(sublist1, "sublist1:");
+                    errCnt++;
+                    continue;
+                }
+                List<List<Poker>> lists2 = SuggestList(list2, sublist1);
+                if (lists2.Count == 0)
+                    continue;
+                List<Poker> sublist2 = lists2[0];
+
+                if (sublist2 != null && !ComparePokerList(sublist2, sublist1))
+                {
+                    Console.WriteLine("error");
+                    Print(list1, "list1:");
+                    Print(sublist1, "sublist1:");
+                    Print(list2, "list2:");
+                    Print(sublist2, "sublist2:");
+                    errCnt++;
+                }
+            }
+            Console.WriteLine($"over, error count:{errCnt}");
+        }
+
+        private static void Print(List<Poker> list, string preString)
+        {
+            string s = preString;
+            foreach (Poker poker in list)
+            {
+                s += (int)poker.value + ", ";
+            }
+            Console.WriteLine(s);
+        }
     }
 }
