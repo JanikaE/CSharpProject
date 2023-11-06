@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Utils.Tool
 {
@@ -15,6 +16,28 @@ namespace Utils.Tool
         /// 是否显示线程ID
         /// </summary>
         public static bool ShowThread { get; set; } = true;
+
+        private static StreamWriter? fileWriter = null;
+
+        /// <summary>
+        /// 初始化，将Log同步写入文件
+        /// </summary>
+        /// <param name="path">文件路径</param>
+        /// <param name="isCover">是否覆盖文件内原有内容</param>
+        public static void InitFileWriter(string path, bool isCover = false)
+        {
+            if (isCover)
+            {
+                FileStream fs = new(path, FileMode.Create);
+                fs.Close();
+            }
+
+            fileWriter = new(path, true)
+            {
+                AutoFlush = true
+            };
+            Info("Start writing logs to the file.");
+        }
 
         /// <summary>
         /// 消息（绿色）
@@ -81,6 +104,19 @@ namespace Utils.Tool
             pre += ">> ";
             Console.WriteLine(pre + s);
             Console.ForegroundColor = ConsoleColor.Gray;
+
+            if (fileWriter != null)
+            {
+                try
+                {
+                    fileWriter.WriteLine(pre + s);
+                }
+                catch (Exception e)
+                {
+                    fileWriter = null;
+                    Warn(e);
+                }
+            }
         }
     }
 }
