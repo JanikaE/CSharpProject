@@ -92,6 +92,11 @@ namespace Utils.Mathematical
             return !(left == right);
         }
 
+        public static explicit operator Point3D(Vector3D vector)
+        {
+            return new((int)vector.X, (int)vector.Y, (int)vector.Z);
+        }
+
         /// <summary>
         /// 点乘（内积）
         /// </summary>
@@ -178,7 +183,7 @@ namespace Utils.Mathematical
 
         public override readonly string ToString()
         {
-            return $"({X},{Y},{Z})";
+            return $"({X}, {Y}, {Z})";
         }
     }
 }

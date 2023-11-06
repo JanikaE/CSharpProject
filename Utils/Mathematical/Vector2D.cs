@@ -111,7 +111,7 @@ namespace Utils.Mathematical
 
         public static explicit operator Point2D(Vector2D vector)
         {
-            return new Point2D((int)vector.X, (int)vector.Y);
+            return new((int)vector.X, (int)vector.Y);
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace Utils.Mathematical
 
         public override readonly string ToString()
         {
-            return $"({X},{Y})";
+            return $"({X}, {Y})";
         }
     }
 }

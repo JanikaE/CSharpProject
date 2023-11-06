@@ -72,7 +72,7 @@ namespace Utils.Mathematical
 
         public static explicit operator Vector2D(Point2D point)
         {
-            return new Vector2D(point.X, point.Y);
+            return new(point.X, point.Y);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Utils.Mathematical
         {
             int x = Random.Shared.Next(minX, maxX);
             int y = Random.Shared.Next(minY, maxY);
-            return new Point2D(x, y);
+            return new(x, y);
         }
 
         public void Normalize()
@@ -143,7 +143,7 @@ namespace Utils.Mathematical
 
         public override readonly string ToString()
         {
-            return $"({X},{Y})";
+            return $"({X}, {Y})";
         }
     }
 }
