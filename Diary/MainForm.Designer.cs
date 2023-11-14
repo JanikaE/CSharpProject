@@ -28,34 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ListViewItem listViewItem1 = new ListViewItem("日期_类别");
-            FileList = new ListView();
+            BodyTextBox = new RichTextBox();
+            FileListBox = new ListBox();
             SuspendLayout();
             // 
-            // FileList
+            // BodyTextBox
             // 
-            FileList.Items.AddRange(new ListViewItem[] { listViewItem1 });
-            FileList.Location = new Point(43, 84);
-            FileList.Name = "FileList";
-            FileList.Size = new Size(121, 338);
-            FileList.Sorting = SortOrder.Ascending;
-            FileList.TabIndex = 0;
-            FileList.UseCompatibleStateImageBehavior = false;
-            FileList.View = View.List;
+            BodyTextBox.Enabled = false;
+            BodyTextBox.Location = new Point(330, 84);
+            BodyTextBox.Name = "BodyTextBox";
+            BodyTextBox.ReadOnly = true;
+            BodyTextBox.Size = new Size(458, 338);
+            BodyTextBox.TabIndex = 1;
+            BodyTextBox.Text = "";
+            // 
+            // FileListBox
+            // 
+            FileListBox.FormattingEnabled = true;
+            FileListBox.ItemHeight = 17;
+            FileListBox.Location = new Point(12, 84);
+            FileListBox.Name = "FileListBox";
+            FileListBox.Size = new Size(139, 344);
+            FileListBox.TabIndex = 2;
+            FileListBox.SelectedIndexChanged += FileListBox_SelectedIndexChanged;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(FileList);
+            Controls.Add(FileListBox);
+            Controls.Add(BodyTextBox);
             Name = "MainForm";
             Text = "MainForm";
             ResumeLayout(false);
         }
 
         #endregion
-
-        private ListView FileList;
+        private RichTextBox BodyTextBox;
+        private ListBox FileListBox;
     }
 }
