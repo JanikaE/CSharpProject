@@ -5,8 +5,8 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Logger.InitFileWriter(".\\log.txt", true);
-        Logger.Debug("test2");
+        LogTool.InitFileWriter(".\\log.txt", true);
+        LogTool.Debug("test2");
         Console.ReadLine();
     }
 }

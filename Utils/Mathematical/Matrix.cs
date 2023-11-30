@@ -36,12 +36,12 @@ namespace Utils.Mathematical
             if (height <= 0)
             {
                 height = 1;
-                Logger.Warn(new ArgumentException("宽不能为负数或0"));
+                LogTool.Warn(new ArgumentException("宽不能为负数或0"));
             }
             if (width <= 0)
             {
                 width = 1;
-                Logger.Warn(new ArgumentException("高不能为负数或0"));
+                LogTool.Warn(new ArgumentException("高不能为负数或0"));
             }
             Values = new float[height, width];
             for (int i = 0; i < height; i++)

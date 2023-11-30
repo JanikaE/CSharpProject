@@ -30,7 +30,7 @@ namespace Utils.Mathematical
             if (range <= 0)
             {
                 range = 1;
-                Logger.Warn(new ArgumentException("宽高不能为负数或0"));
+                LogTool.Warn(new ArgumentException("宽高不能为负数或0"));
             }
             Values = new float[range, range];
             for (int i = 0; i < range; i++)

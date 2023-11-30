@@ -67,6 +67,9 @@ namespace Utils.Extend
             }
         }
 
+        /// <summary>
+        /// 根据数据内容转变为字符串，数据之间用分号间隔
+        /// </summary>
         public static string ToStringByItem<T>(this List<T> list)
         {
             string s = "";

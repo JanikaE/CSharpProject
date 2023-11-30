@@ -6,7 +6,7 @@ namespace Utils.Tool
     /// <summary>
     /// 静态Log类
     /// </summary>
-    public static class Logger
+    public static class LogTool
     {
         /// <summary>
         /// 是否显示时间戳
