@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <PackageReference Include="newtonsoft.json" Version="13.0.3" />
+    <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
   </ItemGroup>
 
 </Project>

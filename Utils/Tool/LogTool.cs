@@ -4,40 +4,27 @@ using System.IO;
 namespace Utils.Tool
 {
     /// <summary>
-    /// 静态Log类
+    /// 日志工具类
     /// </summary>
     public static class LogTool
     {
+        static LogTool()
+        {
+            ShowDateTime = true;
+            ShowThread = false;
+            KeepDays = 3;
+        }
+
+        #region 消息方法
+
         /// <summary>
         /// 是否显示时间戳
         /// </summary>
-        public static bool ShowDateTime { get; set; } = true;
+        public static bool ShowDateTime { get; set; }
         /// <summary>
         /// 是否显示线程ID
         /// </summary>
-        public static bool ShowThread { get; set; } = true;
-
-        private static StreamWriter? fileWriter = null;
-
-        /// <summary>
-        /// 初始化，将Log同步写入文件
-        /// </summary>
-        /// <param name="path">文件路径</param>
-        /// <param name="isCover">是否覆盖文件内原有内容</param>
-        public static void InitFileWriter(string path, bool isCover = false)
-        {
-            if (isCover)
-            {
-                FileStream fs = new(path, FileMode.Create);
-                fs.Close();
-            }
-
-            fileWriter = new(path, true)
-            {
-                AutoFlush = true
-            };
-            Info("Start writing logs to the file.");
-        }
+        public static bool ShowThread { get; set; }
 
         /// <summary>
         /// 消息（绿色）
@@ -48,7 +35,7 @@ namespace Utils.Tool
         }
 
         /// <summary>
-        /// Debug（自定义颜色）
+        /// 调试（自定义颜色）
         /// </summary>
         public static void Debug(string s, ConsoleColor color = ConsoleColor.Gray)
         {
@@ -69,7 +56,7 @@ namespace Utils.Tool
         /// <param name="e">异常</param>
         public static void Warn(Exception e)
         {
-            Log(" WARN: " + e.Message + "\n" + Environment.StackTrace, ConsoleColor.Yellow);
+            Log(" WARN: " + e.Message + "\n" + e.StackTrace, ConsoleColor.Yellow);
         }
 
         /// <summary>
@@ -86,7 +73,7 @@ namespace Utils.Tool
         /// <param name="e">异常</param>
         public static void Error(Exception e)
         {
-            Log(" ERROR: " + e.Message + "\n" + Environment.StackTrace, ConsoleColor.Red);
+            Log(" ERROR: " + e.Message + "\n" + e.StackTrace, ConsoleColor.Red);
         }
 
         private static void Log(string s, ConsoleColor color)
@@ -105,18 +92,84 @@ namespace Utils.Tool
             Console.WriteLine(pre + s);
             Console.ForegroundColor = ConsoleColor.Gray;
 
-            if (fileWriter != null)
+            WriteToFile(s);
+        }
+
+        #endregion
+
+        #region 日志写入文件
+
+        private static bool isWriteToFile = false;
+        private static string? logPath = null;
+
+        /// <summary>
+        /// 初始化将日志同步写入文件的功能
+        /// </summary>
+        /// <param name="path">日志根目录</param>
+        public static void InitFileWriter(string path)
+        {
+            isWriteToFile = true;
+            logPath = path;
+        }
+
+        private static void WriteToFile(string s)
+        {
+            if (isWriteToFile)
             {
+                DateTime now = DateTime.Now;
+                int year = now.Year;
+                int month = now.Month;
+                int day = now.Day;
+                string path = logPath + $"\\{year}-{month}\\{year}-{month}-{day}.txt";
+                using StreamWriter writer = new(path, true)
+                {
+                    AutoFlush = true
+                };
                 try
                 {
-                    fileWriter.WriteLine(pre + s);
+                    writer.WriteLine(s);
                 }
                 catch (Exception e)
                 {
-                    fileWriter = null;
                     Warn(e);
                 }
+                writer.Close();
             }
         }
+
+        #endregion
+
+        #region 日志清理
+
+        /// <summary>
+        /// 日志保存天数
+        /// </summary>
+        public static int KeepDays { get; set; }
+
+        /// <summary>
+        /// 清理过期日志
+        /// </summary>
+        public static void ClearOutdatedLogs()
+        {
+            if (logPath == null || !Directory.Exists(logPath))
+            {
+                return;
+            }
+
+            DateTime now = DateTime.Now;
+            string[] files = Directory.GetFiles(logPath, "*.txt", SearchOption.AllDirectories);
+            foreach (string file in files)
+            {
+                FileInfo fileInfo = new(file);
+                int interval = (now - fileInfo.LastWriteTime).Days;
+                if (interval > KeepDays)
+                {
+                    FileTool.Delete(file, false);
+                }
+            }
+            DirectoryTool.DeleteEmptyFolders(logPath, false);
+        }
+
+        #endregion
     }
 }

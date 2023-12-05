@@ -2,6 +2,9 @@
 
 namespace Utils.Tool
 {
+    /// <summary>
+    /// 控制台操作工具类
+    /// </summary>
     public static class ConsoleTool
     {
         public static void ClearCurrentConsoleLine()

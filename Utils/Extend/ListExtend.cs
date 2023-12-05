@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Utils.Extend
 {
+    /// <summary>
+    /// List拓展
+    /// </summary>
     public static class ListExtend
     {
         /// <summary>

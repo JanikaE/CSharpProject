@@ -3,6 +3,9 @@ using Utils.Mathematical;
 
 namespace Utils.Tool
 {
+    /// <summary>
+    /// 数学工具类
+    /// </summary>
     public static class MathTool
     {
         /// <summary>
