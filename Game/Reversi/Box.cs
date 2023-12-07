@@ -4,11 +4,14 @@ namespace Reversi
 {
     public class Box
     {
-        private readonly Chess[,] board;
-        private Chess Board(Point2D point) => board[point.Y, point.X];
+        public readonly Chess[,] board;
+        public Chess Board(Point2D point) => board[point.Y, point.X];
 
         public Chess turn;
         public State state;
+
+        public int BlackNum => CountChess(Chess.Black);
+        public int WhiteNum => CountChess(Chess.White);
 
         public Box()
         {
@@ -82,17 +85,17 @@ namespace Reversi
             Chess opposite = chess.Opposite();
             for (int i = 1; i <= 8; i++)
             {
-                RelativePosition position = (RelativePosition)i;
+                RelativePositio_8 position = (RelativePositio_8)i;
                 Point2D offset = position switch
                 {
-                    RelativePosition.Up => new(0, -1),
-                    RelativePosition.Down => new(0, 1),
-                    RelativePosition.Left => new(-1, 0),
-                    RelativePosition.Right => new(1, 0),
-                    RelativePosition.UpLeft => new(-1, -1),
-                    RelativePosition.UpRight => new(1, -1),
-                    RelativePosition.DownLeft => new(-1, 1),
-                    RelativePosition.DownRight => new(1, 1),
+                    RelativePositio_8.Up => new(0, -1),
+                    RelativePositio_8.Down => new(0, 1),
+                    RelativePositio_8.Left => new(-1, 0),
+                    RelativePositio_8.Right => new(1, 0),
+                    RelativePositio_8.UpLeft => new(-1, -1),
+                    RelativePositio_8.UpRight => new(1, -1),
+                    RelativePositio_8.DownLeft => new(-1, 1),
+                    RelativePositio_8.DownRight => new(1, 1),
                     _ => Point2D.Zero
                 };
                 Point2D newPoint = point;
@@ -193,7 +196,7 @@ namespace Reversi
                 }
                 Console.Write("\n");
             }
-            Console.Write($"\n{Chess.Black.ToChar()}Num:{CountChess(Chess.Black)}  {Chess.White.ToChar()}Num:{CountChess(Chess.White)}  NowTurn:{turn.ToChar()}\n");
+            Console.Write($"\n{Chess.Black.ToChar()}Num:{BlackNum}  {Chess.White.ToChar()}Num:{WhiteNum}  NowTurn:{turn.ToChar()}\n");
         }
 
         /// <summary>

@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <!--<PropertyGroup>
+  <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>-->
-  <PropertyGroup>
+  </PropertyGroup>
+  <!--<PropertyGroup>
 	  <OutputType>Exe</OutputType>
 	  <TargetFramework>net6.0</TargetFramework>
 	  <ImplicitUsings>enable</ImplicitUsings>
@@ -18,7 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="MainForm.resx" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
     <Reference Include="Utils">

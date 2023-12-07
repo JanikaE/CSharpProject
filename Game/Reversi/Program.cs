@@ -1,7 +1,9 @@
-#define Console
+#define Form
 
+#if Console
 using Utils.Mathematical;
 using Utils.Tool;
+#endif
 
 namespace Reversi
 {
