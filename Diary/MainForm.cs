@@ -10,12 +10,19 @@ namespace Diary
             y = Height;
             SetTag(this);
 
+            RefreshList();
+        }
+
+        private void RefreshList()
+        {
+            DiarysAll.Clear();
             if (prePath != null)
             {
                 string[] files = Directory.GetFiles(prePath, "*.txt");
                 foreach (string file in files)
                 {
                     string fileName = Path.GetFileName(file);
+                    fileName = fileName[..fileName.LastIndexOf('.')];
                     try
                     {
                         string[] s = fileName.Split('_');
@@ -38,24 +45,26 @@ namespace Diary
                 {
                     return a.date.CompareTo(b.date);
                 });
-
-                // 初始化下拉框选项
-                ComboBoxYear.Items.Clear();
-                ComboBoxYear.Items.Add("All");
-                foreach (DiaryDto diary in DiarysAll)
-                {
-                    int year = diary.date.Year;
-                    if (!ComboBoxYear.Items.Contains(year))
-                    {
-                        ComboBoxYear.Items.Add(year);
-                    }
-                }
-                ComboBoxYear.SelectedIndex = 0;
-                ComboBoxMonth.Items.Clear();
-                ComboBoxMonth.Items.Add("All");
-                ComboBoxMonth.SelectedIndex = 0;
-                UpdateListBoxFile();
             }
+
+            // 初始化下拉框选项
+            ComboBoxYear.Items.Clear();
+            ComboBoxYear.Items.Add("All");
+            foreach (DiaryDto diary in DiarysAll)
+            {
+                int year = diary.date.Year;
+                if (!ComboBoxYear.Items.Contains(year))
+                {
+                    ComboBoxYear.Items.Add(year);
+                }
+            }
+            ComboBoxYear.SelectedIndex = 0;
+            ComboBoxMonth.Items.Clear();
+            ComboBoxMonth.Items.Add("All");
+            ComboBoxMonth.SelectedIndex = 0;
+            UpdateListBoxFile();
+
+            RichTextBoxShow.Text = string.Empty;
         }
 
         #region 控件大小随窗体大小等比例缩放
@@ -118,6 +127,8 @@ namespace Diary
 
         #endregion
 
+        #region 查看
+
         private void ComboBoxYear_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ComboBoxMonth.Items.Clear();
@@ -177,8 +188,8 @@ namespace Diary
                 return;
 
             // 读取文本
-            string text = File.ReadAllText(prePath + path);
-            RichTextBox.Text = text;
+            string text = File.ReadAllText(prePath + path + ".txt");
+            RichTextBoxShow.Text = text;
         }
 
         private void ButtonInvalid_Click(object sender, EventArgs e)
@@ -186,5 +197,80 @@ namespace Diary
             InvalidForm form = new();
             form.ShowDialog();
         }
+
+        private void ButtonRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshList();
+        }
+
+        #endregion
+
+        #region 编辑
+
+        private void ButtonEdit_Click(object sender, EventArgs e)
+        {
+            if (ListBoxFile.SelectedItem == null)
+            {
+                MessageBox.Show("未选择文件");
+                return;
+            }
+            EditModeOn();
+        }
+
+        private void ButtonCancel_Click(object sender, EventArgs e)
+        {
+            EditModeOff();
+            // 重新读取文本
+            string? fileName = ListBoxFile.SelectedItem.ToString();
+            string text = File.ReadAllText(prePath + fileName + ".txt");
+            RichTextBoxShow.Text = text;
+        }
+
+        private void ButtonSave_Click(object sender, EventArgs e)
+        {
+            EditModeOff();
+            string? fileName = ListBoxFile.SelectedItem.ToString();
+            string path = prePath + fileName + ".txt";
+            File.WriteAllText(path, RichTextBoxShow.Text);
+        }
+
+        private void EditModeOn()
+        {
+            RichTextBoxShow.ReadOnly = false;
+            ButtonEdit.Visible = false;
+            ButtonCancel.Visible = true;
+            ButtonSave.Visible = true;
+            ListBoxFile.Enabled = false;
+            ComboBoxYear.Enabled = false;
+            ComboBoxMonth.Enabled = false;
+            ButtonRefresh.Enabled = false;
+        }
+
+        private void EditModeOff()
+        {
+            RichTextBoxShow.ReadOnly = true;
+            ButtonEdit.Visible = true;
+            ButtonCancel.Visible = false;
+            ButtonSave.Visible = false;
+            ListBoxFile.Enabled = true;
+            ComboBoxYear.Enabled = true;
+            ComboBoxMonth.Enabled = true;
+            ButtonRefresh.Enabled = true;
+        }
+
+        #endregion
+
+        #region 新增
+
+        private void ButtonCreate_Click(object sender, EventArgs e)
+        {
+            DateTime date = DateTimePicker.Value;
+            string topic = TextBoxTopic.Text;
+            string fileName = date.ToString("yyyy.M.d") + "_" + topic;
+            string path = prePath + fileName + ".txt";
+            File.WriteAllText(path, RichTextBoxInput.Text);
+        }
+
+        #endregion
     }
 }
