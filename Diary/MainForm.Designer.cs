@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            TextBox = new RichTextBox();
+            RichTextBox = new RichTextBox();
             ListBoxFile = new ListBox();
             ComboBoxYear = new ComboBox();
             ComboBoxMonth = new ComboBox();
             ButtonInvalid = new Button();
             SuspendLayout();
             // 
-            // TextBox
+            // RichTextBox
             // 
-            TextBox.Enabled = false;
-            TextBox.Location = new Point(234, 78);
-            TextBox.Name = "TextBox";
-            TextBox.ReadOnly = true;
-            TextBox.Size = new Size(521, 338);
-            TextBox.TabIndex = 1;
-            TextBox.Text = "";
+            RichTextBox.Enabled = false;
+            RichTextBox.Location = new Point(210, 78);
+            RichTextBox.Name = "RichTextBox";
+            RichTextBox.ReadOnly = true;
+            RichTextBox.Size = new Size(521, 338);
+            RichTextBox.TabIndex = 1;
+            RichTextBox.Text = "";
             // 
             // ListBoxFile
             // 
@@ -51,7 +51,7 @@
             ListBoxFile.ItemHeight = 17;
             ListBoxFile.Location = new Point(30, 78);
             ListBoxFile.Name = "ListBoxFile";
-            ListBoxFile.Size = new Size(139, 310);
+            ListBoxFile.Size = new Size(160, 293);
             ListBoxFile.TabIndex = 2;
             ListBoxFile.SelectedIndexChanged += ListBoxFile_SelectedIndexChanged;
             // 
@@ -67,7 +67,7 @@
             // ComboBoxMonth
             // 
             ComboBoxMonth.FormattingEnabled = true;
-            ComboBoxMonth.Location = new Point(182, 33);
+            ComboBoxMonth.Location = new Point(157, 33);
             ComboBoxMonth.Name = "ComboBoxMonth";
             ComboBoxMonth.Size = new Size(121, 25);
             ComboBoxMonth.TabIndex = 4;
@@ -75,9 +75,9 @@
             // 
             // ButtonInvalid
             // 
-            ButtonInvalid.Location = new Point(50, 394);
+            ButtonInvalid.Location = new Point(43, 387);
             ButtonInvalid.Name = "ButtonInvalid";
-            ButtonInvalid.Size = new Size(91, 23);
+            ButtonInvalid.Size = new Size(135, 30);
             ButtonInvalid.TabIndex = 5;
             ButtonInvalid.Text = "非法文件名";
             ButtonInvalid.UseVisualStyleBackColor = true;
@@ -87,19 +87,20 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(762, 443);
             Controls.Add(ButtonInvalid);
             Controls.Add(ComboBoxMonth);
             Controls.Add(ComboBoxYear);
             Controls.Add(ListBoxFile);
-            Controls.Add(TextBox);
+            Controls.Add(RichTextBox);
             Name = "MainForm";
             Text = "Diary";
+            Resize += MainForm_Resize;
             ResumeLayout(false);
         }
 
         #endregion
-        private RichTextBox TextBox;
+        private RichTextBox RichTextBox;
         private ListBox ListBoxFile;
         private ComboBox ComboBoxYear;
         private ComboBox ComboBoxMonth;
