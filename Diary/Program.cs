@@ -1,3 +1,5 @@
+global using static Diary.Common;
+
 namespace Diary
 {
     internal static class Program

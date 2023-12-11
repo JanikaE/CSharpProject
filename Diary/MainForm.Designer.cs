@@ -28,44 +28,81 @@
         /// </summary>
         private void InitializeComponent()
         {
-            BodyTextBox = new RichTextBox();
-            FileListBox = new ListBox();
+            TextBox = new RichTextBox();
+            ListBoxFile = new ListBox();
+            ComboBoxYear = new ComboBox();
+            ComboBoxMonth = new ComboBox();
+            ButtonInvalid = new Button();
             SuspendLayout();
             // 
-            // BodyTextBox
+            // TextBox
             // 
-            BodyTextBox.Enabled = false;
-            BodyTextBox.Location = new Point(330, 84);
-            BodyTextBox.Name = "BodyTextBox";
-            BodyTextBox.ReadOnly = true;
-            BodyTextBox.Size = new Size(458, 338);
-            BodyTextBox.TabIndex = 1;
-            BodyTextBox.Text = "";
+            TextBox.Enabled = false;
+            TextBox.Location = new Point(234, 78);
+            TextBox.Name = "TextBox";
+            TextBox.ReadOnly = true;
+            TextBox.Size = new Size(521, 338);
+            TextBox.TabIndex = 1;
+            TextBox.Text = "";
             // 
-            // FileListBox
+            // ListBoxFile
             // 
-            FileListBox.FormattingEnabled = true;
-            FileListBox.ItemHeight = 17;
-            FileListBox.Location = new Point(12, 84);
-            FileListBox.Name = "FileListBox";
-            FileListBox.Size = new Size(139, 344);
-            FileListBox.TabIndex = 2;
-            FileListBox.SelectedIndexChanged += FileListBox_SelectedIndexChanged;
+            ListBoxFile.FormattingEnabled = true;
+            ListBoxFile.ItemHeight = 17;
+            ListBoxFile.Location = new Point(30, 78);
+            ListBoxFile.Name = "ListBoxFile";
+            ListBoxFile.Size = new Size(139, 310);
+            ListBoxFile.TabIndex = 2;
+            ListBoxFile.SelectedIndexChanged += ListBoxFile_SelectedIndexChanged;
+            // 
+            // ComboBoxYear
+            // 
+            ComboBoxYear.FormattingEnabled = true;
+            ComboBoxYear.Location = new Point(30, 33);
+            ComboBoxYear.Name = "ComboBoxYear";
+            ComboBoxYear.Size = new Size(121, 25);
+            ComboBoxYear.TabIndex = 3;
+            ComboBoxYear.SelectionChangeCommitted += ComboBoxYear_SelectionChangeCommitted;
+            // 
+            // ComboBoxMonth
+            // 
+            ComboBoxMonth.FormattingEnabled = true;
+            ComboBoxMonth.Location = new Point(182, 33);
+            ComboBoxMonth.Name = "ComboBoxMonth";
+            ComboBoxMonth.Size = new Size(121, 25);
+            ComboBoxMonth.TabIndex = 4;
+            ComboBoxMonth.SelectionChangeCommitted += ComboBoxMonth_SelectionChangeCommitted;
+            // 
+            // ButtonInvalid
+            // 
+            ButtonInvalid.Location = new Point(50, 394);
+            ButtonInvalid.Name = "ButtonInvalid";
+            ButtonInvalid.Size = new Size(91, 23);
+            ButtonInvalid.TabIndex = 5;
+            ButtonInvalid.Text = "非法文件名";
+            ButtonInvalid.UseVisualStyleBackColor = true;
+            ButtonInvalid.Click += ButtonInvalid_Click;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(FileListBox);
-            Controls.Add(BodyTextBox);
+            Controls.Add(ButtonInvalid);
+            Controls.Add(ComboBoxMonth);
+            Controls.Add(ComboBoxYear);
+            Controls.Add(ListBoxFile);
+            Controls.Add(TextBox);
             Name = "MainForm";
-            Text = "MainForm";
+            Text = "Diary";
             ResumeLayout(false);
         }
 
         #endregion
-        private RichTextBox BodyTextBox;
-        private ListBox FileListBox;
+        private RichTextBox TextBox;
+        private ListBox ListBoxFile;
+        private ComboBox ComboBoxYear;
+        private ComboBox ComboBoxMonth;
+        private Button ButtonInvalid;
     }
 }
