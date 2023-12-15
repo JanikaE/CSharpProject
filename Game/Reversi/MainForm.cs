@@ -45,15 +45,15 @@ namespace Reversi
                 return;
             }
             Graphics graphics = ChessBoard.CreateGraphics();
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 8; i++)
             {
-                for (int j = 0; j < 7; j++)
+                for (int j = 0; j < 8; j++)
                 {
                     Chess chess = box.board[j, i];
                     Color color = GetChessColor(chess);
                     if (color == noneColor) continue;
 
-                    DrawChess(graphics, i, 7 - j, color);
+                    DrawChess(graphics, i, j, color);
                 }
             }
             Turn.Text = box.turn.ToString();
@@ -92,7 +92,7 @@ namespace Reversi
                 Graphics graphics = ChessBoard.CreateGraphics();
                 // 清除上一个预览
                 DrawChess(graphics, lastPointX, lastPointY, noneColor);
-                Point2D point = new(pointX, 7 - pointY);
+                Point2D point = new(pointX, pointY);
                 if (box.Board(point) == Chess.None)
                 {
                     lastPointX = pointX;
@@ -114,7 +114,7 @@ namespace Reversi
             int pointX = positionX / 40;
             int pointY = positionY / 40;
 
-            Point2D point = new(pointX, 7 - pointY);
+            Point2D point = new(pointX, pointY);
             if (box.CanDrop(point, box.turn).Count > 0)
             {
                 // 落子
