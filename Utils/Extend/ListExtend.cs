@@ -76,15 +76,15 @@ namespace Utils.Extend
         public static string ToStringByItem<T>(this List<T> list)
         {
             string s = "";
-            foreach (T p in list)
+            foreach (T item in list)
             {
-                if (p == null)
+                if (item == null)
                 {
                     s += "null; ";
                 }
                 else
                 {
-                    s += p.ToString() + "; ";
+                    s += item.ToString() + "; ";
                 }
             }
             return s;

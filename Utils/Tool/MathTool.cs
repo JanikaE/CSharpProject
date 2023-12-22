@@ -31,6 +31,8 @@ namespace Utils.Tool
 
         #region 随机分布
 
+        public static Random Random { get; set; } = Random.Shared;
+
         /// <summary>
         /// 正态分布
         /// </summary>
@@ -46,8 +48,8 @@ namespace Utils.Tool
         /// </summary>
         public static double StdGaussian()
         {
-            double u = -2 * Math.Log(Random.Shared.NextDouble());
-            double v = 2 * Math.PI * Random.Shared.NextDouble();
+            double u = -2 * Math.Log(Random.NextDouble());
+            double v = 2 * Math.PI * Random.NextDouble();
             return Math.Sqrt(u) * Math.Cos(v);
         }
 
@@ -61,7 +63,7 @@ namespace Utils.Tool
             {
                 throw new ArgumentOutOfRangeException(nameof(lambda), "参数不能为0");
             }
-            double p = Random.Shared.NextDouble(); ;
+            double p = Random.NextDouble(); ;
             return -1 / lambda * Math.Log(p, Math.E);
         }
 

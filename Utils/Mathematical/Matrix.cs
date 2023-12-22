@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using Utils.MyException;
 using Utils.Tool;
 

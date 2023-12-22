@@ -3,13 +3,13 @@ using System.Timers;
 
 namespace Utils.Tool
 {
-    public class TimerManager
+    public class TimerTool
     {
         /// <summary>
         /// 添加定时任务
         /// </summary>
         /// <param name="dateTime">指定触发时间，若已经过了时间则立即触发</param>
-        public static Timer AddTimerManager(DateTime dateTime, Action action)
+        public static Timer AddTimerEvent(DateTime dateTime, Action action)
         {
             long delay = dateTime.Ticks - DateTime.Now.Ticks;
             if (delay < 0)
