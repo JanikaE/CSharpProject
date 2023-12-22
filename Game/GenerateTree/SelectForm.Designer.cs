@@ -28,27 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            listBox1 = new ListBox();
-            richTextBox1 = new RichTextBox();
+            ListBoxXml = new ListBox();
+            RichTextBoxContent = new RichTextBox();
             ButtonOpen = new Button();
             SuspendLayout();
             // 
-            // listBox1
+            // ListBoxXml
             // 
-            listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 17;
-            listBox1.Location = new Point(12, 12);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(99, 361);
-            listBox1.TabIndex = 0;
+            ListBoxXml.FormattingEnabled = true;
+            ListBoxXml.ItemHeight = 17;
+            ListBoxXml.Location = new Point(12, 12);
+            ListBoxXml.Name = "ListBoxXml";
+            ListBoxXml.Size = new Size(160, 361);
+            ListBoxXml.TabIndex = 0;
+            ListBoxXml.SelectedIndexChanged += ListBoxXml_SelectedIndexChanged;
             // 
-            // richTextBox1
+            // RichTextBoxContent
             // 
-            richTextBox1.Location = new Point(117, 12);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(344, 361);
-            richTextBox1.TabIndex = 1;
-            richTextBox1.Text = "";
+            RichTextBoxContent.Location = new Point(178, 12);
+            RichTextBoxContent.Name = "RichTextBoxContent";
+            RichTextBoxContent.Size = new Size(283, 361);
+            RichTextBoxContent.TabIndex = 1;
+            RichTextBoxContent.Text = "";
             // 
             // ButtonOpen
             // 
@@ -58,6 +59,7 @@
             ButtonOpen.TabIndex = 2;
             ButtonOpen.Text = "Open";
             ButtonOpen.UseVisualStyleBackColor = true;
+            ButtonOpen.Click += ButtonOpen_Click;
             // 
             // SelectForm
             // 
@@ -65,8 +67,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(473, 416);
             Controls.Add(ButtonOpen);
-            Controls.Add(richTextBox1);
-            Controls.Add(listBox1);
+            Controls.Add(RichTextBoxContent);
+            Controls.Add(ListBoxXml);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -77,8 +79,8 @@
 
         #endregion
 
-        private ListBox listBox1;
-        private RichTextBox richTextBox1;
+        private ListBox ListBoxXml;
+        private RichTextBox RichTextBoxContent;
         private Button ButtonOpen;
     }
 }

@@ -8,9 +8,9 @@ namespace GenerateTree
             ReadConfig();
         }
 
-        private readonly Config config = new();
+        public Config config = new();
 
-        private void ReadConfig()
+        public void ReadConfig()
         {
             TextBoxRootRad.Text = config.RootRad.ToString();
             TextBoxRootSize.Text = config.RootSize.ToString();
@@ -129,7 +129,10 @@ namespace GenerateTree
 
         private void ButtonLoad_Click(object sender, EventArgs e)
         {
-
+            SelectForm form = new();
+            form.Show(this);
+            form.Activate();
+            form.BringToFront();
         }
     }
 }
