@@ -44,7 +44,6 @@ namespace Utils.Tool
         /// <returns>所有字段名称</returns>
         public static List<string> GetFields<T>(T t)
         {
-
             List<string> ListStr = new();
             if (t == null)
             {

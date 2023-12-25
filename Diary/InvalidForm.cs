@@ -7,13 +7,13 @@
             InitializeComponent();
 
             ListBoxInvalid.Items.Clear();
-            if (DiaryInvalid.Count == 0)
+            if (MainForm.DiaryInvalid.Count == 0)
             {
                 ListBoxInvalid.Items.Add("No invalid name.");
             }
             else
             {
-                foreach (string name in DiaryInvalid)
+                foreach (string name in MainForm.DiaryInvalid)
                 {
                     ListBoxInvalid.Items.Add(name);
                 }

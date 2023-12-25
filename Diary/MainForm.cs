@@ -1,7 +1,22 @@
+using System.Configuration;
+
 namespace Diary
 {
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// 所有日记（文件名合法）
+        /// </summary>
+        public static readonly List<DiaryDto> DiarysAll = new();
+        /// <summary>
+        /// 所有非法文件名
+        /// </summary>
+        public static readonly List<string> DiaryInvalid = new();
+        /// <summary>
+        /// 文件路径
+        /// </summary>
+        public static readonly string? prePath = ConfigurationManager.AppSettings["DiaryPath"]?.ToString();
+
         public MainForm()
         {
             InitializeComponent();
@@ -13,6 +28,9 @@ namespace Diary
             RefreshList();
         }
 
+        /// <summary>
+        /// 刷新，重新加载所有内容
+        /// </summary>
         private void RefreshList()
         {
             DiarysAll.Clear();
@@ -157,6 +175,9 @@ namespace Diary
             UpdateListBoxFile();
         }
 
+        /// <summary>
+        /// 按照筛选更新列表内容
+        /// </summary>
         private void UpdateListBoxFile()
         {
             ListBoxFile.Items.Clear();

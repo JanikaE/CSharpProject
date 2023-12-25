@@ -56,6 +56,9 @@ namespace GenerateTree
             Draw();
         }
 
+        /// <summary>
+        /// 生成起点
+        /// </summary>
         private Point startPoint = default;
 
         private void Draw()
@@ -66,27 +69,40 @@ namespace GenerateTree
             tree.Draw(PictureBoxTree.CreateGraphics(), startPoint);
         }
 
+        /// <summary>
+        /// 是否在划线状态
+        /// </summary>
         private bool line = false;
+        /// <summary>
+        /// 线起点
+        /// </summary>
         private Point start;
+        /// <summary>
+        /// 线终点
+        /// </summary>
         private Point end;
+        private new Color BackColor => PictureBoxTree.BackColor;
 
         private void PictureBoxTree_MouseDown(object sender, MouseEventArgs e)
         {
             if (line)
             {
+                // 划线过程中，右键取消划线
                 if (e.Button == MouseButtons.Right)
                 {
                     line = false;
+                    PictureBoxTree.CreateGraphics().DrawLine(new(BackColor), start, end);
                 }
             }
             if (!line)
             {
+                // 左键按下，开始划线
                 if (e.Button == MouseButtons.Left)
                 {
                     line = true;
                     if (start != e.Location)
                     {
-                        PictureBoxTree.CreateGraphics().DrawLine(new(Color.White), start, end);
+                        PictureBoxTree.CreateGraphics().DrawLine(new(BackColor), start, end);
                         start = e.Location;
                     }
                 }
@@ -97,6 +113,7 @@ namespace GenerateTree
         {
             if (line)
             {
+                // 结束划线，更新起点和角度
                 if (e.Button == MouseButtons.Left)
                 {
                     line = false;
@@ -115,22 +132,33 @@ namespace GenerateTree
             {
                 if (end != e.Location)
                 {
-                    PictureBoxTree.CreateGraphics().DrawLine(new(Color.White), start, end);
+                    PictureBoxTree.CreateGraphics().DrawLine(new(BackColor), start, end);
                     end = e.Location;
                     PictureBoxTree.CreateGraphics().DrawLine(new(Color.Red), start, end);
                 }
             }
         }
 
+        /// <summary>
+        /// 将当前配置保存至文件中
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonSave_Click(object sender, EventArgs e)
         {
             config.Save();
+            MessageBox.Show($"Save Success");
         }
 
+        /// <summary>
+        /// 从文件中读取配置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonLoad_Click(object sender, EventArgs e)
         {
             SelectForm form = new();
-            form.Show(this);
+            form.ShowDialog(this);
             form.Activate();
             form.BringToFront();
         }
