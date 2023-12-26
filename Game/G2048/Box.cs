@@ -52,7 +52,7 @@ namespace G2048
 
         public void Operate(Operation op)
         {
-            Copy(ref playMatOld, playMat);
+            Copy(playMatOld, playMat);
             int[] line = new int[rage];
             switch (op)
             {
@@ -63,7 +63,7 @@ namespace G2048
                         {
                             line[j] = playMat[j, i];
                         }
-                        ChangeLine(ref line);
+                        ChangeLine(line);
                         for (int j = 0; j < rage; j++)
                         {
                             playMat[j, i] = line[j];
@@ -77,7 +77,7 @@ namespace G2048
                         {
                             line[rage - j - 1] = playMat[j, i];
                         }
-                        ChangeLine(ref line);
+                        ChangeLine(line);
                         for (int j = 0; j < rage; j++)
                         {
                             playMat[j, i] = line[rage - j - 1];
@@ -91,7 +91,7 @@ namespace G2048
                         {
                             line[j] = playMat[i, j];
                         }
-                        ChangeLine(ref line);
+                        ChangeLine(line);
                         for (int j = 0; j < rage; j++)
                         {
                             playMat[i, j] = line[j];
@@ -105,7 +105,7 @@ namespace G2048
                         {
                             line[rage - j - 1] = playMat[i, j];
                         }
-                        ChangeLine(ref line);
+                        ChangeLine(line);
                         for (int j = 0; j < rage; j++)
                         {
                             playMat[i, j] = line[rage - j - 1];
@@ -156,14 +156,14 @@ namespace G2048
             return true;
         }
 
-        private void ChangeLine(ref int[] line)
+        private void ChangeLine(int[] line)
         {
-            Move(ref line);
-            Merge(ref line);
-            Move(ref line);
+            Move(line);
+            Merge(line);
+            Move(line);
         }
 
-        private void Move(ref int[] line)
+        private void Move(int[] line)
         {
             for (int i = 1; i < line.Length; i++)
             {
@@ -176,7 +176,7 @@ namespace G2048
             }
         }
 
-        private void Merge(ref int[] line)
+        private void Merge(int[] line)
         {
             for (int i = 0; i < line.Length - 1; i++)
             {
@@ -189,13 +189,13 @@ namespace G2048
             }
         }
 
-        private void Copy(ref int[,] nums1, int[,] nums2)
+        private void Copy(int[,] target, int[,] source)
         {
             for (int i = 0; i < rage; i++)
             {
                 for (int j = 0; j < rage; j++)
                 {
-                    nums1[i, j] = nums2[i, j];
+                    target[i, j] = source[i, j];
                 }
             }
         }
