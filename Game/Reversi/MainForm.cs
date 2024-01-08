@@ -11,6 +11,16 @@ namespace Reversi
         /// </summary>
         private static readonly Color noneColor = Color.DarkGreen;
 
+        /// <summary>
+        /// 棋盘边长
+        /// </summary>
+        private int BoardSize => ChessBoard.Width;
+
+        /// <summary>
+        /// 棋盘格子边长
+        /// </summary>
+        private int CellSize => BoardSize / 8;
+
         public MainForm()
         {
             InitializeComponent();
@@ -26,10 +36,10 @@ namespace Reversi
             Pen pen = new(Color.Black, 2);
             for (int i = 0; i < 7; i++)
             {
-                Point left = new(0, i * 40 + 40);
-                Point right = new(320, i * 40 + 40);
-                Point top = new(i * 40 + 40, 320);
-                Point bottom = new(i * 40 + 40, 0);
+                Point left = new(0, i * CellSize + CellSize);
+                Point right = new(BoardSize, i * CellSize + CellSize);
+                Point top = new(i * CellSize + CellSize, BoardSize);
+                Point bottom = new(i * CellSize + CellSize, 0);
                 graphics.DrawLine(pen, left, right);
                 graphics.DrawLine(pen, top, bottom);
             }
@@ -78,10 +88,10 @@ namespace Reversi
         private void ChessBoard_MouseMove(object sender, MouseEventArgs e)
         {
             if (box == null || box.state != Reversi.State.Continue) return;
-            int positionX = e.X / 40 * 40;
-            int positionY = e.Y / 40 * 40;
-            int pointX = positionX / 40;
-            int pointY = positionY / 40;
+            int positionX = e.X / CellSize * CellSize;
+            int positionY = e.Y / CellSize * CellSize;
+            int pointX = positionX / CellSize;
+            int pointY = positionY / CellSize;
 
             if (lastPointX == pointX && lastPointY == pointY)
             {
@@ -109,10 +119,10 @@ namespace Reversi
         private void ChessBoard_MouseClick(object sender, MouseEventArgs e)
         {
             if (box == null || box.state != Reversi.State.Continue) return;
-            int positionX = e.X / 40 * 40;
-            int positionY = e.Y / 40 * 40;
-            int pointX = positionX / 40;
-            int pointY = positionY / 40;
+            int positionX = e.X / CellSize * CellSize;
+            int positionY = e.Y / CellSize * CellSize;
+            int pointX = positionX / CellSize;
+            int pointY = positionY / CellSize;
 
             Point2D point = new(pointX, pointY);
             if (box.CanDrop(point, box.turn).Count > 0)
@@ -125,10 +135,10 @@ namespace Reversi
             }
         }
 
-        private static void DrawChess(Graphics graphics, int x, int y, Color color)
+        private void DrawChess(Graphics graphics, int x, int y, Color color)
         {
             Brush brush = new SolidBrush(color);
-            graphics.FillEllipse(brush, x * 40 + 5, y * 40 + 5, 30, 30);
+            graphics.FillEllipse(brush, x * CellSize + 5, y * CellSize + 5, CellSize * 3 / 4, CellSize * 3 / 4);
         }
 
         private static Color GetChessColor(Chess chess)
