@@ -30,6 +30,8 @@
         {
             SudokuBoard = new PictureBox();
             Generate = new Button();
+            ListBoxStep = new ListBox();
+            ButtonSolve = new Button();
             ((System.ComponentModel.ISupportInitialize)SudokuBoard).BeginInit();
             SuspendLayout();
             // 
@@ -51,11 +53,33 @@
             Generate.UseVisualStyleBackColor = true;
             Generate.Click += Generate_Click;
             // 
+            // ListBoxStep
+            // 
+            ListBoxStep.FormattingEnabled = true;
+            ListBoxStep.ItemHeight = 17;
+            ListBoxStep.Location = new Point(399, 12);
+            ListBoxStep.Name = "ListBoxStep";
+            ListBoxStep.Size = new Size(215, 310);
+            ListBoxStep.TabIndex = 2;
+            ListBoxStep.SelectedIndexChanged += ListBoxStep_SelectedIndexChanged;
+            // 
+            // ButtonSolve
+            // 
+            ButtonSolve.Location = new Point(496, 349);
+            ButtonSolve.Name = "ButtonSolve";
+            ButtonSolve.Size = new Size(75, 23);
+            ButtonSolve.TabIndex = 3;
+            ButtonSolve.Text = "Solve";
+            ButtonSolve.UseVisualStyleBackColor = true;
+            ButtonSolve.Click += ButtonSolve_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(626, 387);
+            Controls.Add(ButtonSolve);
+            Controls.Add(ListBoxStep);
             Controls.Add(Generate);
             Controls.Add(SudokuBoard);
             Name = "MainForm";
@@ -68,5 +92,7 @@
 
         private PictureBox SudokuBoard;
         private Button Generate;
+        private ListBox ListBoxStep;
+        private Button ButtonSolve;
     }
 }

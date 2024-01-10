@@ -1,11 +1,12 @@
-﻿using Utils.Extend;
+﻿using System.Collections;
+using Utils.Extend;
 
 namespace Sudoku
 {
     /// <summary>
     /// 自定义大小数独矩阵
     /// </summary>
-    public class Puzzel
+    public class Puzzel : ICloneable
     {
         /// <summary>宫格的高，即横向上宫格的数量</summary>
         public int H { get; }
@@ -47,6 +48,24 @@ namespace Sudoku
             }
             Palaces = GetPalaces();
             Houses = GetHouses();
+        }
+
+        public void GenerateByExample(string s)
+        {
+            char[] chars = s.ToCharArray();
+            if (chars.Length != Length * Length)
+                throw new ArgumentException("长宽不匹配");
+
+            for (int i = 0; i < Length; i++)
+            {
+                for (int j = 0; j < Length; j++)
+                {
+                    int num = chars[i * Length + j] - '0';
+                    if (num < 0 || num > Length)
+                        throw new ArgumentOutOfRangeException($"数值超出范围0-{Length}");
+                    playMat[i, j].num = num;
+                }
+            }
         }
 
         public void Generate()
@@ -125,6 +144,27 @@ namespace Sudoku
                 }
             }
             return true;
+        }
+
+        public bool CheckFull()
+        {
+            foreach (Cell cell in playMat)
+            {
+                if (cell.num == 0)
+                    return false;
+            }
+            return true;
+        }
+
+        public int CountBlank()
+        {
+            int count = 0;
+            foreach (Cell cell in playMat)
+            {
+                if (cell.num == 0)
+                    count++;
+            }
+            return count;
         }
 
         #region utils
@@ -215,21 +255,50 @@ namespace Sudoku
 
         #region solve
 
-        public void StartSolve()
+        public void StartSolve(MainForm? mainform = null)
         {
+            List<Func<string>> Funcs = new()
+            {
+                NakedSingle,
+                HiddenSingle
+            };
             try
             {
-
+                while (true)
+                {
+                    string result = string.Empty;
+                    foreach (Func<string> func in Funcs)
+                    {
+                        result = func();
+                        if (result != string.Empty)
+                        {
+                            UpdatePosibleNums();
+                            mainform?.AddSolveStep(result, (Puzzel)Clone());
+                            continue;
+                        }
+                    }
+                    if (result == string.Empty)
+                    {
+                        if (CheckFull())
+                        {
+                            mainform?.AddSolveStep("Over.", null);
+                        }
+                        else
+                        {
+                            mainform?.AddSolveStep("Stop.", null);
+                        }
+                        break;
+                    }
+                }
             }
             catch (SolveException se)
             {
-                //se.Message
+                mainform?.AddSolveStep(se.Message, null);
             }
-        }
-
-        private void FullHouse()
-        {
-
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "ERROR");
+            }
         }
 
         private string NakedSingle()
@@ -246,11 +315,11 @@ namespace Sudoku
                             int value = cell.posibleNums.First();
                             PlayMat(row, col).num = value;
                             cell.posibleNums.Clear();
-                            return $"NakedSingle ({row}, {col}) value:{value}";
+                            return $"NakedSingle ({row + 1}, {col + 1}) value:{value}";
                         }
                         if (cell.posibleNums.Count == 0)
                         {
-                            throw new SolveException($"NakedSingle ({row}, {col}) Error");
+                            throw new SolveException($"NakedSingle ({row + 1}, {col + 1}) Error");
                         }
                     }
                 }
@@ -270,7 +339,7 @@ namespace Sudoku
                         continue;
                     if (cell.posibleNums.Count == 0)
                     {
-                        throw new SolveException($"NakedSingle ({index / Length}, {index % Length}) Error");
+                        throw new SolveException($"HiddenSingle ({index / Length + 1}, {index % Length + 1}) Error");
                     }
                     else
                     {
@@ -295,7 +364,7 @@ namespace Sudoku
                     {
                         cell.num = value;
                         cell.posibleNums.Clear();
-                        return $"NakedSingle ({cell.row}, {cell.col}) value:{value}";
+                        return $"HiddenSingle ({cell.row + 1}, {cell.col + 1}) value:{value}";
                     }
                 }
             }
@@ -303,5 +372,24 @@ namespace Sudoku
         }
 
         #endregion
+
+        public object Clone()
+        {
+            Puzzel clone = new(H, W);
+            for (int row = 0; row < Length; row++)
+            {
+                for (int col = 0; col < Length; col++)
+                {
+                    clone.playMat[row, col] = new Cell
+                    {
+                        row = row,
+                        col = col,
+                        num = playMat[row, col].num
+                    };
+                }
+            }
+            clone.InitPosibleNums();
+            return clone;
+        }
     }
 }

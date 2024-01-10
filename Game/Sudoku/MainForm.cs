@@ -2,9 +2,17 @@
 {
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// 防止因窗口最小化等原因丢失PictureBox的内容
+        /// </summary>
+        private readonly Bitmap bitmap;
+
+        private readonly Dictionary<string, Puzzel?> steps = new();
+
         public MainForm()
         {
             InitializeComponent();
+            bitmap = new Bitmap(SudokuBoard.Width, SudokuBoard.Height);
         }
 
         #region 属性
@@ -20,7 +28,7 @@
         private int Gap => BoardSize / Length;
         private int SubLength => (int)Math.Ceiling(Math.Sqrt(Length));
         private int SubGap => Gap / SubLength;
-        private Graphics Graphics => SudokuBoard.CreateGraphics();
+        private Graphics Graphics => Graphics.FromImage(bitmap);
         private Font SmallFont => new(DefaultFont.FontFamily, Gap / 5);
         private Font LargeFont => new(DefaultFont.FontFamily, Gap / 2);
 
@@ -28,12 +36,7 @@
 
         private void DrawBoard()
         {
-            if (puzzel == null)
-            {
-                return;
-            }
             Graphics.Clear(Color.White);
-
             for (int i = 0; i <= Length; i++)
             {
                 Point left = new(0, i * Gap);
@@ -43,9 +46,10 @@
                 Graphics.DrawLine(new(Color.Black, i % W == 0 ? 3 : 1), top, bottom);
                 Graphics.DrawLine(new(Color.Black, i % H == 0 ? 3 : 1), left, right);
             }
+            SudokuBoard.Image = bitmap;
         }
 
-        private void DrawNum()
+        private void DrawNum(Puzzel puzzel)
         {
             if (puzzel == null)
             {
@@ -74,15 +78,46 @@
                     }
                 }
             }
+            SudokuBoard.Image = bitmap;
+        }
+
+        private void UpdateNum(Puzzel puzzel)
+        {
+            DrawBoard();
+            DrawNum(puzzel);
+        }
+
+        public void AddSolveStep(string msg, Puzzel? puzzel)
+        {
+            steps.Add(msg, puzzel);
+            ListBoxStep.Items.Add(msg);
+            ListBoxStep.SelectedIndex = ListBoxStep.Items.Count - 1;
         }
 
         private void Generate_Click(object sender, EventArgs e)
         {
             puzzel = new();
-            puzzel.Generate();
+            //puzzel.Generate();
+            puzzel.GenerateByExample(Example.examples[1]);
             puzzel.InitPosibleNums();
             DrawBoard();
-            DrawNum();
+            DrawNum(puzzel);
+        }
+
+        private void ButtonSolve_Click(object sender, EventArgs e)
+        {
+            if (puzzel == null)
+                return;
+            puzzel.StartSolve(this);
+        }
+
+        private void ListBoxStep_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            steps.TryGetValue((string)ListBoxStep.SelectedItem, out Puzzel? puzzel);
+            if (puzzel != null)
+            {
+                UpdateNum(puzzel);
+            }
         }
     }
 }
