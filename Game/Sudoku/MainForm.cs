@@ -34,9 +34,28 @@
 
         #endregion
 
-        private void DrawBoard()
+        private void DrawBoard(Puzzel puzzel)
         {
             Graphics.Clear(Color.White);
+            if (puzzel == null)
+            {
+                return;
+            }
+
+            // 初始格为灰色
+            for (int row = 0; row < Length; row++)
+            {
+                for (int col = 0; col < Length; col++)
+                {
+                    Cell cell = puzzel.PlayMat(row, col);
+                    if (!cell.canChange)
+                    {
+                        Point point = new(col * Gap, row * Gap);
+                        Graphics.FillRectangle(new SolidBrush(Color.LightGray), new Rectangle(point, new Size(Gap, Gap)));
+                    }
+                }
+            }
+            // 划线
             for (int i = 0; i <= Length; i++)
             {
                 Point left = new(0, i * Gap);
@@ -46,16 +65,7 @@
                 Graphics.DrawLine(new(Color.Black, i % W == 0 ? 3 : 1), top, bottom);
                 Graphics.DrawLine(new(Color.Black, i % H == 0 ? 3 : 1), left, right);
             }
-            SudokuBoard.Image = bitmap;
-        }
-
-        private void DrawNum(Puzzel puzzel)
-        {
-            if (puzzel == null)
-            {
-                return;
-            }
-
+            // 数字
             for (int row = 0; row < Length; row++)
             {
                 for (int col = 0; col < Length; col++)
@@ -81,12 +91,6 @@
             SudokuBoard.Image = bitmap;
         }
 
-        private void UpdateNum(Puzzel puzzel)
-        {
-            DrawBoard();
-            DrawNum(puzzel);
-        }
-
         public void AddSolveStep(string msg, Puzzel? puzzel)
         {
             steps.Add(msg, puzzel);
@@ -100,8 +104,7 @@
             //puzzel.Generate();
             puzzel.GenerateByExample(Example.examples[1]);
             puzzel.InitPosibleNums();
-            DrawBoard();
-            DrawNum(puzzel);
+            DrawBoard(puzzel);
         }
 
         private void ButtonSolve_Click(object sender, EventArgs e)
@@ -116,7 +119,7 @@
             steps.TryGetValue((string)ListBoxStep.SelectedItem, out Puzzel? puzzel);
             if (puzzel != null)
             {
-                UpdateNum(puzzel);
+                DrawBoard(puzzel);
             }
         }
     }

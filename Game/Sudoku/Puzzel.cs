@@ -64,6 +64,7 @@ namespace Sudoku
                     if (num < 0 || num > Length)
                         throw new ArgumentOutOfRangeException($"数值超出范围0-{Length}");
                     playMat[i, j].num = num;
+                    playMat[i, j].canChange = num == 0;
                 }
             }
         }
@@ -384,7 +385,8 @@ namespace Sudoku
                     {
                         row = row,
                         col = col,
-                        num = playMat[row, col].num
+                        num = playMat[row, col].num,
+                        canChange = playMat[row, col].canChange,
                     };
                 }
             }
