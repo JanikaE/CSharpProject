@@ -39,11 +39,7 @@ namespace Sudoku
             {
                 for (int col = 0; col < Length; col++)
                 {
-                    playMat[row, col] = new Cell
-                    {
-                        row = row,
-                        col = col
-                    };
+                    playMat[row, col] = new Cell(row, col);
                 }
             }
             Palaces = GetPalaces();
@@ -316,11 +312,11 @@ namespace Sudoku
                             int value = cell.posibleNums.First();
                             PlayMat(row, col).num = value;
                             cell.posibleNums.Clear();
-                            return $"NakedSingle ({row + 1}, {col + 1}) value:{value}";
+                            return $"NakedSingle  {cell.row}{cell.col}  value:{value}";
                         }
                         if (cell.posibleNums.Count == 0)
                         {
-                            throw new SolveException($"NakedSingle ({row + 1}, {col + 1}) Error");
+                            throw new SolveException($"NakedSingle  {cell.row}{cell.col}  Error");
                         }
                     }
                 }
@@ -340,7 +336,7 @@ namespace Sudoku
                         continue;
                     if (cell.posibleNums.Count == 0)
                     {
-                        throw new SolveException($"HiddenSingle ({index / Length + 1}, {index % Length + 1}) Error");
+                        throw new SolveException($"HiddenSingle  {cell.row}{cell.col}  Error");
                     }
                     else
                     {
@@ -365,7 +361,7 @@ namespace Sudoku
                     {
                         cell.num = value;
                         cell.posibleNums.Clear();
-                        return $"HiddenSingle ({cell.row + 1}, {cell.col + 1}) value:{value}";
+                        return $"HiddenSingle  {cell.row}{cell.col}  value:{value}";
                     }
                 }
             }
@@ -381,10 +377,8 @@ namespace Sudoku
             {
                 for (int col = 0; col < Length; col++)
                 {
-                    clone.playMat[row, col] = new Cell
+                    clone.playMat[row, col] = new Cell(row, col)
                     {
-                        row = row,
-                        col = col,
                         num = playMat[row, col].num,
                         canChange = playMat[row, col].canChange,
                     };

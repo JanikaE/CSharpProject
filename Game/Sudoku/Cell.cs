@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sudoku
+﻿namespace Sudoku
 {
     public class Cell
     {
@@ -12,14 +6,16 @@ namespace Sudoku
         public bool canChange;
         public List<int> posibleNums;
 
-        public int row;
-        public int col;
+        public char row;
+        public char col;
 
-        public Cell() 
+        public Cell(int row, int col)
         {
             num = 0;
             canChange = true;
             posibleNums = new List<int>();
+            this.row = (char)('A' + row - 0);
+            this.col = (char)('1' + col - 0);
         }
     }
 }

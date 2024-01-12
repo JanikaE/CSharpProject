@@ -5,14 +5,14 @@
         /// <summary>
         /// 防止因窗口最小化等原因丢失PictureBox的内容
         /// </summary>
-        private readonly Bitmap bitmap;
+        private readonly Bitmap bitmapM;
 
         private readonly Dictionary<string, Puzzel?> steps = new();
 
         public MainForm()
         {
             InitializeComponent();
-            bitmap = new Bitmap(SudokuBoard.Width, SudokuBoard.Height);
+            bitmapM = new Bitmap(SudokuBoard.Width, SudokuBoard.Height);
         }
 
         #region 属性
@@ -28,8 +28,9 @@
         private int Gap => BoardSize / Length;
         private int SubLength => (int)Math.Ceiling(Math.Sqrt(Length));
         private int SubGap => Gap / SubLength;
-        private Graphics Graphics => Graphics.FromImage(bitmap);
+        private Graphics Graphics => Graphics.FromImage(bitmapM);
         private Font SmallFont => new(DefaultFont.FontFamily, Gap / 5);
+        private Font MidFont => new(DefaultFont.FontFamily, Gap / 3);
         private Font LargeFont => new(DefaultFont.FontFamily, Gap / 2);
 
         #endregion
@@ -88,7 +89,24 @@
                     }
                 }
             }
-            SudokuBoard.Image = bitmap;
+            SudokuBoard.Image = bitmapM;
+        }
+
+        private void DrawAxis(int length)
+        {
+            Bitmap bitmapR = new(PictureBoxRow.Width, PictureBoxRow.Height);            
+            Bitmap bitmapC = new(PictureBoxCol.Width, PictureBoxCol.Height);
+            Graphics graphicsR = Graphics.FromImage(bitmapR);
+            Graphics graphicsC = Graphics.FromImage(bitmapC);
+            graphicsR.Clear(Color.White);
+            graphicsC.Clear(Color.White);
+            for (int i = 0; i < length; i++)
+            {
+                graphicsR.DrawString(((char)('A' + i)).ToString(), MidFont, new SolidBrush(Color.Black), new Point(0, i * Gap + Gap / 4));
+                graphicsC.DrawString(((char)('1' + i)).ToString(), MidFont, new SolidBrush(Color.Black), new Point(i * Gap + Gap / 4, 0));
+            }
+            PictureBoxRow.Image = bitmapR;
+            PictureBoxCol.Image = bitmapC;
         }
 
         public void AddSolveStep(string msg, Puzzel? puzzel)
@@ -105,6 +123,7 @@
             puzzel.GenerateByExample(Example.examples[1]);
             puzzel.InitPosibleNums();
             DrawBoard(puzzel);
+            DrawAxis(puzzel.Length);
         }
 
         private void ButtonSolve_Click(object sender, EventArgs e)
