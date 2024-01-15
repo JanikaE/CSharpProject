@@ -1,4 +1,6 @@
-﻿namespace Sudoku
+﻿using Sudoku.Entity;
+
+namespace Sudoku
 {
     public partial class MainForm : Form
     {
@@ -7,7 +9,7 @@
         /// </summary>
         private readonly Bitmap bitmapM;
 
-        private readonly Dictionary<string, Puzzel?> steps = new();
+        private readonly Dictionary<string, PuzzelSnap> steps = new();
 
         public MainForm()
         {
@@ -37,18 +39,19 @@
 
         private void DrawBoard(Puzzel puzzel)
         {
+            DrawBoard(new PuzzelSnap(puzzel));
+        }
+
+        private void DrawBoard(PuzzelSnap puzzel)
+        {
             Graphics.Clear(Color.White);
-            if (puzzel == null)
-            {
-                return;
-            }
 
             // 初始格为灰色
             for (int row = 0; row < Length; row++)
             {
                 for (int col = 0; col < Length; col++)
                 {
-                    Cell cell = puzzel.PlayMat(row, col);
+                    CellSnap cell = puzzel.playMat[row, col];
                     if (!cell.canChange)
                     {
                         Point point = new(col * Gap, row * Gap);
@@ -71,7 +74,7 @@
             {
                 for (int col = 0; col < Length; col++)
                 {
-                    Cell cell = puzzel.PlayMat(row, col);
+                    CellSnap cell = puzzel.playMat[row, col];
                     int num = cell.num;
                     if (num != 0)
                     {
@@ -80,7 +83,7 @@
                     }
                     else
                     {
-                        List<int> posibleNums = cell.posibleNums;
+                        int[] posibleNums = cell.posibleNums;
                         foreach (int posibleNum in posibleNums)
                         {
                             Point point = new Point(col * Gap, row * Gap) + new Size((posibleNum - 1) % SubLength * SubGap, (posibleNum - 1) / SubLength * SubGap);
@@ -109,9 +112,10 @@
             PictureBoxCol.Image = bitmapC;
         }
 
-        public void AddSolveStep(string msg, Puzzel? puzzel)
+        public void AddSolveStep(string msg, Puzzel puzzel)
         {
-            steps.Add(msg, puzzel);
+            PuzzelSnap puzzelSnap = new(puzzel);
+            steps.Add(msg, puzzelSnap);
             ListBoxStep.Items.Add(msg);
             ListBoxStep.SelectedIndex = ListBoxStep.Items.Count - 1;
         }
@@ -124,6 +128,7 @@
             puzzel.InitPosibleNums();
             DrawBoard(puzzel);
             DrawAxis(puzzel.Length);
+            AddSolveStep("Start.", puzzel);
         }
 
         private void ButtonSolve_Click(object sender, EventArgs e)
@@ -135,11 +140,8 @@
 
         private void ListBoxStep_SelectedIndexChanged(object sender, EventArgs e)
         {
-            steps.TryGetValue((string)ListBoxStep.SelectedItem, out Puzzel? puzzel);
-            if (puzzel != null)
-            {
-                DrawBoard(puzzel);
-            }
+            steps.TryGetValue((string)ListBoxStep.SelectedItem, out PuzzelSnap puzzelSnap);
+            DrawBoard(puzzelSnap);
         }
     }
 }

@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using Utils.Extend;
+﻿using Utils.Extend;
 
-namespace Sudoku
+namespace Sudoku.Entity
 {
     /// <summary>
     /// 自定义大小数独矩阵
     /// </summary>
-    public class Puzzel : ICloneable
+    public class Puzzel
     {
         /// <summary>宫格的高，即横向上宫格的数量</summary>
         public int H { get; }
@@ -14,7 +13,7 @@ namespace Sudoku
         public int W { get; }
         public int Length => H * W;
 
-        public Cell[,] playMat;
+        private readonly Cell[,] playMat;
 
         public Cell PlayMat(int i, int j) => playMat[i, j];
         public Cell PlayMat(int i) => playMat[i / Length, i % Length];
@@ -28,7 +27,7 @@ namespace Sudoku
         /// <param name="H">子矩阵的高，以及横向上有多少个子矩阵</param>
         /// <param name="W">子矩阵的宽，以及纵向上有多少个子矩阵</param>
         /// <exception cref="ArgumentException">参数不能为负数或0</exception>
-        public Puzzel(int H = 3, int W = 3) 
+        public Puzzel(int H = 3, int W = 3)
         {
             if (H <= 0 || W <= 0)
                 throw new ArgumentException("参数不能为负数或0");
@@ -270,7 +269,7 @@ namespace Sudoku
                         if (result != string.Empty)
                         {
                             UpdatePosibleNums();
-                            mainform?.AddSolveStep(result, (Puzzel)Clone());
+                            mainform?.AddSolveStep(result, this);
                             continue;
                         }
                     }
@@ -278,11 +277,11 @@ namespace Sudoku
                     {
                         if (CheckFull())
                         {
-                            mainform?.AddSolveStep("Over.", null);
+                            mainform?.AddSolveStep("Over.", this);
                         }
                         else
                         {
-                            mainform?.AddSolveStep("Stop.", null);
+                            mainform?.AddSolveStep("Stop.", this);
                         }
                         break;
                     }
@@ -290,7 +289,7 @@ namespace Sudoku
             }
             catch (SolveException se)
             {
-                mainform?.AddSolveStep(se.Message, null);
+                mainform?.AddSolveStep(se.Message, this);
             }
             catch (Exception e)
             {
@@ -369,23 +368,5 @@ namespace Sudoku
         }
 
         #endregion
-
-        public object Clone()
-        {
-            Puzzel clone = new(H, W);
-            for (int row = 0; row < Length; row++)
-            {
-                for (int col = 0; col < Length; col++)
-                {
-                    clone.playMat[row, col] = new Cell(row, col)
-                    {
-                        num = playMat[row, col].num,
-                        canChange = playMat[row, col].canChange,
-                    };
-                }
-            }
-            clone.InitPosibleNums();
-            return clone;
-        }
     }
 }
