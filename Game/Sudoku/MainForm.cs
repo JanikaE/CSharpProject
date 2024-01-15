@@ -30,10 +30,6 @@ namespace Sudoku
         private int Gap => BoardSize / Length;
         private int SubLength => (int)Math.Ceiling(Math.Sqrt(Length));
         private int SubGap => Gap / SubLength;
-        private Graphics Graphics => Graphics.FromImage(bitmapM);
-        private Font SmallFont => new(DefaultFont.FontFamily, Gap / 5);
-        private Font MidFont => new(DefaultFont.FontFamily, Gap / 3);
-        private Font LargeFont => new(DefaultFont.FontFamily, Gap / 2);
 
         #endregion
 
@@ -44,7 +40,10 @@ namespace Sudoku
 
         private void DrawBoard(PuzzelSnap puzzel)
         {
-            Graphics.Clear(Color.White);
+            using Graphics graphics = Graphics.FromImage(bitmapM);
+            using Font smallFont = new(DefaultFont.FontFamily, Gap / 5);
+            using Font largeFont = new(DefaultFont.FontFamily, Gap / 2);
+            graphics.Clear(Color.White);
 
             // 初始格为灰色
             for (int row = 0; row < Length; row++)
@@ -55,7 +54,7 @@ namespace Sudoku
                     if (!cell.canChange)
                     {
                         Point point = new(col * Gap, row * Gap);
-                        Graphics.FillRectangle(new SolidBrush(Color.LightGray), new Rectangle(point, new Size(Gap, Gap)));
+                        graphics.FillRectangle(new SolidBrush(Color.LightGray), new Rectangle(point, new Size(Gap, Gap)));
                     }
                 }
             }
@@ -66,8 +65,8 @@ namespace Sudoku
                 Point right = new(BoardSize, i * Gap);
                 Point top = new(i * Gap, BoardSize);
                 Point bottom = new(i * Gap, 0);
-                Graphics.DrawLine(new(Color.Black, i % W == 0 ? 3 : 1), top, bottom);
-                Graphics.DrawLine(new(Color.Black, i % H == 0 ? 3 : 1), left, right);
+                graphics.DrawLine(new(Color.Black, i % W == 0 ? 3 : 1), top, bottom);
+                graphics.DrawLine(new(Color.Black, i % H == 0 ? 3 : 1), left, right);
             }
             // 数字
             for (int row = 0; row < Length; row++)
@@ -79,7 +78,7 @@ namespace Sudoku
                     if (num != 0)
                     {
                         Point point = new(col * Gap, row * Gap);
-                        Graphics.DrawString(num.ToString(), LargeFont, new SolidBrush(Color.Black), point);
+                        graphics.DrawString(num.ToString(), largeFont, new SolidBrush(Color.Black), point);
                     }
                     else
                     {
@@ -87,7 +86,7 @@ namespace Sudoku
                         foreach (int posibleNum in posibleNums)
                         {
                             Point point = new Point(col * Gap, row * Gap) + new Size((posibleNum - 1) % SubLength * SubGap, (posibleNum - 1) / SubLength * SubGap);
-                            Graphics.DrawString(posibleNum.ToString(), SmallFont, new SolidBrush(Color.Black), point);
+                            graphics.DrawString(posibleNum.ToString(), smallFont, new SolidBrush(Color.Black), point);
                         }
                     }
                 }
@@ -99,14 +98,15 @@ namespace Sudoku
         {
             Bitmap bitmapR = new(PictureBoxRow.Width, PictureBoxRow.Height);            
             Bitmap bitmapC = new(PictureBoxCol.Width, PictureBoxCol.Height);
-            Graphics graphicsR = Graphics.FromImage(bitmapR);
-            Graphics graphicsC = Graphics.FromImage(bitmapC);
+            using Graphics graphicsR = Graphics.FromImage(bitmapR);
+            using Graphics graphicsC = Graphics.FromImage(bitmapC);
+            using Font midFont = new(DefaultFont.FontFamily, Gap / 3);
             graphicsR.Clear(Color.White);
             graphicsC.Clear(Color.White);
             for (int i = 0; i < length; i++)
             {
-                graphicsR.DrawString(((char)('A' + i)).ToString(), MidFont, new SolidBrush(Color.Black), new Point(0, i * Gap + Gap / 4));
-                graphicsC.DrawString(((char)('1' + i)).ToString(), MidFont, new SolidBrush(Color.Black), new Point(i * Gap + Gap / 4, 0));
+                graphicsR.DrawString(((char)('A' + i)).ToString(), midFont, new SolidBrush(Color.Black), new Point(0, i * Gap + Gap / 4));
+                graphicsC.DrawString(((char)('1' + i)).ToString(), midFont, new SolidBrush(Color.Black), new Point(i * Gap + Gap / 4, 0));
             }
             PictureBoxRow.Image = bitmapR;
             PictureBoxCol.Image = bitmapC;
