@@ -1,4 +1,5 @@
-﻿using Sudoku.Entity;
+﻿using Sudoku.Game;
+using Sudoku.Snap;
 
 namespace Sudoku
 {
@@ -96,7 +97,7 @@ namespace Sudoku
 
         private void DrawAxis(int length)
         {
-            Bitmap bitmapR = new(PictureBoxRow.Width, PictureBoxRow.Height);            
+            Bitmap bitmapR = new(PictureBoxRow.Width, PictureBoxRow.Height);
             Bitmap bitmapC = new(PictureBoxCol.Width, PictureBoxCol.Height);
             using Graphics graphicsR = Graphics.FromImage(bitmapR);
             using Graphics graphicsC = Graphics.FromImage(bitmapC);
@@ -124,7 +125,7 @@ namespace Sudoku
         {
             puzzel = new();
             //puzzel.Generate();
-            puzzel.GenerateByExample(Example.examples[1]);
+            puzzel.GenerateByExample(Example.examples[0]);
             puzzel.InitPosibleNums();
             DrawBoard(puzzel);
             DrawAxis(puzzel.Length);

@@ -1,4 +1,4 @@
-﻿namespace Sudoku.Entity
+﻿namespace Sudoku.Game
 {
     public class Cell
     {
@@ -8,6 +8,8 @@
 
         public char row;
         public char col;
+
+        public string Name => row.ToString() + col.ToString();
 
         public Cell(int row, int col)
         {

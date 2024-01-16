@@ -1,4 +1,6 @@
-﻿namespace Sudoku.Entity
+﻿using Sudoku.Game;
+
+namespace Sudoku.Snap
 {
     public struct PuzzelSnap
     {

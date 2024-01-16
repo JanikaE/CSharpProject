@@ -89,5 +89,26 @@ namespace Utils.Extend
             }
             return s;
         }
+    
+        public static List<T> Clone<T>(this List<T> list) 
+        { 
+            List<T> newList = new(list);
+            return newList; 
+        }
+
+        /// <summary>
+        /// List中是否含有另一个List中的所有元素
+        /// </summary>
+        /// <param name="subList">另一个List</param>
+        /// <returns></returns>
+        public static bool Contains<T>(this List<T> list, List<T> subList)
+        {
+            foreach (T item in subList)
+            {
+                if (!list.Contains(item))
+                    return false;
+            }
+            return true;
+        }
     }
 }

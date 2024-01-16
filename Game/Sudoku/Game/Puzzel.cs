@@ -1,11 +1,11 @@
 ﻿using Utils.Extend;
 
-namespace Sudoku.Entity
+namespace Sudoku.Game
 {
     /// <summary>
     /// 自定义大小数独矩阵
     /// </summary>
-    public class Puzzel
+    public partial class Puzzel
     {
         /// <summary>宫格的高，即横向上宫格的数量</summary>
         public int H { get; }
@@ -15,11 +15,12 @@ namespace Sudoku.Entity
 
         private readonly Cell[,] playMat;
 
-        public Cell PlayMat(int i, int j) => playMat[i, j];
-        public Cell PlayMat(int i) => playMat[i / Length, i % Length];
+        public Cell PlayMat(int row, int col) => playMat[row, col];
+        public Cell PlayMat(int index) => playMat[index / Length, index % Length];
 
-        private List<List<int>> Houses { get; }
-        private List<List<int>> Palaces { get; }
+        public List<int> Nums { get; }
+        private Dictionary<string, List<int>> Houses { get; set; }
+        private Dictionary<string, List<int>> Palaces { get; set; }
 
         /// <summary>
         /// 生成一个空白数独矩阵
@@ -40,6 +41,12 @@ namespace Sudoku.Entity
                 {
                     playMat[row, col] = new Cell(row, col);
                 }
+            }
+
+            Nums = new List<int>();
+            for (int i = 1; i <= Length; i++)
+            {
+                Nums.Add(i);
             }
             Palaces = GetPalaces();
             Houses = GetHouses();
@@ -76,11 +83,7 @@ namespace Sudoku.Entity
         {
             foreach (Cell cell in playMat)
             {
-                cell.posibleNums.Clear();
-                for (int i = 1; i <= Length; i++)
-                {
-                    cell.posibleNums.Add(i);
-                }
+                cell.posibleNums = Nums.Clone();
             }
             UpdatePosibleNums();
         }
@@ -163,8 +166,6 @@ namespace Sudoku.Entity
             return count;
         }
 
-        #region utils
-
         /// <summary>
         /// 获取小格其所在的宫格对应的数组
         /// </summary>
@@ -196,7 +197,7 @@ namespace Sudoku.Entity
                 result.Add(i * Length + thisCol);
                 result.Add(thisRol * Length + i);
             }
-            foreach (List<int> palace in Palaces)
+            foreach (List<int> palace in Palaces.Values)
             {
                 if (palace.Contains(index))
                 {
@@ -208,9 +209,9 @@ namespace Sudoku.Entity
             return result;
         }
 
-        private List<List<int>> GetHouses()
+        private Dictionary<string, List<int>> GetHouses()
         {
-            List<List<int>> results = new();
+            Dictionary<string, List<int>> results = new();
             for (int i = 0; i < Length; i++)
             {
                 List<int> resultRow = new();
@@ -220,16 +221,18 @@ namespace Sudoku.Entity
                     resultRow.Add(i * Length + j);
                     resultCol.Add(j * Length + i);
                 }
-                results.Add(resultRow);
-                results.Add(resultCol);
+                char row = (char)('A' + i - 0);
+                char col = (char)('1' + i - 0);
+                results.Add("Row" + row, resultRow);
+                results.Add("Col" + col, resultCol);
             }
             results.AddRange(Palaces);
             return results;
         }
 
-        private List<List<int>> GetPalaces()
+        private Dictionary<string, List<int>> GetPalaces()
         {
-            List<List<int>> results = new();
+            Dictionary<string, List<int>> results = new();
             for (int num = 0; num < Length; num++)
             {
                 List<int> result = new();
@@ -242,131 +245,9 @@ namespace Sudoku.Entity
                         result.Add(row * Length + col);
                     }
                 }
-                results.Add(result);
+                results.Add("Palaces" + PlayMat(startRow, startCol).Name, result);
             }
             return results;
         }
-
-        #endregion
-
-        #region solve
-
-        public void StartSolve(MainForm? mainform = null)
-        {
-            List<Func<string>> Funcs = new()
-            {
-                NakedSingle,
-                HiddenSingle
-            };
-            try
-            {
-                while (true)
-                {
-                    string result = string.Empty;
-                    foreach (Func<string> func in Funcs)
-                    {
-                        result = func();
-                        if (result != string.Empty)
-                        {
-                            UpdatePosibleNums();
-                            mainform?.AddSolveStep(result, this);
-                            continue;
-                        }
-                    }
-                    if (result == string.Empty)
-                    {
-                        if (CheckFull())
-                        {
-                            mainform?.AddSolveStep("Over.", this);
-                        }
-                        else
-                        {
-                            mainform?.AddSolveStep("Stop.", this);
-                        }
-                        break;
-                    }
-                }
-            }
-            catch (SolveException se)
-            {
-                mainform?.AddSolveStep(se.Message, this);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "ERROR");
-            }
-        }
-
-        private string NakedSingle()
-        {
-            for (int row = 0; row < Length; row++)
-            {
-                for (int col = 0; col < Length; col++)
-                {
-                    Cell cell = PlayMat(row, col);
-                    if (cell.num == 0)
-                    {
-                        if (cell.posibleNums.Count == 1)
-                        {
-                            int value = cell.posibleNums.First();
-                            PlayMat(row, col).num = value;
-                            cell.posibleNums.Clear();
-                            return $"NakedSingle  {cell.row}{cell.col}  value:{value}";
-                        }
-                        if (cell.posibleNums.Count == 0)
-                        {
-                            throw new SolveException($"NakedSingle  {cell.row}{cell.col}  Error");
-                        }
-                    }
-                }
-            }
-            return string.Empty;
-        }
-
-        private string HiddenSingle()
-        {
-            foreach (List<int> house in Houses)
-            {
-                Dictionary<int, Cell?> valueInCell = new();
-                foreach (int index in house)
-                {
-                    Cell cell = PlayMat(index);
-                    if (cell.num != 0)
-                        continue;
-                    if (cell.posibleNums.Count == 0)
-                    {
-                        throw new SolveException($"HiddenSingle  {cell.row}{cell.col}  Error");
-                    }
-                    else
-                    {
-                        foreach (int value in cell.posibleNums)
-                        {
-                            if (!valueInCell.ContainsKey(value))
-                            {
-                                valueInCell.Add(value, cell);
-                            }
-                            // 一个值可填入多个格子时
-                            else
-                            {
-                                valueInCell[value] = null;
-                            }
-                        }
-                    }
-                }
-                foreach (int value in valueInCell.Keys)
-                {
-                    Cell? cell = valueInCell[value];
-                    if (cell != null)
-                    {
-                        cell.num = value;
-                        cell.posibleNums.Clear();
-                        return $"HiddenSingle  {cell.row}{cell.col}  value:{value}";
-                    }
-                }
-            }
-            return string.Empty;
-        }
-
-        #endregion
     }
 }

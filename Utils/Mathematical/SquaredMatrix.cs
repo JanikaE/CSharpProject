@@ -278,7 +278,7 @@ namespace Utils.Mathematical
         /// <summary>
         /// 递归计算行列式
         /// </summary>
-        private float CalculateDeterminant(float[,] matrix)
+        private static float CalculateDeterminant(float[,] matrix)
         {
             int n = matrix.GetLength(0);
             float determinant = 0;
