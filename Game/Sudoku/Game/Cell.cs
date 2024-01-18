@@ -12,10 +12,8 @@ namespace Sudoku.Game
         public int col;
 
         public Point2D Position => new(col, row);
-
         public char Row => (char)('A' + row - 0);
         public char Col => (char)('1' + col - 0);
-
         public string Name => Row.ToString() + Col.ToString();
 
         public Cell(int row, int col)

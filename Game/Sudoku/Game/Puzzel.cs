@@ -120,6 +120,8 @@ namespace Sudoku.Game
             }
         }
 
+        #region Check
+
         public bool[,] CheckCorrect()
         {
             bool[,] result = new bool[Length, Length];
@@ -133,25 +135,26 @@ namespace Sudoku.Game
             return result;
         }
 
-        public bool CheckOne(int x, int y)
+        public bool CheckOne(int col, int row)
         {
             // 检查在行列中是否有重复
             for (int i = 0; i < Length; i++)
             {
-                if (playMat[y, x] == playMat[y, i] && x != i)
+                if (PlayMat(row, col).num == PlayMat(row, i).num && col != i)
                 {
                     return false;
                 }
-                if (playMat[y, x] == playMat[i, x] && y != i)
+                if (PlayMat(row, col).num == PlayMat(i, col).num && row != i)
                 {
                     return false;
                 }
             }
-            // 检查在子矩阵中是否有重复
-            int[] subMat = GetPalace(x, y, out int index);
-            for (int i = 0; i < Length; i++)
+            // 检查在宫格中是否有重复
+            int index = row * Length + col;
+            List<int> palace = GetPalace(index);
+            foreach (int another in palace)
             {
-                if (subMat[index] == subMat[i] && index != i)
+                if (PlayMat(index) == PlayMat(another) && index != another)
                 {
                     return false;
                 }
@@ -180,25 +183,20 @@ namespace Sudoku.Game
             return count;
         }
 
-        /// <summary>
-        /// 获取小格其所在的宫格对应的数组
-        /// </summary>
-        /// <param name="index">此小格在宫格对应的数组内的下标</param>
-        private int[] GetPalace(int x, int y, out int index)
+        #endregion
+
+        #region Utils
+
+        private List<int> GetPalace(int index)
         {
-            int[] subMat = new int[Length];
-            int k = 0;
-            int startX = x / W * W;
-            int startY = y / H * H;
-            for (int i = startY; i < startY + H; i++)
+            foreach (List<int> palace in Palaces.Values)
             {
-                for (int j = startX; j < startX + W; j++)
+                if (palace.Contains(index))
                 {
-                    subMat[k++] = playMat[i, j].num;
+                    return palace;
                 }
             }
-            index = (y - startY) * H + x - startX;
-            return subMat;
+            throw new SolveException($"Palace Error, Index:{index}");
         }
 
         /// <summary>
@@ -279,5 +277,7 @@ namespace Sudoku.Game
             }
             return results;
         }
+
+        #endregion
     }
 }
