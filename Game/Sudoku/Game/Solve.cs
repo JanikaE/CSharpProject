@@ -10,7 +10,8 @@ namespace Sudoku.Game
             {
                 NakedSingle,
                 HiddenSingle,
-                HiddenTuple
+                HiddenTuple,
+                XYWing
             };
             try
             {
@@ -87,10 +88,8 @@ namespace Sudoku.Game
                 {
                     Cell cell = PlayMat(index);
                     if (cell.num != 0)
-                        continue;
-                    if (cell.posibleNums.Count == 0)
                     {
-                        throw new SolveException($"HiddenSingle  {cell.Name}  Error");
+                        continue;
                     }
                     else
                     {
@@ -121,14 +120,14 @@ namespace Sudoku.Game
             }
             return string.Empty;
         }
-    
+
         private string HiddenTuple()
         {
             foreach (var pair in Houses)
             {
                 List<int> house = pair.Value;
                 List<int> blankCell = new();
-                foreach(int index in house)
+                foreach (int index in house)
                 {
                     if (PlayMat(index).num == 0)
                     {
@@ -139,7 +138,7 @@ namespace Sudoku.Game
                 foreach (int index in blankCell)
                 {
                     List<int> tupleNum = PlayMat(index).posibleNums;
-                    List<int> tupleIndex = new(){ index };
+                    List<int> tupleIndex = new() { index };
                     bool success = false;
                     foreach (int another in blankCell)
                     {
@@ -166,17 +165,109 @@ namespace Sudoku.Game
                             {
                                 continue;
                             }
-                            removeNum += PlayMat(remove).posibleNums.RemoveAll(n => tupleNum.Contains(n));                            
+                            removeNum += PlayMat(remove).posibleNums.RemoveAll(n => tupleNum.Contains(n));
                         }
                         if (removeNum > 0)
                         {
                             string tupleLocation = string.Empty;
                             foreach (int i in tupleIndex)
                             {
-                                tupleLocation += $"{PlayMat(i).Name}; ";
+                                tupleLocation += $"{PlayMat(i).Name},";
                             }
-                            return $"Hidden Tuple  {pair.Key}  {tupleLocation}  {tupleNum.ToStringByItem()}";
-                        }                        
+                            return $"Hidden Tuple  {pair.Key}  {tupleLocation}  {tupleNum.ToStringByItem(",")}";
+                        }
+                    }
+                }
+            }
+            return string.Empty;
+        }
+
+        private string XYWing()
+        {
+            foreach (Cell cell in playMat)
+            {
+                // cell: xy
+                if (cell.num != 0 || cell.posibleNums.Count != 2)
+                {
+                    continue;
+                }
+                int a = cell.posibleNums[0];
+                int b = cell.posibleNums[1];
+                foreach (int index1 in GetRelatedIndex(cell))
+                {
+                    // cell1: xz
+                    Cell cell1 = PlayMat(index1);
+                    if (cell1.num != 0 || cell1.posibleNums.Count != 2)
+                    {
+                        continue;
+                    }
+                    int c = cell1.posibleNums[0];
+                    int d = cell1.posibleNums[1];
+                    int x, y, z;
+                    if (a == c && b != d)
+                    {
+                        x = a;
+                        y = b;
+                        z = d;
+                    }
+                    else if (a == d && b != c)
+                    {
+                        x = a;
+                        y = b;
+                        z = c;
+                    }
+                    else if (b == c && a != d)
+                    {
+                        x = b;
+                        y = a;
+                        z = d;
+                    }
+                    else if (b == d && a != c)
+                    {
+                        x = b;
+                        y = a;
+                        z = c;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    foreach (int index2 in GetRelatedIndex(cell))
+                    {
+                        // cell2: yz
+                        Cell cell2 = PlayMat(index2);
+                        if (cell2.num != 0 || cell2.posibleNums.Count != 2)
+                        {
+                            continue;
+                        }
+                        if (cell2.posibleNums.Contains(y) && cell2.posibleNums.Contains(z))
+                        {
+                            List<int> related1 = GetRelatedIndex(cell1);
+                            List<int> related2 = GetRelatedIndex(cell2);
+                            List<Cell> update = new();
+                            foreach (int index3 in related1)
+                            {
+                                if (related2.Contains(index3))
+                                {
+                                    // cell3: not z
+                                    Cell cell3 = PlayMat(index3);
+                                    if (cell3.Name == cell.Name || cell3.num != 0)
+                                    {
+                                        continue;
+                                    }
+                                    if (cell3.posibleNums.Contains(z))
+                                    {
+                                        cell3.posibleNums.Remove(z);
+                                        update.Add(cell3);
+                                    }
+                                }
+                            }
+                            if (update.Count > 0)
+                            {
+                                return $"XY-Wing  {cell.Name},{cell1.Name},{cell2.Name}  x={x},y={y},z={z}  {update.ToStringByItem(",")}";
+                            }
+                        }
                     }
                 }
             }

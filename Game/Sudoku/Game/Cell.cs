@@ -1,4 +1,6 @@
-﻿namespace Sudoku.Game
+﻿using Utils.Mathematical;
+
+namespace Sudoku.Game
 {
     public class Cell
     {
@@ -6,18 +8,28 @@
         public bool canChange;
         public List<int> posibleNums;
 
-        public char row;
-        public char col;
+        public int row;
+        public int col;
 
-        public string Name => row.ToString() + col.ToString();
+        public Point2D Position => new(col, row);
+
+        public char Row => (char)('A' + row - 0);
+        public char Col => (char)('1' + col - 0);
+
+        public string Name => Row.ToString() + Col.ToString();
 
         public Cell(int row, int col)
         {
             num = 0;
             canChange = true;
             posibleNums = new List<int>();
-            this.row = (char)('A' + row - 0);
-            this.col = (char)('1' + col - 0);
+            this.row = row;
+            this.col = col;
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

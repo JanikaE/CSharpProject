@@ -71,20 +71,21 @@ namespace Utils.Extend
         }
 
         /// <summary>
-        /// 根据数据内容转变为字符串，数据之间用分号间隔
+        /// 根据数据内容转变为字符串
         /// </summary>
-        public static string ToStringByItem<T>(this List<T> list)
+        /// <param name="separator">数据之间的间隔符，默认为;</param>
+        public static string ToStringByItem<T>(this List<T> list, string separator = ";")
         {
             string s = "";
             foreach (T item in list)
             {
                 if (item == null)
                 {
-                    s += "null; ";
+                    s += "null" + separator;
                 }
                 else
                 {
-                    s += item.ToString() + "; ";
+                    s += item.ToString() + separator;
                 }
             }
             return s;

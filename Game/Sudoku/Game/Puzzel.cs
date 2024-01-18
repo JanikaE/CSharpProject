@@ -83,7 +83,14 @@ namespace Sudoku.Game
         {
             foreach (Cell cell in playMat)
             {
-                cell.posibleNums = Nums.Clone();
+                if (cell.num != 0)
+                {
+                    cell.posibleNums.Clear();
+                }                    
+                else
+                {
+                    cell.posibleNums = Nums.Clone();
+                }                
             }
             UpdatePosibleNums();
         }
@@ -94,14 +101,21 @@ namespace Sudoku.Game
             {
                 for (int col = 0; col < Length; col++)
                 {
-                    int index = row * Length + col;
-                    List<int> relatedIndex = GetRelatedIndex(index);
-                    foreach (int index2 in relatedIndex)
+                    Cell cell = PlayMat(row, col);
+                    if (cell.num != 0)
                     {
-                        int x = index2 % Length;
-                        int y = index2 / Length;
-                        PlayMat(row, col).posibleNums.Remove(PlayMat(y, x).num);
+                        cell.posibleNums.Clear();
                     }
+                    else
+                    {
+                        List<int> relatedIndex = GetRelatedIndex(cell);
+                        foreach (int index2 in relatedIndex)
+                        {
+                            int x = index2 % Length;
+                            int y = index2 / Length;
+                            cell.posibleNums.Remove(PlayMat(y, x).num);
+                        }
+                    }                    
                 }
             }
         }
@@ -187,6 +201,11 @@ namespace Sudoku.Game
             return subMat;
         }
 
+        /// <summary>
+        /// 获取与某小格关联的所有小格（不包含自身）
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         private List<int> GetRelatedIndex(int index)
         {
             int thisCol = index % Length;
@@ -206,7 +225,18 @@ namespace Sudoku.Game
                 }
             }
             result.SortAndDeduplicate();
+            result.Remove(index);
             return result;
+        }
+        
+        /// <summary>
+        /// 获取与某小格关联的所有小格（不包含自身）
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        private List<int> GetRelatedIndex(Cell cell)
+        {
+            return GetRelatedIndex(cell.row * Length + cell.col);
         }
 
         private Dictionary<string, List<int>> GetHouses()
@@ -245,7 +275,7 @@ namespace Sudoku.Game
                         result.Add(row * Length + col);
                     }
                 }
-                results.Add("Palaces" + PlayMat(startRow, startCol).Name, result);
+                results.Add("Palace" + PlayMat(startRow, startCol).Name, result);
             }
             return results;
         }
