@@ -9,9 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Utils">
-      <HintPath>..\..\Utils\bin\Debug\net6.0\Utils.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\Utils\Utils.csproj" />
   </ItemGroup>
 
 </Project>

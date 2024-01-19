@@ -243,24 +243,16 @@ namespace Sudoku.Game
                         }
                         if (cell2.posibleNums.Contains(y) && cell2.posibleNums.Contains(z))
                         {
-                            List<int> related1 = GetRelatedIndex(cell1);
-                            List<int> related2 = GetRelatedIndex(cell2);
+                            List<int> related = GetRelatedIndex(cell1, cell2);
                             List<Cell> update = new();
-                            foreach (int index3 in related1)
+                            foreach (int index in related)
                             {
-                                if (related2.Contains(index3))
+                                // cell3: not z
+                                Cell cell3 = PlayMat(index);
+                                if (cell3.posibleNums.Contains(z))
                                 {
-                                    // cell3: not z
-                                    Cell cell3 = PlayMat(index3);
-                                    if (cell3.Name == cell.Name || cell3.num != 0)
-                                    {
-                                        continue;
-                                    }
-                                    if (cell3.posibleNums.Contains(z))
-                                    {
-                                        cell3.posibleNums.Remove(z);
-                                        update.Add(cell3);
-                                    }
+                                    cell3.posibleNums.Remove(z);
+                                    update.Add(cell3);
                                 }
                             }
                             if (update.Count > 0)
