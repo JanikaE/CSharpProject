@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace G2048
 {
@@ -6,7 +8,6 @@ namespace G2048
     {
         public int rage;
         public int[,] playMat;
-        public int[,] playMatOld;
 
         public State state;
 
@@ -16,7 +17,6 @@ namespace G2048
         {
             this.rage = rage;
             playMat = new int[rage, rage];
-            playMatOld = new int[rage, rage];
         }
 
         public void Init()
@@ -26,7 +26,6 @@ namespace G2048
                 for (int j = 0; j < rage; j++)
                 {
                     playMat[i, j] = 0;
-                    playMatOld[i, j] = 0;
                 }
             }
             Generate();
@@ -52,70 +51,12 @@ namespace G2048
 
         public void Operate(Operation op)
         {
-            Copy(playMatOld, playMat);
-            int[] line = new int[rage];
-            switch (op)
-            {
-                case Operation.Up:
-                    for (int i = 0; i < rage; i++)
-                    {
-                        for (int j = 0; j < rage; j++)
-                        {
-                            line[j] = playMat[j, i];
-                        }
-                        ChangeLine(line);
-                        for (int j = 0; j < rage; j++)
-                        {
-                            playMat[j, i] = line[j];
-                        }
-                    }
-                    break;
-                case Operation.Down:
-                    for (int i = 0; i < rage; i++)
-                    {
-                        for (int j = 0; j < rage; j++)
-                        {
-                            line[rage - j - 1] = playMat[j, i];
-                        }
-                        ChangeLine(line);
-                        for (int j = 0; j < rage; j++)
-                        {
-                            playMat[j, i] = line[rage - j - 1];
-                        }
-                    }
-                    break;
-                case Operation.Left:
-                    for (int i = 0; i < rage; i++)
-                    {
-                        for (int j = 0; j < rage; j++)
-                        {
-                            line[j] = playMat[i, j];
-                        }
-                        ChangeLine(line);
-                        for (int j = 0; j < rage; j++)
-                        {
-                            playMat[i, j] = line[j];
-                        }
-                    }
-                    break;
-                case Operation.Right:
-                    for (int i = 0; i < rage; i++)
-                    {
-                        for (int j = 0; j < rage; j++)
-                        {
-                            line[rage - j - 1] = playMat[i, j];
-                        }
-                        ChangeLine(line);
-                        for (int j = 0; j < rage; j++)
-                        {
-                            playMat[i, j] = line[rage - j - 1];
-                        }
-                    }
-                    break;
-            }
+            int[,] playMatNew = Operate(playMat, op, out int score);
             // 如果操作没有使数字发生变化，视为无效操作
-            if (!Compare(playMatOld, playMat))
+            if (!Compare(playMatNew, playMat))
             {
+                playMat = (int[,])playMatNew.Clone();
+                this.score += score;
                 // 在操作有效且游戏继续的情况下生成新的数字
                 Generate();
             }
@@ -156,11 +97,81 @@ namespace G2048
             return true;
         }
 
-        private void ChangeLine(int[] line)
+        #region Operate
+
+        private int[,] Operate(int[,] playMat, Operation op, out int score)
+        {
+            int[,] result = (int[,])playMat.Clone();
+            int[] line = new int[rage];
+            score = 0;
+            switch (op)
+            {
+                case Operation.Up:
+                    for (int i = 0; i < rage; i++)
+                    {
+                        for (int j = 0; j < rage; j++)
+                        {
+                            line[j] = result[j, i];
+                        }
+                        score += ChangeLine(line);
+                        for (int j = 0; j < rage; j++)
+                        {
+                            result[j, i] = line[j];
+                        }
+                    }
+                    break;
+                case Operation.Down:
+                    for (int i = 0; i < rage; i++)
+                    {
+                        for (int j = 0; j < rage; j++)
+                        {
+                            line[rage - j - 1] = result[j, i];
+                        }
+                        score += ChangeLine(line);
+                        for (int j = 0; j < rage; j++)
+                        {
+                            result[j, i] = line[rage - j - 1];
+                        }
+                    }
+                    break;
+                case Operation.Left:
+                    for (int i = 0; i < rage; i++)
+                    {
+                        for (int j = 0; j < rage; j++)
+                        {
+                            line[j] = result[i, j];
+                        }
+                        score += ChangeLine(line);
+                        for (int j = 0; j < rage; j++)
+                        {
+                            result[i, j] = line[j];
+                        }
+                    }
+                    break;
+                case Operation.Right:
+                    for (int i = 0; i < rage; i++)
+                    {
+                        for (int j = 0; j < rage; j++)
+                        {
+                            line[rage - j - 1] = result[i, j];
+                        }
+                        score += ChangeLine(line);
+                        for (int j = 0; j < rage; j++)
+                        {
+                            result[i, j] = line[rage - j - 1];
+                        }
+                    }
+                    break;
+            }
+            return result;
+        }
+
+        private int ChangeLine(int[] line)
         {
             Move(line);
-            Merge(line);
+            int score = Merge(line);
             Move(line);
+            return score;
         }
 
         private void Move(int[] line)
@@ -176,8 +187,9 @@ namespace G2048
             }
         }
 
-        private void Merge(int[] line)
+        private int Merge(int[] line)
         {
+            int score = 0;
             for (int i = 0; i < line.Length - 1; i++)
             {
                 if (line[i] == line[i + 1] && line[i] != 0)
@@ -187,17 +199,7 @@ namespace G2048
                     score += line[i];
                 }
             }
-        }
-
-        private void Copy(int[,] target, int[,] source)
-        {
-            for (int i = 0; i < rage; i++)
-            {
-                for (int j = 0; j < rage; j++)
-                {
-                    target[i, j] = source[i, j];
-                }
-            }
+            return score;
         }
 
         private bool Compare(int[,] nums1, int[,] nums2)
@@ -214,5 +216,68 @@ namespace G2048
             }
             return true;
         }
+
+        #endregion
+
+        #region AI
+
+        public Operation Next()
+        {
+            Dictionary<Operation, int> keyValuePairs = new Dictionary<Operation, int>();
+            foreach (Operation op in Enum.GetValues(typeof(Operation)))
+            {
+                if (op == Operation.None) continue;
+                int[,] playMatNew = Operate(playMat, op, out _);
+                if (!Compare(playMatNew, playMat))
+                {
+                    int value = Value(Operate(playMat, op, out _));
+                    keyValuePairs.Add(op, value);
+                }
+            }
+            Operation result = Operation.None;
+            int maxValue = 0;
+            string message = "";
+            foreach (Operation op in keyValuePairs.Keys)
+            {
+                int value = keyValuePairs[op];
+                if (value > maxValue)
+                {
+                    maxValue = value;
+                    result = op;
+                }
+
+                message += op.ToString() + ":" + value + "\n";
+            }
+            //MessageBox.Show(message);
+            return result;
+        }
+
+        private static int Value(int[,] playMat)
+        {
+            int height = playMat.GetLength(0);
+            int width = playMat.GetLength(1);
+            int result = 0;
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    int num = playMat[i, j];
+                    if (num > 0)
+                    {
+                        int x = Math.Min(i, height - i - 1) + 1;
+                        int y = Math.Min(j, width - j - 1) + 1;
+                        int weight = (int)Math.Pow(2, height + width - x - y);
+                        result += weight * num;
+                    }
+                    else
+                    {
+                        result += 8192;
+                    }
+                }
+            }
+            return result;
+        }
+
+        #endregion
     }
 }

@@ -54,6 +54,7 @@ namespace G2048Form
             this.l33 = new System.Windows.Forms.Label();
             this.Score = new System.Windows.Forms.Label();
             this.Result = new System.Windows.Forms.Label();
+            this.AI = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Up
@@ -305,12 +306,23 @@ namespace G2048Form
             this.Result.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.Result.Visible = false;
             // 
+            // AI
+            // 
+            this.AI.Location = new System.Drawing.Point(435, 291);
+            this.AI.Name = "AI";
+            this.AI.Size = new System.Drawing.Size(80, 30);
+            this.AI.TabIndex = 23;
+            this.AI.Text = "AI";
+            this.AI.UseVisualStyleBackColor = true;
+            this.AI.Click += new System.EventHandler(this.AI_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(600, 350);
+            this.Controls.Add(this.AI);
             this.Controls.Add(this.Result);
             this.Controls.Add(this.Score);
             this.Controls.Add(this.l33);
@@ -369,6 +381,7 @@ namespace G2048Form
         private Label l33;
         private Label Score;
         private Label Result;
+        private Button AI;
     }
 }
 

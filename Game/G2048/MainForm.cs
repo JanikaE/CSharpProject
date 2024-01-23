@@ -1,5 +1,6 @@
 ﻿using G2048;
 using System;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace G2048Form
@@ -7,7 +8,7 @@ namespace G2048Form
     public partial class MainForm : Form
     {
         private const int rage = 4;
-        private readonly Box box;
+        private Box box;
         private readonly Label[,] labels = new Label[rage, rage];
 
         public MainForm()
@@ -84,6 +85,43 @@ namespace G2048Form
                     Operate(Operation.Down);
                     break;
             }
+        }
+
+        private void AI_Click(object sender, EventArgs e)
+        {
+            int all = 0;
+            int min = 0;
+            int max = 0;
+            for (int i = 0; i < 100; i++)
+            {
+                box = new Box(rage);
+                box.Init();
+                while (box.state == State.Playing)
+                {
+                    Operation op = box.Next();
+                    if (op == Operation.None)
+                    {
+                        break;
+                    }
+                    Operate(op);
+                }
+                int score = box.score;
+                all += score;
+                if (i == 0)
+                {
+                    min = score;
+                    max = score;
+                }
+                if (score > max)
+                {
+                    max = score;
+                }
+                if (score < min)
+                {
+                    min = score;
+                }
+            }
+            MessageBox.Show($"ave:{all / 100} max:{max} min:{min}");
         }
 
         private void Operate(Operation op)

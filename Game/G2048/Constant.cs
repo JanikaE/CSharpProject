@@ -2,6 +2,7 @@
 {
     public enum Operation
     {
+        None,
         Up,
         Down,
         Left,
