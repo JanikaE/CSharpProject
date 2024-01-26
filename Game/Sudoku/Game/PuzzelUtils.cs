@@ -5,6 +5,12 @@ namespace Sudoku.Game
 {
     public partial class Puzzel
     {
+        /// <summary>
+        /// 获取某小格其所在的宫格
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        /// <exception cref="SolveException"></exception>
         private List<int> GetPalace(int index)
         {
             foreach (List<int> palace in Palaces.Values)

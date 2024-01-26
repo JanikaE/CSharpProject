@@ -19,6 +19,7 @@ namespace Sudoku.Game
                 NakedSingle,
                 HiddenSingle,
             };
+            // 记录猜测
             Stack<KeyValuePair<Point2D, PuzzelSnap>> guessStack = new();
             while (true)
             {
@@ -41,15 +42,17 @@ namespace Sudoku.Game
                 {
                     flag = false;
                 }
-                
+
                 if (flag)
                 {
+                    // 无法继续时选择一个格子猜测
                     if (result == string.Empty)
                     {
                         Cell? toGuess = GetGuessTarget();
+                        // 没有格子可猜时，可以认为已经完成了
                         if (toGuess == null)
                         {
-                            mainform?.AddSolveStep("Stop.", this);
+                            mainform?.AddSolveStep("Over.", this);
                             break;
                         }
                         else
@@ -57,7 +60,7 @@ namespace Sudoku.Game
                             PuzzelSnap puzzelSnap = new(this);
                             toGuess.num = toGuess.posibleNums[0];
                             UpdatePosibleNums();
-                            Point2D position = new(toGuess.col, toGuess.row);
+                            Point2D position = toGuess.Position;
                             guessStack.Push(new KeyValuePair<Point2D, PuzzelSnap>(position, puzzelSnap));
                             mainform?.AddSolveStep($"Guess  {toGuess.Name}  value:{toGuess.num}", this);
                         }
@@ -65,17 +68,20 @@ namespace Sudoku.Game
                 }
                 else
                 {
+                    // 出错时回溯至上一次猜测前
                     if (guessStack.Any())
                     {
                         KeyValuePair<Point2D, PuzzelSnap> trace = guessStack.Pop();
                         PuzzelSnap puzzelSnap = trace.Value;
                         TraceBack(puzzelSnap);
-                        Cell cell = PlayMat(trace.Key.Y, trace.Key.X);
+                        Cell cell = PlayMat(trace.Key);
                         int num = cell.posibleNums[0];
+                        // 将上一次猜的数字排除
                         cell.posibleNums.RemoveAt(0);
                         UpdatePosibleNums();
                         mainform?.AddSolveStep($"GuessBack  {cell.Name}  wrong value:{num}", this);
                     }
+                    // 在没有猜测的情况下出错，直接停止
                     else
                     {
                         mainform?.AddSolveStep("Stop.", this);
@@ -100,6 +106,10 @@ namespace Sudoku.Game
             return null;
         }
 
+        /// <summary>
+        /// 回溯
+        /// </summary>
+        /// <param name="puzzelSnap"></param>
         private void TraceBack(PuzzelSnap puzzelSnap)
         {
             for (int row = 0; row < Length; row++)

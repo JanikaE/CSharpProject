@@ -8,10 +8,17 @@ namespace Sudoku.Game
         public bool canChange;
         public List<int> posibleNums;
 
+        /// <summary>
+        /// 行号
+        /// </summary>
         public int row;
+        /// <summary>
+        /// 列号
+        /// </summary>
         public int col;
 
         public Point2D Position => new(col, row);
+
         public char Row => (char)('A' + row - 0);
         public char Col => (char)('1' + col - 0);
         public string Name => Row.ToString() + Col.ToString();

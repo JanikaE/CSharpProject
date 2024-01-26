@@ -10,6 +10,9 @@ namespace Sudoku
         /// </summary>
         private readonly Bitmap bitmapM;
 
+        /// <summary>
+        /// 记录求解的步骤
+        /// </summary>
         private readonly Dictionary<string, PuzzelSnap> steps = new();
 
         public MainForm()
@@ -95,6 +98,10 @@ namespace Sudoku
             SudokuBoard.Image = bitmapM;
         }
 
+        /// <summary>
+        /// 绘制坐标轴
+        /// </summary>
+        /// <param name="length"></param>
         private void DrawAxis(int length)
         {
             Bitmap bitmapR = new(PictureBoxRow.Width, PictureBoxRow.Height);
@@ -113,10 +120,16 @@ namespace Sudoku
             PictureBoxCol.Image = bitmapC;
         }
 
+        /// <summary>
+        /// 添加一条求解步骤
+        /// </summary>
+        /// <param name="msg">步骤信息</param>
+        /// <param name="puzzel">该步骤执行后的数独状态</param>
         public void AddSolveStep(string msg, Puzzel puzzel)
         {
             PuzzelSnap puzzelSnap = new(puzzel);
 
+            // 暴力求解的情况下可能会有重复的步骤信息
             string origin = msg;
             int i = 2;
             while (steps.ContainsKey(msg))
@@ -134,7 +147,7 @@ namespace Sudoku
         {
             puzzel = new();
             //puzzel.Generate();
-            puzzel.GenerateByExample(Example.examples[4]);
+            puzzel.GenerateByExample(Example.examples[5]);
             puzzel.InitPosibleNums();
             DrawBoard(puzzel);
             DrawAxis(puzzel.Length);
@@ -160,6 +173,5 @@ namespace Sudoku
             steps.TryGetValue((string)ListBoxStep.SelectedItem, out PuzzelSnap puzzelSnap);
             DrawBoard(puzzelSnap);
         }
-
     }
 }

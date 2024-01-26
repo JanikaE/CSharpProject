@@ -1,4 +1,5 @@
 ﻿using Utils.Extend;
+using Utils.Mathematical;
 using Utils.Tool;
 
 namespace Sudoku.Game
@@ -18,6 +19,7 @@ namespace Sudoku.Game
 
         public Cell PlayMat(int row, int col) => playMat[row, col];
         public Cell PlayMat(int index) => playMat[index / Length, index % Length];
+        public Cell PlayMat(Point2D position) => playMat[position.Y, position.X];
 
         public List<int> Nums { get; }
         private Dictionary<string, List<int>> Houses { get; set; }
@@ -80,6 +82,9 @@ namespace Sudoku.Game
             playMat[8, 8].num = 4;
         }
 
+        /// <summary>
+        /// 初始化所有格子的可能数字（包括更新）
+        /// </summary>
         public void InitPosibleNums()
         {
             foreach (Cell cell in playMat)
@@ -96,6 +101,9 @@ namespace Sudoku.Game
             UpdatePosibleNums();
         }
 
+        /// <summary>
+        /// 更新所有格子的可能数字
+        /// </summary>
         public void UpdatePosibleNums()
         {
             for (int row = 0; row < Length; row++)
