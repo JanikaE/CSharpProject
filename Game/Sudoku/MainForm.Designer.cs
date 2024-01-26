@@ -31,9 +31,10 @@
             SudokuBoard = new PictureBox();
             Generate = new Button();
             ListBoxStep = new ListBox();
-            ButtonSolve = new Button();
+            ButtonSolveArts = new Button();
             PictureBoxRow = new PictureBox();
             PictureBoxCol = new PictureBox();
+            ButtonSolveBuster = new Button();
             ((System.ComponentModel.ISupportInitialize)SudokuBoard).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PictureBoxRow).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PictureBoxCol).BeginInit();
@@ -67,15 +68,15 @@
             ListBoxStep.TabIndex = 2;
             ListBoxStep.SelectedIndexChanged += ListBoxStep_SelectedIndexChanged;
             // 
-            // ButtonSolve
+            // ButtonSolveArts
             // 
-            ButtonSolve.Location = new Point(499, 370);
-            ButtonSolve.Name = "ButtonSolve";
-            ButtonSolve.Size = new Size(75, 23);
-            ButtonSolve.TabIndex = 3;
-            ButtonSolve.Text = "Solve";
-            ButtonSolve.UseVisualStyleBackColor = true;
-            ButtonSolve.Click += ButtonSolve_Click;
+            ButtonSolveArts.Location = new Point(499, 370);
+            ButtonSolveArts.Name = "ButtonSolveArts";
+            ButtonSolveArts.Size = new Size(75, 23);
+            ButtonSolveArts.TabIndex = 3;
+            ButtonSolveArts.Text = "Arts";
+            ButtonSolveArts.UseVisualStyleBackColor = true;
+            ButtonSolveArts.Click += ButtonSolveArts_Click;
             // 
             // PictureBoxRow
             // 
@@ -93,15 +94,26 @@
             PictureBoxCol.TabIndex = 5;
             PictureBoxCol.TabStop = false;
             // 
+            // ButtonSolveBuster
+            // 
+            ButtonSolveBuster.Location = new Point(580, 370);
+            ButtonSolveBuster.Name = "ButtonSolveBuster";
+            ButtonSolveBuster.Size = new Size(75, 23);
+            ButtonSolveBuster.TabIndex = 6;
+            ButtonSolveBuster.Text = "Buster";
+            ButtonSolveBuster.UseVisualStyleBackColor = true;
+            ButtonSolveBuster.Click += ButtonSolveBuster_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(661, 405);
+            Controls.Add(ButtonSolveBuster);
             Controls.Add(PictureBoxCol);
             Controls.Add(PictureBoxRow);
-            Controls.Add(ButtonSolve);
+            Controls.Add(ButtonSolveArts);
             Controls.Add(ListBoxStep);
             Controls.Add(Generate);
             Controls.Add(SudokuBoard);
@@ -118,8 +130,9 @@
         private PictureBox SudokuBoard;
         private Button Generate;
         private ListBox ListBoxStep;
-        private Button ButtonSolve;
+        private Button ButtonSolveArts;
         private PictureBox PictureBoxRow;
         private PictureBox PictureBoxCol;
+        private Button ButtonSolveBuster;
     }
 }

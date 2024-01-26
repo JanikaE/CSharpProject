@@ -116,7 +116,16 @@ namespace Sudoku
         public void AddSolveStep(string msg, Puzzel puzzel)
         {
             PuzzelSnap puzzelSnap = new(puzzel);
+
+            string origin = msg;
+            int i = 2;
+            while (steps.ContainsKey(msg))
+            {
+                msg = origin + $" ({i})";
+                i++;
+            }
             steps.Add(msg, puzzelSnap);
+
             ListBoxStep.Items.Add(msg);
             ListBoxStep.SelectedIndex = ListBoxStep.Items.Count - 1;
         }
@@ -125,18 +134,25 @@ namespace Sudoku
         {
             puzzel = new();
             //puzzel.Generate();
-            puzzel.GenerateByExample(Example.examples[3]);
+            puzzel.GenerateByExample(Example.examples[4]);
             puzzel.InitPosibleNums();
             DrawBoard(puzzel);
             DrawAxis(puzzel.Length);
             AddSolveStep("Start.", puzzel);
         }
 
-        private void ButtonSolve_Click(object sender, EventArgs e)
+        private void ButtonSolveArts_Click(object sender, EventArgs e)
         {
             if (puzzel == null)
                 return;
-            puzzel.StartSolve(this);
+            puzzel.SolveArts(this);
+        }
+
+        private void ButtonSolveBuster_Click(object sender, EventArgs e)
+        {
+            if (puzzel == null)
+                return;
+            puzzel.SolveBuster(this);
         }
 
         private void ListBoxStep_SelectedIndexChanged(object sender, EventArgs e)
@@ -144,5 +160,6 @@ namespace Sudoku
             steps.TryGetValue((string)ListBoxStep.SelectedItem, out PuzzelSnap puzzelSnap);
             DrawBoard(puzzelSnap);
         }
+
     }
 }

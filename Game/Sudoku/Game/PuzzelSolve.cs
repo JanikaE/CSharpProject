@@ -1,10 +1,128 @@
-﻿using Utils.Extend;
+﻿using Sudoku.Snap;
+using Utils.Extend;
+using Utils.Mathematical;
 
 namespace Sudoku.Game
 {
     public partial class Puzzel
     {
-        public void StartSolve(MainForm? mainform = null)
+        #region Buster
+
+        /// <summary>
+        /// 暴力求解
+        /// </summary>
+        /// <param name="mainform"></param>
+        public void SolveBuster(MainForm? mainform = null)
+        {
+            List<Func<string>> Funcs = new()
+            {
+                NakedSingle,
+                HiddenSingle,
+            };
+            Stack<KeyValuePair<Point2D, PuzzelSnap>> guessStack = new();
+            while (true)
+            {
+                string result = string.Empty;
+                bool flag = true;
+                try
+                {
+                    foreach (Func<string> func in Funcs)
+                    {
+                        result = func();
+                        if (result != string.Empty)
+                        {
+                            UpdatePosibleNums();
+                            mainform?.AddSolveStep(result, this);
+                            break;
+                        }
+                    }
+                }
+                catch (SolveException)
+                {
+                    flag = false;
+                }
+                
+                if (flag)
+                {
+                    if (result == string.Empty)
+                    {
+                        Cell? toGuess = GetGuessTarget();
+                        if (toGuess == null)
+                        {
+                            mainform?.AddSolveStep("Stop.", this);
+                            break;
+                        }
+                        else
+                        {
+                            PuzzelSnap puzzelSnap = new(this);
+                            toGuess.num = toGuess.posibleNums[0];
+                            UpdatePosibleNums();
+                            Point2D position = new(toGuess.col, toGuess.row);
+                            guessStack.Push(new KeyValuePair<Point2D, PuzzelSnap>(position, puzzelSnap));
+                            mainform?.AddSolveStep($"Guess  {toGuess.Name}  value:{toGuess.num}", this);
+                        }
+                    }
+                }
+                else
+                {
+                    if (guessStack.Any())
+                    {
+                        KeyValuePair<Point2D, PuzzelSnap> trace = guessStack.Pop();
+                        PuzzelSnap puzzelSnap = trace.Value;
+                        TraceBack(puzzelSnap);
+                        Cell cell = PlayMat(trace.Key.Y, trace.Key.X);
+                        int num = cell.posibleNums[0];
+                        cell.posibleNums.RemoveAt(0);
+                        UpdatePosibleNums();
+                        mainform?.AddSolveStep($"GuessBack  {cell.Name}  wrong value:{num}", this);
+                    }
+                    else
+                    {
+                        mainform?.AddSolveStep("Stop.", this);
+                        break;
+                    }
+                }
+            }
+        }
+
+        private Cell? GetGuessTarget()
+        {
+            for (int i = 2; i <= Length; i++)
+            {
+                foreach (Cell cell in playMat)
+                {
+                    if (cell.num == 0 && cell.posibleNums.Count == i)
+                    {
+                        return cell;
+                    }
+                }
+            }
+            return null;
+        }
+
+        private void TraceBack(PuzzelSnap puzzelSnap)
+        {
+            for (int row = 0; row < Length; row++)
+            {
+                for (int col = 0; col < Length; col++)
+                {
+                    Cell cell = PlayMat(row, col);
+                    CellSnap cellSnap = puzzelSnap.playMat[row, col];
+                    cell.num = cellSnap.num;
+                    cell.posibleNums = cellSnap.posibleNums.ToList();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Arts
+
+        /// <summary>
+        /// 技巧求解
+        /// </summary>
+        /// <param name="mainform"></param>
+        public void SolveArts(MainForm? mainform = null)
         {
             List<Func<string>> Funcs = new()
             {
@@ -265,5 +383,7 @@ namespace Sudoku.Game
             }
             return string.Empty;
         }
+
+        #endregion
     }
 }
