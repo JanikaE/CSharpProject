@@ -12,7 +12,7 @@ namespace Sudoku.Game
         /// 暴力求解
         /// </summary>
         /// <param name="mainform"></param>
-        public void SolveBuster(MainForm? mainform = null)
+        internal void SolveBuster(MainForm? mainform = null)
         {
             List<Func<string>> Funcs = new()
             {
@@ -86,6 +86,177 @@ namespace Sudoku.Game
                     {
                         mainform?.AddSolveStep("Stop.", this);
                         break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 暴力求解
+        /// </summary>
+        /// <returns>成功或失败</returns>
+        public bool SolveBuster()
+        {
+            List<Func<string>> Funcs = new()
+            {
+                NakedSingle,
+                HiddenSingle,
+            };
+            // 记录猜测
+            Stack<KeyValuePair<Point2D, PuzzelSnap>> guessStack = new();
+            while (true)
+            {
+                string result = string.Empty;
+                bool flag = true;
+                try
+                {
+                    foreach (Func<string> func in Funcs)
+                    {
+                        result = func();
+                        if (result != string.Empty)
+                        {
+                            UpdatePosibleNums();
+                            break;
+                        }
+                    }
+                }
+                catch (SolveException)
+                {
+                    flag = false;
+                }
+
+                if (flag)
+                {
+                    // 无法继续时选择一个格子猜测
+                    if (result == string.Empty)
+                    {
+                        Cell? toGuess = GetGuessTarget();
+                        // 没有格子可猜时，可以认为已经完成了
+                        if (toGuess == null)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            PuzzelSnap puzzelSnap = new(this);
+                            toGuess.num = toGuess.posibleNums[0];
+                            UpdatePosibleNums();
+                            Point2D position = toGuess.Position;
+                            guessStack.Push(new KeyValuePair<Point2D, PuzzelSnap>(position, puzzelSnap));
+                        }
+                    }
+                }
+                else
+                {
+                    // 出错时回溯至上一次猜测前
+                    if (guessStack.Any())
+                    {
+                        KeyValuePair<Point2D, PuzzelSnap> trace = guessStack.Pop();
+                        PuzzelSnap puzzelSnap = trace.Value;
+                        TraceBack(puzzelSnap);
+                        Cell cell = PlayMat(trace.Key);
+                        int num = cell.posibleNums[0];
+                        // 将上一次猜的数字排除
+                        cell.posibleNums.RemoveAt(0);
+                        UpdatePosibleNums();
+                    }
+                    // 在没有猜测的情况下出错，直接停止
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 暴力求非唯一解
+        /// </summary>
+        /// <returns>所有可能的解</returns>
+        public List<PuzzelSnap> SolveBusterMultiple()
+        {
+            List<PuzzelSnap> results = new();
+            List<Func<string>> Funcs = new()
+            {
+                NakedSingle,
+                HiddenSingle,
+            };
+            // 记录猜测
+            Stack<KeyValuePair<Point2D, PuzzelSnap>> guessStack = new();
+            while (true)
+            {
+                string result = string.Empty;
+                bool flag = true;
+                try
+                {
+                    foreach (Func<string> func in Funcs)
+                    {
+                        result = func();
+                        if (result != string.Empty)
+                        {
+                            UpdatePosibleNums();
+                            break;
+                        }
+                    }
+                }
+                catch (SolveException)
+                {
+                    flag = false;
+                }
+
+                void traceBack()
+                {
+                    KeyValuePair<Point2D, PuzzelSnap> trace = guessStack.Pop();
+                    PuzzelSnap puzzelSnap = trace.Value;
+                    TraceBack(puzzelSnap);
+                    Cell cell = PlayMat(trace.Key);
+                    int num = cell.posibleNums[0];
+                    // 将上一次猜的数字排除
+                    cell.posibleNums.RemoveAt(0);
+                    UpdatePosibleNums();
+                }
+
+                if (flag)
+                {
+                    // 无法继续时选择一个格子猜测
+                    if (result == string.Empty)
+                    {
+                        Cell? toGuess = GetGuessTarget();
+                        // 没有格子可猜时，可以认为已经完成了
+                        if (toGuess == null)
+                        {
+                            results.Add(new(this));
+                            // 回溯，寻找其他解
+                            if (guessStack.Any())
+                            {
+                                traceBack();
+                            }
+                            else
+                            {
+                                return results;
+                            }
+                        }
+                        else
+                        {
+                            PuzzelSnap puzzelSnap = new(this);
+                            toGuess.num = toGuess.posibleNums[0];
+                            UpdatePosibleNums();
+                            Point2D position = toGuess.Position;
+                            guessStack.Push(new KeyValuePair<Point2D, PuzzelSnap>(position, puzzelSnap));
+                        }
+                    }
+                }
+                else
+                {
+                    // 出错时回溯至上一次猜测前
+                    if (guessStack.Any())
+                    {
+                        traceBack();
+                    }
+                    // 在没有猜测的情况下出错，直接停止
+                    else
+                    {
+                        return results;
                     }
                 }
             }
