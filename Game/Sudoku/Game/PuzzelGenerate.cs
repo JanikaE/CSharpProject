@@ -1,4 +1,6 @@
-﻿namespace Sudoku.Game
+﻿using System;
+
+namespace Sudoku.Game
 {
     public partial class Puzzel
     {
@@ -14,15 +16,15 @@
             if (chars.Length != Length * Length)
                 throw new ArgumentException("长宽不匹配");
 
-            for (int i = 0; i < Length; i++)
+            for (int row = 0; row < Length; row++)
             {
-                for (int j = 0; j < Length; j++)
+                for (int col = 0; col < Length; col++)
                 {
-                    int num = chars[i * Length + j] - '0';
+                    int num = chars[row * Length + col] - '0';
                     if (num < 0 || num > Length)
                         throw new ArgumentOutOfRangeException($"数值超出范围0-{Length}");
-                    playMat[i, j].num = num;
-                    playMat[i, j].canChange = num == 0;
+                    PlayMat(row, col).num = num;
+                    PlayMat(row, col).canChange = num == 0;
                 }
             }
         }
@@ -32,6 +34,7 @@
         /// </summary>
         public void GenerateRandom()
         {
+            // 对一个空白的数独暴力求解，可随机产生一个满的数独
             string blank = string.Empty;
             for (int i = 0; i < Length * Length; i++)
             {
@@ -41,31 +44,56 @@
             InitPosibleNums();
             SolveBuster();
 
+            // 循环随机去除已知的格子，直至不管去除哪个都不再有唯一解
+            List<int> ignore = new();
             while (true)
             {
-                (int index, int num) = RemoveOne();
+                (int index, int num, bool success) = RemoveOne(ignore);
+                if (!success)
+                    break;
+
                 Puzzel clone = Clone();
                 clone.InitPosibleNums();
                 if (clone.SolveCountBuster() != 1)
                 {
                     PlayMat(index).num = num;
-                    return;
+                    ignore.Add(index);
+                }
+                else
+                {
+                    ignore.Clear();
+                }
+            }
+
+            for (int row = 0; row < Length; row++)
+            {
+                for (int col = 0; col < Length; col++)
+                {                    
+                    PlayMat(row, col).canChange = PlayMat(row, col).num == 0;
                 }
             }
         }
 
-        private (int, int) RemoveOne()
+        private (int, int, bool) RemoveOne(List<int> ignore)
         {
-            int index;
-            Cell cell;
-            do
+            List<int> indexList = new();
+            for (int i = 0; i < Length * Length; i++)
             {
-                index = new Random().Next(0, Length * Length);
-                cell = PlayMat(index);
-            } while (cell.num == 0);
+                if (!ignore.Contains(i) && PlayMat(i).num != 0)
+                {
+                    indexList.Add(i);
+                }
+            }
+            if (indexList.Count == 0)
+            {
+                return (0, 0, false);
+            }
+
+            int index = indexList[new Random().Next(0, indexList.Count)];
+            Cell cell = PlayMat(index);
             int num = cell.num;
             cell.num = 0;
-            return (index, num);
+            return (index, num, true);
         }
     }
 }

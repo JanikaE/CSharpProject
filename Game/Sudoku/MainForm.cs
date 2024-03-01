@@ -147,7 +147,7 @@ namespace Sudoku
         {
             puzzel = new();
             //puzzel.Generate();
-            puzzel.GenerateByExample(Example.Blank);
+            puzzel.GenerateRandom();
             puzzel.InitPosibleNums();
             DrawBoard(puzzel);
             DrawAxis(puzzel.Length);

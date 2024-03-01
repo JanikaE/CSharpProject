@@ -19,12 +19,12 @@ namespace SudokuConsole
                     try
                     {
                         Puzzel puzzel = new(3, 3);
-                        puzzel.GenerateByExample(s);
-                        puzzel.InitPosibleNums();
+                        //puzzel.GenerateByExample(s);
+                        //puzzel.InitPosibleNums();
                         //puzzel.SolveBuster();
-                        //puzzel.GenerateRandom();
-                        //Console.WriteLine(PuzzelUtils.ContentString(puzzel));
-                        Console.WriteLine(puzzel.SolveMultipleBuster().ToStringByItem(PuzzelUtils.ContentString, "\n"));
+                        puzzel.GenerateRandom();
+                        Console.WriteLine(PuzzelUtils.ContentString(puzzel));
+                        //Console.WriteLine(puzzel.SolveMultipleBuster().ToStringByItem(PuzzelUtils.ContentString, "\n"));
                         //Console.WriteLine(puzzel.SolveCountBuster());
                     }
                     catch (Exception ex)
