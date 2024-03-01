@@ -21,9 +21,11 @@ namespace SudokuConsole
                         Puzzel puzzel = new(3, 3);
                         puzzel.GenerateByExample(s);
                         puzzel.InitPosibleNums();
-                        //Console.WriteLine(puzzel.SolveBuster());
+                        //puzzel.SolveBuster();
+                        //puzzel.GenerateRandom();
                         //Console.WriteLine(PuzzelUtils.ContentString(puzzel));
-                        Console.WriteLine(puzzel.SolveBusterMultiple().ToStringByItem(PuzzelUtils.ContentString, "\n"));
+                        Console.WriteLine(puzzel.SolveMultipleBuster().ToStringByItem(PuzzelUtils.ContentString, "\n"));
+                        //Console.WriteLine(puzzel.SolveCountBuster());
                     }
                     catch (Exception ex)
                     {

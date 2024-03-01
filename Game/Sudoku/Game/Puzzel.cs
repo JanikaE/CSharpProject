@@ -1,6 +1,5 @@
 ﻿using Utils.Extend;
 using Utils.Mathematical;
-using Utils.Tool;
 
 namespace Sudoku.Game
 {
@@ -55,33 +54,6 @@ namespace Sudoku.Game
             Houses = GetHouses();
         }
 
-        public void GenerateByExample(string s)
-        {
-            char[] chars = s.ToCharArray();
-            if (chars.Length != Length * Length)
-                throw new ArgumentException("长宽不匹配");
-
-            for (int i = 0; i < Length; i++)
-            {
-                for (int j = 0; j < Length; j++)
-                {
-                    int num = chars[i * Length + j] - '0';
-                    if (num < 0 || num > Length)
-                        throw new ArgumentOutOfRangeException($"数值超出范围0-{Length}");
-                    playMat[i, j].num = num;
-                    playMat[i, j].canChange = num == 0;
-                }
-            }
-        }
-
-        public void Generate()
-        {
-            playMat[0, 0].num = 1;
-            playMat[8, 0].num = 2;
-            playMat[0, 8].num = 3;
-            playMat[8, 8].num = 4;
-        }
-
         /// <summary>
         /// 初始化所有格子的可能数字（包括更新）
         /// </summary>
@@ -92,11 +64,11 @@ namespace Sudoku.Game
                 if (cell.num != 0)
                 {
                     cell.posibleNums.Clear();
-                }                    
+                }
                 else
                 {
                     cell.posibleNums = Nums.Clone();
-                }                
+                }
             }
             UpdatePosibleNums();
         }
@@ -124,7 +96,7 @@ namespace Sudoku.Game
                             int y = index2 / Length;
                             cell.posibleNums.Remove(PlayMat(y, x).num);
                         }
-                    }                    
+                    }
                 }
             }
         }
@@ -188,6 +160,19 @@ namespace Sudoku.Game
                     count++;
             }
             return count;
+        }
+
+        public Puzzel Clone()
+        {
+            Puzzel puzzel = new(H, W);
+            for (int row = 0; row < Length; row++)
+            {
+                for (int col = 0; col < Length; col++)
+                {
+                    puzzel.PlayMat(row, col).num = PlayMat(row, col).num;
+                }
+            }
+            return puzzel;
         }
     }
 }
