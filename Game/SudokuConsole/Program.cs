@@ -9,29 +9,28 @@ namespace SudokuConsole
         {
             while (true)
             {
-                string? s = Console.ReadLine();
-                if (s != null)
-                {
-                    if (s == "q")
-                    {
-                        break;
-                    }
+                //string? s = Console.ReadLine();
+                //if (s != null)
+                //{
+                //    if (s == "q")
+                //    {
+                //        break;
+                //    }
                     try
                     {
-                        Puzzel puzzel = new(3, 3);
-                        //puzzel.GenerateByExample(s);
-                        //puzzel.InitPosibleNums();
-                        //puzzel.SolveBuster();
-                        puzzel.GenerateRandom();
-                        Console.WriteLine(PuzzelUtils.ContentString(puzzel));
-                        //Console.WriteLine(puzzel.SolveMultipleBuster().ToStringByItem(PuzzelUtils.ContentString, "\n"));
-                        //Console.WriteLine(puzzel.SolveCountBuster());
+                        DateTime start = DateTime.Now;
+                        Puzzel puzzel = new(4, 4);
+                        puzzel.InitPosibleNums();
+                        puzzel.SolveBuster();
+                        //Console.WriteLine(PuzzelUtils.ContentString(puzzel));
+                        DateTime end = DateTime.Now;
+                        Console.WriteLine("\n" + (end - start).TotalSeconds);
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.ToString());
                     }
-                }
+                //}
             }
         }
     }

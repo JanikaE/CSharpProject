@@ -32,7 +32,7 @@ namespace Sudoku.Game
         /// <summary>
         /// 随机生成具有唯一解的数独
         /// </summary>
-        public void GenerateRandom()
+        public void GenerateRandom(MainForm? form = null)
         {
             // 对一个空白的数独暴力求解，可随机产生一个满的数独
             string blank = string.Empty;
@@ -42,7 +42,14 @@ namespace Sudoku.Game
             }
             GenerateByExample(blank);
             InitPosibleNums();
-            SolveBuster();
+            if (form != null)
+            {
+                SolveBuster(form);
+            }
+            else
+            {
+                SolveBuster();
+            }
 
             // 循环随机去除已知的格子，直至不管去除哪个都不再有唯一解
             List<int> ignore = new();
@@ -51,6 +58,8 @@ namespace Sudoku.Game
                 (int index, int num, bool success) = RemoveOne(ignore);
                 if (!success)
                     break;
+                //if (CountBlank() > 10)
+                //    break;
 
                 Puzzel clone = Clone();
                 clone.InitPosibleNums();

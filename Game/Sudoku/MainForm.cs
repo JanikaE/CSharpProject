@@ -145,12 +145,13 @@ namespace Sudoku
 
         private void Generate_Click(object sender, EventArgs e)
         {
-            puzzel = new();
-            //puzzel.Generate();
-            puzzel.GenerateRandom();
-            puzzel.InitPosibleNums();
+            puzzel = new(4, 4);
             DrawBoard(puzzel);
             DrawAxis(puzzel.Length);
+
+            //puzzel.Generate();
+            puzzel.GenerateRandom(this);
+            puzzel.InitPosibleNums();
             AddSolveStep("Start.", puzzel);
         }
 

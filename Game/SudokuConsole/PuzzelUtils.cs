@@ -8,11 +8,12 @@ namespace SudokuConsole
         public static string ContentString(Puzzel puzzel)
         {
             string s = string.Empty;
+            int max = puzzel.Length * puzzel.Length;
             for (int row = 0; row < puzzel.Length; row++)
             {
                 for (int col = 0; col < puzzel.Length; col++)
                 {
-                    s += puzzel.PlayMat(row, col).num.ToString();
+                    s += puzzel.PlayMat(row, col).num.AddBlank(max);
                 }
                 s += "\n";
             }
@@ -22,15 +23,27 @@ namespace SudokuConsole
         public static string ContentString(PuzzelSnap puzzelSnap)
         {
             string s = string.Empty;
+            int max = puzzelSnap.Length * puzzelSnap.Length;
             for (int row = 0; row < puzzelSnap.Length; row++)
             {
                 for (int col = 0; col < puzzelSnap.Length; col++)
                 {
-                    s += puzzelSnap.playMat[row, col].num.ToString();
+                    s += puzzelSnap.playMat[row, col].num.AddBlank(max);
                 }
                 s += "\n";
             }
             return s;
+        }
+
+        private static string AddBlank(this int num, int max)
+        {
+            int blank = (int)Math.Log10(max) - (int)Math.Log10(num) + 1;
+            string result = num.ToString();
+            for (int i = 0; i < blank; i++)
+            {
+                result += " ";
+            }
+            return result;
         }
     }
 }

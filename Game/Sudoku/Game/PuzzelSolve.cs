@@ -1,6 +1,7 @@
 ﻿using Sudoku.Snap;
 using Utils.Extend;
 using Utils.Mathematical;
+using Utils.Tool;
 
 namespace Sudoku.Game
 {
@@ -152,6 +153,9 @@ namespace Sudoku.Game
                         return false;
                     }
                 }
+
+                ConsoleTool.ClearCurrentConsoleLine();
+                Console.Write(CountBlank() + " " + guessStack.Count);
             }
         }
 
@@ -323,17 +327,28 @@ namespace Sudoku.Game
 
         private Cell? GetGuessTarget()
         {
-            for (int i = 2; i <= Length; i++)
+            //for (int i = 2; i <= Length; i++)
+            //{
+            //    foreach (Cell cell in playMat)
+            //    {
+            //        if (cell.num == 0 && cell.posibleNums.Count == i)
+            //        {
+            //            return cell;
+            //        }
+            //    }
+            //}
+            //return null;
+            Cell? result = null;
+            int min = Length + 1;
+            foreach (Cell cell in playMat)
             {
-                foreach (Cell cell in playMat)
+                if (cell.num == 0 && cell.posibleNums.Count < min)
                 {
-                    if (cell.num == 0 && cell.posibleNums.Count == i)
-                    {
-                        return cell;
-                    }
+                    result = cell;
+                    min = cell.posibleNums.Count;
                 }
             }
-            return null;
+            return result;
         }
 
         private static int GetGuessNum(Cell cell)
