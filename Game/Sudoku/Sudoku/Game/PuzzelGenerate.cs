@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Sudoku.Game
+﻿namespace Sudoku.Game
 {
     public partial class Puzzel
     {
@@ -32,7 +30,7 @@ namespace Sudoku.Game
         /// <summary>
         /// 随机生成具有唯一解的数独
         /// </summary>
-        public void GenerateRandom(MainForm? form = null)
+        public void GenerateRandom(Action<string, Puzzel>? action = null)
         {
             // 对一个空白的数独暴力求解，可随机产生一个满的数独
             string blank = string.Empty;
@@ -42,9 +40,9 @@ namespace Sudoku.Game
             }
             GenerateByExample(blank);
             InitPosibleNums();
-            if (form != null)
+            if (action != null)
             {
-                SolveBuster(form);
+                SolveBuster(action);
             }
             else
             {
@@ -77,7 +75,7 @@ namespace Sudoku.Game
             for (int row = 0; row < Length; row++)
             {
                 for (int col = 0; col < Length; col++)
-                {                    
+                {
                     PlayMat(row, col).canChange = PlayMat(row, col).num == 0;
                 }
             }

@@ -12,9 +12,10 @@ namespace Sudoku.Game
         /// <summary>
         /// 暴力求解
         /// </summary>
-        /// <param name="mainform"></param>
-        internal void SolveBuster(MainForm mainform)
+        /// <param name="action">记录所有的步骤</param>
+        public void SolveBuster(Action<string, Puzzel>? action = null, bool consoleLog = false)
         {
+            DateTime start = DateTime.Now;
             List<Func<string>> Funcs = new()
             {
                 NakedSingle,
@@ -34,7 +35,7 @@ namespace Sudoku.Game
                         if (result != string.Empty)
                         {
                             UpdatePosibleNums();
-                            mainform?.AddSolveStep(result, this);
+                            action?.Invoke(result, this);
                             break;
                         }
                     }
@@ -53,7 +54,7 @@ namespace Sudoku.Game
                         // 没有格子可猜时，可以认为已经完成了
                         if (toGuess == null)
                         {
-                            mainform?.AddSolveStep("Over.", this);
+                            action?.Invoke("Over.", this);
                             break;
                         }
                         else
@@ -63,7 +64,7 @@ namespace Sudoku.Game
                             toGuess.num = guessNum;
                             UpdatePosibleNums();
                             guessStack.Push(new Guess(toGuess.Position, puzzelSnap, guessNum));
-                            mainform?.AddSolveStep($"Guess  {toGuess.Name}  value:{toGuess.num}", this);
+                            action?.Invoke($"Guess  {toGuess.Name}  value:{toGuess.num}", this);
                         }
                     }
                 }
@@ -72,90 +73,27 @@ namespace Sudoku.Game
                     // 出错时回溯至上一次猜测前
                     if (guessStack.Any())
                     {
-                        (Cell cell, int num) =  TraceBack(guessStack);
-                        mainform?.AddSolveStep($"GuessBack  {cell.Name}  wrong value:{num}", this);
+                        (Cell cell, int num) = TraceBack(guessStack);
+                        action?.Invoke($"GuessBack  {cell.Name}  wrong value:{num}", this);
                     }
                     // 在没有猜测的情况下出错，直接停止
                     else
                     {
-                        mainform?.AddSolveStep("Stop.", this);
+                        action?.Invoke("Stop.", this);
                         break;
                     }
                 }
-            }
-        }
 
-        /// <summary>
-        /// 暴力求解
-        /// </summary>
-        /// <returns>成功或失败</returns>
-        public bool SolveBuster()
-        {
-            List<Func<string>> Funcs = new()
-            {
-                NakedSingle,
-                HiddenSingle,
-            };
-            // 记录猜测
-            Stack<Guess> guessStack = new();
-            while (true)
-            {
-                string result = string.Empty;
-                bool flag = true;
-                try
+                if (consoleLog)
                 {
-                    foreach (Func<string> func in Funcs)
+                    ConsoleTool.ClearCurrentConsoleLine();
+                    Console.Write(CountBlank() + " " + guessStack.Count);
+                    DateTime now = DateTime.Now;
+                    if ((now - start).TotalSeconds > 10)
                     {
-                        result = func();
-                        if (result != string.Empty)
-                        {
-                            UpdatePosibleNums();
-                            break;
-                        }
+                        break;
                     }
-                }
-                catch (SolveException)
-                {
-                    flag = false;
-                }
-
-                if (flag)
-                {
-                    // 无法继续时选择一个格子猜测
-                    if (result == string.Empty)
-                    {
-                        Cell? toGuess = GetGuessTarget();
-                        // 没有格子可猜时，可以认为已经完成了
-                        if (toGuess == null)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            PuzzelSnap puzzelSnap = new(this);
-                            int guessNum = GetGuessNum(toGuess);
-                            toGuess.num = guessNum;
-                            UpdatePosibleNums();
-                            guessStack.Push(new Guess(toGuess.Position, puzzelSnap, guessNum));
-                        }
-                    }
-                }
-                else
-                {
-                    // 出错时回溯至上一次猜测前
-                    if (guessStack.Any())
-                    {
-                        TraceBack(guessStack);
-                    }
-                    // 在没有猜测的情况下出错，直接停止
-                    else
-                    {
-                        return false;
-                    }
-                }
-
-                ConsoleTool.ClearCurrentConsoleLine();
-                Console.Write(CountBlank() + " " + guessStack.Count);
+                }                
             }
         }
 
@@ -408,8 +346,8 @@ namespace Sudoku.Game
         /// <summary>
         /// 技巧求解
         /// </summary>
-        /// <param name="mainform"></param>
-        public void SolveArts(MainForm? mainform = null)
+        /// <param name="action">记录所有的步骤</param>
+        public void SolveArts(Action<string, Puzzel> action)
         {
             List<Func<string>> Funcs = new()
             {
@@ -429,7 +367,7 @@ namespace Sudoku.Game
                         if (result != string.Empty)
                         {
                             UpdatePosibleNums();
-                            mainform?.AddSolveStep(result, this);
+                            action(result, this);
                             break;
                         }
                     }
@@ -437,11 +375,11 @@ namespace Sudoku.Game
                     {
                         if (CheckFull())
                         {
-                            mainform?.AddSolveStep("Over.", this);
+                            action("Over.", this);
                         }
                         else
                         {
-                            mainform?.AddSolveStep("Stop.", this);
+                            action("Stop.", this);
                         }
                         break;
                     }
@@ -449,11 +387,7 @@ namespace Sudoku.Game
             }
             catch (SolveException se)
             {
-                mainform?.AddSolveStep(se.Message, this);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "ERROR");
+                action(se.Message, this);
             }
         }
 

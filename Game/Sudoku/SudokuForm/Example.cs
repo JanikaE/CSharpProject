@@ -1,4 +1,4 @@
-﻿namespace Sudoku
+﻿namespace SudokuForm
 {
     public static class Example
     {
@@ -57,7 +57,7 @@
             "900020000" +
             "000001000" +
             "070000200" +
-            "000350708",            
+            "000350708",
         };
 
         public static string Blank =>

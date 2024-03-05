@@ -1,7 +1,7 @@
 ﻿using Sudoku.Game;
 using Sudoku.Snap;
 
-namespace Sudoku
+namespace SudokuForm
 {
     public partial class MainForm : Form
     {
@@ -145,12 +145,12 @@ namespace Sudoku
 
         private void Generate_Click(object sender, EventArgs e)
         {
-            puzzel = new(4, 4);
+            puzzel = new(3, 3);
             DrawBoard(puzzel);
             DrawAxis(puzzel.Length);
 
             //puzzel.Generate();
-            puzzel.GenerateRandom(this);
+            puzzel.GenerateRandom(AddSolveStep);
             puzzel.InitPosibleNums();
             AddSolveStep("Start.", puzzel);
         }
@@ -159,14 +159,14 @@ namespace Sudoku
         {
             if (puzzel == null)
                 return;
-            puzzel.SolveArts(this);
+            puzzel.SolveArts(AddSolveStep);
         }
 
         private void ButtonSolveBuster_Click(object sender, EventArgs e)
         {
             if (puzzel == null)
                 return;
-            puzzel.SolveBuster(this);
+            puzzel.SolveBuster(AddSolveStep);
         }
 
         private void ListBoxStep_SelectedIndexChanged(object sender, EventArgs e)

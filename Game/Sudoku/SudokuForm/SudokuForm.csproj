@@ -9,7 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Utils\Utils.csproj" />
+    <ProjectReference Include="..\..\..\Utils\Utils.csproj" />
+    <ProjectReference Include="..\Sudoku\Sudoku.csproj" />
   </ItemGroup>
 
 </Project>

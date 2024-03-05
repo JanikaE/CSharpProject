@@ -55,7 +55,7 @@ namespace Sudoku.Game
         }
 
         /// <summary>
-        /// 初始化所有格子的可能数字（包括更新）
+        /// 初始化所有格子的可能数字并更新
         /// </summary>
         public void InitPosibleNums()
         {

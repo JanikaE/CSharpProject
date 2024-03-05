@@ -8,21 +8,16 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;CA1416</NoWarn>
+    <NoWarn>1701;1702</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <NoWarn>1701;1702;CA1416</NoWarn>
+    <NoWarn>1701;1702</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Utils\Utils.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Sudoku">
-      <HintPath>..\Sudoku\bin\Debug\net6.0-windows\Sudoku.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\..\Utils\Utils.csproj" />
+    <ProjectReference Include="..\Sudoku\Sudoku.csproj" />
   </ItemGroup>
 
 </Project>

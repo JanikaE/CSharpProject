@@ -1,4 +1,4 @@
-﻿namespace Sudoku
+﻿namespace SudokuForm
 {
     internal static class Program
     {

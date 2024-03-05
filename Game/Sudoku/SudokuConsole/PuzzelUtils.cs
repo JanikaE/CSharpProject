@@ -37,7 +37,16 @@ namespace SudokuConsole
 
         private static string AddBlank(this int num, int max)
         {
-            int blank = (int)Math.Log10(max) - (int)Math.Log10(num) + 1;
+            int blank;
+            if (num != 0)
+            {
+                blank = (int)Math.Log10(max) - (int)Math.Log10(num) + 1;
+            }
+            else
+            {
+                blank = (int)Math.Log10(max) - (int)Math.Log10(1) + 1;
+            }
+
             string result = num.ToString();
             for (int i = 0; i < blank; i++)
             {
