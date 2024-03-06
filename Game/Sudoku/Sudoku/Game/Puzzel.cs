@@ -63,11 +63,11 @@ namespace Sudoku.Game
             {
                 if (cell.num != 0)
                 {
-                    cell.posibleNums.Clear();
+                    cell.possibleNums.Clear();
                 }
                 else
                 {
-                    cell.posibleNums = Nums.Clone();
+                    cell.possibleNums = Nums.Clone();
                 }
             }
             UpdatePosibleNums();
@@ -85,7 +85,7 @@ namespace Sudoku.Game
                     Cell cell = PlayMat(row, col);
                     if (cell.num != 0)
                     {
-                        cell.posibleNums.Clear();
+                        cell.possibleNums.Clear();
                     }
                     else
                     {
@@ -94,7 +94,7 @@ namespace Sudoku.Game
                         {
                             int x = index2 % Length;
                             int y = index2 / Length;
-                            cell.posibleNums.Remove(PlayMat(y, x).num);
+                            cell.possibleNums.Remove(PlayMat(y, x).num);
                         }
                     }
                 }
@@ -158,6 +158,16 @@ namespace Sudoku.Game
             {
                 if (cell.num == 0)
                     count++;
+            }
+            return count;
+        }
+
+        public int CountPossibleNum()
+        {
+            int count = 0;
+            foreach (Cell cell in playMat)
+            {
+                count += cell.possibleNums.Count;
             }
             return count;
         }

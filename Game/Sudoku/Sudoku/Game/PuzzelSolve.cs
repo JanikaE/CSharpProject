@@ -15,7 +15,6 @@ namespace Sudoku.Game
         /// <param name="action">记录所有的步骤</param>
         public void SolveBuster(Action<string, Puzzel>? action = null, bool consoleLog = false)
         {
-            DateTime start = DateTime.Now;
             List<Func<string>> Funcs = new()
             {
                 NakedSingle,
@@ -23,6 +22,7 @@ namespace Sudoku.Game
             };
             // 记录猜测
             Stack<Guess> guessStack = new();
+            int loopCnt = 0;
             while (true)
             {
                 string result = string.Empty;
@@ -60,7 +60,7 @@ namespace Sudoku.Game
                         else
                         {
                             PuzzelSnap puzzelSnap = new(this);
-                            int guessNum = GetGuessNum(toGuess);
+                            int guessNum = toGuess.possibleNums.GetRandomOne();
                             toGuess.num = guessNum;
                             UpdatePosibleNums();
                             guessStack.Push(new Guess(toGuess.Position, puzzelSnap, guessNum));
@@ -83,17 +83,13 @@ namespace Sudoku.Game
                         break;
                     }
                 }
+                loopCnt++;
 
                 if (consoleLog)
                 {
                     ConsoleTool.ClearCurrentConsoleLine();
-                    Console.Write(CountBlank() + " " + guessStack.Count);
-                    DateTime now = DateTime.Now;
-                    if ((now - start).TotalSeconds > 10)
-                    {
-                        break;
-                    }
-                }                
+                    Console.Write(CountBlank() + " " + guessStack.Count + " " + loopCnt);
+                }
             }
         }
 
@@ -155,7 +151,7 @@ namespace Sudoku.Game
                         else
                         {
                             PuzzelSnap puzzelSnap = new(this);
-                            int guessNum = GetGuessNum(toGuess);
+                            int guessNum = toGuess.possibleNums.GetRandomOne();
                             toGuess.num = guessNum;
                             UpdatePosibleNums();
                             guessStack.Push(new Guess(toGuess.Position, puzzelSnap, guessNum));
@@ -240,7 +236,7 @@ namespace Sudoku.Game
                         else
                         {
                             PuzzelSnap puzzelSnap = new(this);
-                            int guessNum = GetGuessNum(toGuess);
+                            int guessNum = toGuess.possibleNums.GetRandomOne();
                             toGuess.num = guessNum;
                             UpdatePosibleNums();
                             guessStack.Push(new Guess(toGuess.Position, puzzelSnap, guessNum));
@@ -265,35 +261,47 @@ namespace Sudoku.Game
 
         private Cell? GetGuessTarget()
         {
-            //for (int i = 2; i <= Length; i++)
-            //{
-            //    foreach (Cell cell in playMat)
-            //    {
-            //        if (cell.num == 0 && cell.posibleNums.Count == i)
-            //        {
-            //            return cell;
-            //        }
-            //    }
-            //}
-            //return null;
+            int patern = 2;
             Cell? result = null;
             int min = Length + 1;
-            foreach (Cell cell in playMat)
+            switch (patern)
             {
-                if (cell.num == 0 && cell.posibleNums.Count < min)
-                {
-                    result = cell;
-                    min = cell.posibleNums.Count;
-                }
+                case 1:
+                    foreach (Cell cell in playMat)
+                    {
+                        if (cell.num == 0 && cell.possibleNums.Count < min && cell.possibleNums.Count > 0)
+                        {
+                            result = cell;
+                            min = cell.possibleNums.Count;
+                        }
+                    }
+                    return result;
+                case 2:
+                    List<Cell> results = new();
+                    foreach (Cell cell in playMat)
+                    {
+                        if (cell.num == 0 && cell.possibleNums.Count > 0)
+                        {
+                            if (cell.possibleNums.Count < min)
+                            {
+                                results.Clear();
+                                results.Add(cell);
+                                min = cell.possibleNums.Count;
+                            }
+                            else if (cell.possibleNums.Count == min)
+                            {
+                                results.Add(cell);
+                            }
+                        }
+                    }
+                    if (results.Any())
+                    {
+                        result = results.GetRandomOne();
+                    }
+                    return result;
+                default:
+                    return null;
             }
-            return result;
-        }
-
-        private static int GetGuessNum(Cell cell)
-        {
-            Random random = new();
-            int index = random.Next(0, cell.posibleNums.Count);
-            return cell.posibleNums[index];
         }
 
         /// <summary>
@@ -313,21 +321,20 @@ namespace Sudoku.Game
                     Cell cell = PlayMat(row, col);
                     CellSnap cellSnap = puzzelSnap.playMat[row, col];
                     cell.num = cellSnap.num;
-                    cell.posibleNums = cellSnap.posibleNums.ToList();
+                    cell.possibleNums = cellSnap.possibleNums.ToList();
                 }
             }
 
             Cell thisCell = PlayMat(trace.position);
             int num = trace.num;
             // 将上一次猜的数字排除
-            thisCell.posibleNums.Remove(num);
-            UpdatePosibleNums();
+            thisCell.possibleNums.Remove(num);
             return (thisCell, num);
         }
 
         private struct Guess
         {
-            public Point2D position; 
+            public Point2D position;
             public PuzzelSnap puzzelSnap;
             public int num;
 
@@ -400,14 +407,14 @@ namespace Sudoku.Game
                     Cell cell = PlayMat(row, col);
                     if (cell.num == 0)
                     {
-                        if (cell.posibleNums.Count == 1)
+                        if (cell.possibleNums.Count == 1)
                         {
-                            int value = cell.posibleNums.First();
+                            int value = cell.possibleNums.First();
                             PlayMat(row, col).num = value;
-                            cell.posibleNums.Clear();
+                            cell.possibleNums.Clear();
                             return $"NakedSingle  {cell.Name}  value:{value}";
                         }
-                        if (cell.posibleNums.Count == 0)
+                        if (cell.possibleNums.Count == 0)
                         {
                             throw new SolveException($"NakedSingle  {cell.Name}  Error");
                         }
@@ -432,7 +439,7 @@ namespace Sudoku.Game
                     }
                     else
                     {
-                        foreach (int value in cell.posibleNums)
+                        foreach (int value in cell.possibleNums)
                         {
                             if (!valueInCell.ContainsKey(value))
                             {
@@ -452,7 +459,7 @@ namespace Sudoku.Game
                     if (cell != null)
                     {
                         cell.num = value;
-                        cell.posibleNums.Clear();
+                        cell.possibleNums.Clear();
                         return $"HiddenSingle  {cell.Name}  value:{value}";
                     }
                 }
@@ -476,7 +483,7 @@ namespace Sudoku.Game
 
                 foreach (int index in blankCell)
                 {
-                    List<int> tupleNum = PlayMat(index).posibleNums;
+                    List<int> tupleNum = PlayMat(index).possibleNums;
                     List<int> tupleIndex = new() { index };
                     bool success = false;
                     foreach (int another in blankCell)
@@ -485,7 +492,7 @@ namespace Sudoku.Game
                         {
                             continue;
                         }
-                        if (tupleNum.Contains(PlayMat(another).posibleNums))
+                        if (tupleNum.Contains(PlayMat(another).possibleNums))
                         {
                             tupleIndex.Add(another);
                         }
@@ -504,7 +511,7 @@ namespace Sudoku.Game
                             {
                                 continue;
                             }
-                            removeNum += PlayMat(remove).posibleNums.RemoveAll(n => tupleNum.Contains(n));
+                            removeNum += PlayMat(remove).possibleNums.RemoveAll(n => tupleNum.Contains(n));
                         }
                         if (removeNum > 0)
                         {
@@ -526,22 +533,22 @@ namespace Sudoku.Game
             foreach (Cell cell in playMat)
             {
                 // cell: xy
-                if (cell.num != 0 || cell.posibleNums.Count != 2)
+                if (cell.num != 0 || cell.possibleNums.Count != 2)
                 {
                     continue;
                 }
-                int a = cell.posibleNums[0];
-                int b = cell.posibleNums[1];
+                int a = cell.possibleNums[0];
+                int b = cell.possibleNums[1];
                 foreach (int index1 in GetRelatedIndex(cell))
                 {
                     // cell1: xz
                     Cell cell1 = PlayMat(index1);
-                    if (cell1.num != 0 || cell1.posibleNums.Count != 2)
+                    if (cell1.num != 0 || cell1.possibleNums.Count != 2)
                     {
                         continue;
                     }
-                    int c = cell1.posibleNums[0];
-                    int d = cell1.posibleNums[1];
+                    int c = cell1.possibleNums[0];
+                    int d = cell1.possibleNums[1];
                     int x, y, z;
                     if (a == c && b != d)
                     {
@@ -576,11 +583,11 @@ namespace Sudoku.Game
                     {
                         // cell2: yz
                         Cell cell2 = PlayMat(index2);
-                        if (cell2.num != 0 || cell2.posibleNums.Count != 2)
+                        if (cell2.num != 0 || cell2.possibleNums.Count != 2)
                         {
                             continue;
                         }
-                        if (cell2.posibleNums.Contains(y) && cell2.posibleNums.Contains(z))
+                        if (cell2.possibleNums.Contains(y) && cell2.possibleNums.Contains(z))
                         {
                             List<int> related = GetRelatedIndex(cell1, cell2);
                             List<Cell> update = new();
@@ -588,9 +595,9 @@ namespace Sudoku.Game
                             {
                                 // cell3: not z
                                 Cell cell3 = PlayMat(index);
-                                if (cell3.posibleNums.Contains(z))
+                                if (cell3.possibleNums.Contains(z))
                                 {
-                                    cell3.posibleNums.Remove(z);
+                                    cell3.possibleNums.Remove(z);
                                     update.Add(cell3);
                                 }
                             }

@@ -86,11 +86,11 @@ namespace SudokuForm
                     }
                     else
                     {
-                        int[] posibleNums = cell.posibleNums;
-                        foreach (int posibleNum in posibleNums)
+                        int[] possibleNums = cell.possibleNums;
+                        foreach (int possibleNum in possibleNums)
                         {
-                            Point point = new Point(col * Gap, row * Gap) + new Size((posibleNum - 1) % SubLength * SubGap, (posibleNum - 1) / SubLength * SubGap);
-                            graphics.DrawString(posibleNum.ToString(), smallFont, new SolidBrush(Color.Black), point);
+                            Point point = new Point(col * Gap, row * Gap) + new Size((possibleNum - 1) % SubLength * SubGap, (possibleNum - 1) / SubLength * SubGap);
+                            graphics.DrawString(possibleNum.ToString(), smallFont, new SolidBrush(Color.Black), point);
                         }
                     }
                 }

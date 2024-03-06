@@ -6,7 +6,7 @@ namespace Sudoku.Game
     {
         public int num;
         public bool canChange;
-        public List<int> posibleNums;
+        public List<int> possibleNums;
 
         /// <summary>
         /// 行号
@@ -27,7 +27,7 @@ namespace Sudoku.Game
         {
             num = 0;
             canChange = true;
-            posibleNums = new List<int>();
+            possibleNums = new List<int>();
             this.row = row;
             this.col = col;
         }

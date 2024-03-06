@@ -148,6 +148,5 @@ namespace Sudoku.Game
             }
             return results;
         }
-
     }
 }

@@ -136,5 +136,18 @@ namespace Utils.Extend
             }
             return true;
         }
+
+        public static T GetRandomOne<T>(this List<T> list)
+        {
+            Random random = Random.Shared;
+            int index = random.Next(0, list.Count);
+            return list[index];
+        }
+
+        public static T GetRandomOne<T>(this List<T> list, Random random)
+        {
+            int index = random.Next(0, list.Count);
+            return list[index];
+        }
     }
 }

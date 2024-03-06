@@ -6,13 +6,13 @@ namespace Sudoku.Snap
     {
         public int num;
         public bool canChange;
-        public int[] posibleNums;
+        public int[] possibleNums;
 
         public CellSnap(Cell cell)
         {
             num = cell.num;
             canChange = cell.canChange;
-            posibleNums = cell.posibleNums.ToArray();
+            possibleNums = cell.possibleNums.ToArray();
         }
     }
 }
