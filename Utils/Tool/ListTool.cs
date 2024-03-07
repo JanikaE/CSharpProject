@@ -36,7 +36,7 @@ namespace Utils.Tool
         /// <returns></returns>
         public static List<T> Union<T>(List<T> left, List<T> right) where T : IEquatable<T>
         {
-            List<T> result = left.Clone();
+            List<T> result = new(left);
             result.AddRange(right);
             result.Deduplicate();
             return result;

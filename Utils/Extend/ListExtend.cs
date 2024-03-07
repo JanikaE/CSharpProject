@@ -116,12 +116,6 @@ namespace Utils.Extend
             return s;
         }
 
-        public static List<T> Clone<T>(this List<T> list) 
-        { 
-            List<T> newList = new(list);
-            return newList; 
-        }
-
         /// <summary>
         /// List中是否含有另一个List中的所有元素
         /// </summary>
