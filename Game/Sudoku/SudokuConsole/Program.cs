@@ -9,17 +9,11 @@ namespace SudokuConsole
             while (true)
             {
                 DateTime start = DateTime.Now;
-                Puzzel puzzel = new(4, 4);
+                Puzzel puzzel = new(7, 7);
                 puzzel.InitPosibleNums();
                 puzzel.SolveBuster(null, true);
-                //Console.WriteLine(PuzzelUtils.ContentString(puzzel));
                 DateTime end = DateTime.Now;
                 Console.WriteLine(" " + (end - start).TotalSeconds);
-                //if (puzzel.CountBlank() > 0)
-                //{
-                //    Console.WriteLine("\n" + PuzzelUtils.ContentString(puzzel));
-                //    Console.ReadLine();
-                //}
             }
         }
     }

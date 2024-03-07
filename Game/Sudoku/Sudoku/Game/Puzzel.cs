@@ -13,6 +13,7 @@ namespace Sudoku.Game
         /// <summary>宫格的宽，即纵向上宫格的数量</summary>
         public int W { get; }
         public int Length => H * W;
+        public int Square => Length * Length;
 
         private readonly Cell[,] playMat;
 

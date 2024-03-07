@@ -1,14 +1,14 @@
 ﻿using Sudoku.Game;
 using Sudoku.Snap;
 
-namespace SudokuConsole
+namespace Sudoku
 {
-    internal static class PuzzelUtils
+    internal static class Utils
     {
         public static string ContentString(Puzzel puzzel)
         {
             string s = string.Empty;
-            int max = puzzel.Length * puzzel.Length;
+            int max = puzzel.Square;
             for (int row = 0; row < puzzel.Length; row++)
             {
                 for (int col = 0; col < puzzel.Length; col++)
@@ -23,7 +23,7 @@ namespace SudokuConsole
         public static string ContentString(PuzzelSnap puzzelSnap)
         {
             string s = string.Empty;
-            int max = puzzelSnap.Length * puzzelSnap.Length;
+            int max = puzzelSnap.Square;
             for (int row = 0; row < puzzelSnap.Length; row++)
             {
                 for (int col = 0; col < puzzelSnap.Length; col++)

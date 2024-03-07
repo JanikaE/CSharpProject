@@ -9,6 +9,7 @@ namespace Sudoku.Snap
         public CellSnap[,] playMat;
 
         public readonly int Length => H * W;
+        public readonly int Square => Length * Length;
 
         public PuzzelSnap(Puzzel puzzel)
         {

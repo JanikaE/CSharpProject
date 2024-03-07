@@ -23,6 +23,7 @@ namespace Sudoku.Game
             // 记录猜测
             Stack<Guess> guessStack = new();
             int loopCnt = 0;
+            KeyValuePair<int, int> maxProgress = new(0, 0);
             while (true)
             {
                 string result = string.Empty;
@@ -85,10 +86,23 @@ namespace Sudoku.Game
                 }
                 loopCnt++;
 
+                // 因未知原因迟迟没有进展时，直接往前多回溯几步
+                if (Square - CountBlank() > maxProgress.Key)
+                {
+                    maxProgress = new(Square - CountBlank(), loopCnt);
+                }
+                if (loopCnt - maxProgress.Value > Length * 10)
+                {
+                    TraceBack(guessStack, Length);
+                    maxProgress = new(Square - CountBlank(), loopCnt);
+                }
+
                 if (consoleLog)
                 {
                     ConsoleTool.ClearCurrentConsoleLine();
                     Console.Write(CountBlank() + " " + guessStack.Count + " " + loopCnt);
+                    //Console.SetCursorPosition(0, 0);
+                    //Console.Write(Utils.ContentString(this));
                 }
             }
         }
@@ -299,6 +313,16 @@ namespace Sudoku.Game
                         result = results.GetRandomOne();
                     }
                     return result;
+                case 3:
+                    foreach (Cell cell in playMat)
+                    {
+                        if (cell.num == 0)
+                        {
+                            result = cell;
+                            break;
+                        }
+                    }
+                    return result;
                 default:
                     return null;
             }
@@ -309,9 +333,20 @@ namespace Sudoku.Game
         /// </summary>
         /// <param name="guessStack"></param>
         /// <returns></returns>
-        private (Cell, int) TraceBack(Stack<Guess> guessStack)
+        private (Cell, int) TraceBack(Stack<Guess> guessStack, int loop = 1)
         {
             Guess trace = guessStack.Pop();
+            for (int i = 1; i < loop; i++)
+            {
+                if (guessStack.Any())
+                {
+                    trace = guessStack.Pop();
+                }
+                else
+                {
+                    break;
+                }
+            }
 
             PuzzelSnap puzzelSnap = trace.puzzelSnap;
             for (int row = 0; row < Length; row++)

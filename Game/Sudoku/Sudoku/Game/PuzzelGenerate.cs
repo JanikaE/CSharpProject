@@ -11,7 +11,7 @@
         public void GenerateByExample(string s)
         {
             char[] chars = s.ToCharArray();
-            if (chars.Length != Length * Length)
+            if (chars.Length != Square)
                 throw new ArgumentException("长宽不匹配");
 
             for (int row = 0; row < Length; row++)
@@ -34,7 +34,7 @@
         {
             // 对一个空白的数独暴力求解，可随机产生一个满的数独
             string blank = string.Empty;
-            for (int i = 0; i < Length * Length; i++)
+            for (int i = 0; i < Square; i++)
             {
                 blank += "0";
             }
@@ -84,7 +84,7 @@
         private (int, int, bool) RemoveOne(List<int> ignore)
         {
             List<int> indexList = new();
-            for (int i = 0; i < Length * Length; i++)
+            for (int i = 0; i < Square; i++)
             {
                 if (!ignore.Contains(i) && PlayMat(i).num != 0)
                 {
