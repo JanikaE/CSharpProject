@@ -65,5 +65,12 @@ namespace Utils.Extend
             }
             return nums;
         }
+
+        public static bool IsNullOrEmpty(this string str)
+        {
+            if (str == null) return true;
+            if (str.Length == 0) return true;
+            return false;
+        }
     }
 }
