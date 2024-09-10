@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 
 namespace SQLScriptExecTool
@@ -114,7 +115,9 @@ namespace SQLScriptExecTool
             {
                 if (openFileDialog.FileName != "")
                 {
-                    string script = File.ReadAllText(openFileDialog.FileName);
+                    FileStream fs = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read);
+                    StreamReader sr = new StreamReader(fs, Encoding.Default);
+                    string script = sr.ReadToEnd();
                     richTextBoxScript.Text = script;
                 }
             }
@@ -126,11 +129,11 @@ namespace SQLScriptExecTool
             try
             {
                 conn.Open();
-                MySqlCommand command = new MySqlCommand(richTextBoxScript.Text)
+                MySqlScript command = new MySqlScript(richTextBoxScript.Text)
                 {
                     Connection = conn
                 };
-                int result = command.ExecuteNonQuery();
+                int result = command.Execute();
 
                 MessageBox.Show($"执行成功！\n影响的行：{result}");
             }
