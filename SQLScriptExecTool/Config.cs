@@ -40,6 +40,12 @@ namespace SQLScriptExecTool
 
         public string Password { get; set; }
 
+        public string CurrentVersion { get; set; }
+
+        public string TargetVertion { get; set; }
+
+        public string Directory { get; set; }
+
         #endregion
 
         public static Config Load()
