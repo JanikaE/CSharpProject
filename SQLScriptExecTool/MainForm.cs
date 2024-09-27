@@ -284,6 +284,34 @@ namespace SQLScriptExecTool
             tabControl.SelectedTab = tabPageByFile;
         }
 
+        #region LinkLabel
+
+        private void LinkLabelChooseAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            for (int i = 0; i < checkedListBoxScripts.Items.Count; i++)
+            {
+                checkedListBoxScripts.SetItemChecked(i, true);
+            }
+        }
+
+        private void LinkLabelChooseOthers_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            for (int i = 0; i < checkedListBoxScripts.Items.Count; i++)
+            {                
+                checkedListBoxScripts.SetItemChecked(i, !checkedListBoxScripts.GetItemChecked(i));
+            }
+        }
+
+        private void LinkLabelChooseNone_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            for (int i = 0; i < checkedListBoxScripts.Items.Count; i++)
+            {
+                checkedListBoxScripts.SetItemChecked(i, false);
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// 递归获取文件夹下（包含子文件夹）所有sql文件
         /// </summary>

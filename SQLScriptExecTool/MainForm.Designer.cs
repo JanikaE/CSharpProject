@@ -62,6 +62,9 @@
             this.buttonLoadFolder = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.textBoxDirectory = new System.Windows.Forms.TextBox();
+            this.linkLabelChooseAll = new System.Windows.Forms.LinkLabel();
+            this.linkLabelChooseOthers = new System.Windows.Forms.LinkLabel();
+            this.linkLabelChooseNone = new System.Windows.Forms.LinkLabel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -71,6 +74,7 @@
             this.tabPageByVersion.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
+            this.tableLayoutPanel8.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
             this.SuspendLayout();
@@ -223,8 +227,8 @@
             // 
             // tabControl
             // 
-            this.tabControl.Controls.Add(this.tabPageByFile);
             this.tabControl.Controls.Add(this.tabPageByVersion);
+            this.tabControl.Controls.Add(this.tabPageByFile);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(3, 116);
             this.tabControl.Name = "tabControl";
@@ -338,9 +342,9 @@
             // tableLayoutPanel7
             // 
             this.tableLayoutPanel7.ColumnCount = 3;
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.30407F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.69593F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 103F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84.36658F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.63342F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 95F));
             this.tableLayoutPanel7.Controls.Add(this.checkedListBoxScripts, 0, 0);
             this.tableLayoutPanel7.Controls.Add(this.tableLayoutPanel8, 1, 0);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -359,7 +363,7 @@
             this.checkedListBoxScripts.HorizontalScrollbar = true;
             this.checkedListBoxScripts.Location = new System.Drawing.Point(3, 3);
             this.checkedListBoxScripts.Name = "checkedListBoxScripts";
-            this.checkedListBoxScripts.Size = new System.Drawing.Size(264, 260);
+            this.checkedListBoxScripts.Size = new System.Drawing.Size(307, 260);
             this.checkedListBoxScripts.TabIndex = 0;
             this.checkedListBoxScripts.DoubleClick += new System.EventHandler(this.CheckedListBoxScripts_DoubleClick);
             // 
@@ -367,15 +371,18 @@
             // 
             this.tableLayoutPanel8.ColumnCount = 1;
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel8.Controls.Add(this.linkLabelChooseAll, 0, 1);
+            this.tableLayoutPanel8.Controls.Add(this.linkLabelChooseOthers, 0, 2);
+            this.tableLayoutPanel8.Controls.Add(this.linkLabelChooseNone, 0, 3);
             this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(273, 3);
+            this.tableLayoutPanel8.Location = new System.Drawing.Point(316, 3);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
             this.tableLayoutPanel8.RowCount = 4;
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.60976F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 84.39024F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(87, 260);
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 173F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 32.09877F));
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(52, 260);
             this.tableLayoutPanel8.TabIndex = 1;
             // 
             // tableLayoutPanel6
@@ -438,7 +445,7 @@
             this.tableLayoutPanel9.ColumnCount = 3;
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.26316F));
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 69.73684F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 94F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 95F));
             this.tableLayoutPanel9.Controls.Add(this.buttonLoadFolder, 2, 0);
             this.tableLayoutPanel9.Controls.Add(this.label10, 0, 0);
             this.tableLayoutPanel9.Controls.Add(this.textBoxDirectory, 1, 0);
@@ -478,9 +485,45 @@
             this.textBoxDirectory.Location = new System.Drawing.Point(115, 3);
             this.textBoxDirectory.Name = "textBoxDirectory";
             this.textBoxDirectory.ReadOnly = true;
-            this.textBoxDirectory.Size = new System.Drawing.Size(254, 21);
+            this.textBoxDirectory.Size = new System.Drawing.Size(253, 21);
             this.textBoxDirectory.TabIndex = 2;
             this.textBoxDirectory.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TextBoxDirectory_MouseClick);
+            // 
+            // linkLabelChooseAll
+            // 
+            this.linkLabelChooseAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.linkLabelChooseAll.AutoSize = true;
+            this.linkLabelChooseAll.Location = new System.Drawing.Point(3, 181);
+            this.linkLabelChooseAll.Name = "linkLabelChooseAll";
+            this.linkLabelChooseAll.Size = new System.Drawing.Size(29, 12);
+            this.linkLabelChooseAll.TabIndex = 0;
+            this.linkLabelChooseAll.TabStop = true;
+            this.linkLabelChooseAll.Text = "全选";
+            this.linkLabelChooseAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelChooseAll_LinkClicked);
+            // 
+            // linkLabelChooseOthers
+            // 
+            this.linkLabelChooseOthers.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.linkLabelChooseOthers.AutoSize = true;
+            this.linkLabelChooseOthers.Location = new System.Drawing.Point(3, 210);
+            this.linkLabelChooseOthers.Name = "linkLabelChooseOthers";
+            this.linkLabelChooseOthers.Size = new System.Drawing.Size(29, 12);
+            this.linkLabelChooseOthers.TabIndex = 1;
+            this.linkLabelChooseOthers.TabStop = true;
+            this.linkLabelChooseOthers.Text = "反选";
+            this.linkLabelChooseOthers.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelChooseOthers_LinkClicked);
+            // 
+            // linkLabelChooseNone
+            // 
+            this.linkLabelChooseNone.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.linkLabelChooseNone.AutoSize = true;
+            this.linkLabelChooseNone.Location = new System.Drawing.Point(3, 239);
+            this.linkLabelChooseNone.Name = "linkLabelChooseNone";
+            this.linkLabelChooseNone.Size = new System.Drawing.Size(41, 12);
+            this.linkLabelChooseNone.TabIndex = 2;
+            this.linkLabelChooseNone.TabStop = true;
+            this.linkLabelChooseNone.Text = "全不选";
+            this.linkLabelChooseNone.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelChooseNone_LinkClicked);
             // 
             // MainForm
             // 
@@ -502,6 +545,8 @@
             this.tabPageByVersion.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel7.ResumeLayout(false);
+            this.tableLayoutPanel8.ResumeLayout(false);
+            this.tableLayoutPanel8.PerformLayout();
             this.tableLayoutPanel6.ResumeLayout(false);
             this.tableLayoutPanel6.PerformLayout();
             this.tableLayoutPanel9.ResumeLayout(false);
@@ -546,6 +591,9 @@
         private System.Windows.Forms.Button buttonLoadFolder;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox textBoxDirectory;
+        private System.Windows.Forms.LinkLabel linkLabelChooseAll;
+        private System.Windows.Forms.LinkLabel linkLabelChooseOthers;
+        private System.Windows.Forms.LinkLabel linkLabelChooseNone;
     }
 }
 
