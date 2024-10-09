@@ -109,8 +109,9 @@ namespace SQLScriptExecTool
                 comboBoxDatabase.DataSource = databases;
 
                 buttonOpenFile.Enabled = true;
-                buttonExecute.Enabled = true;
+                buttonExecuteOne.Enabled = true;
                 buttonLoadFolder.Enabled = true;
+                buttonExecuteMultiple.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -144,7 +145,7 @@ namespace SQLScriptExecTool
             }
         }
 
-        private void ButtonExecute_Click(object sender, EventArgs e)
+        private void ButtonExecuteOne_Click(object sender, EventArgs e)
         {
             MySqlConnection conn = new MySqlConnection(ConnStr);
             try
@@ -282,6 +283,44 @@ namespace SQLScriptExecTool
             string script = sr.ReadToEnd();
             richTextBoxScript.Text = script;
             tabControl.SelectedTab = tabPageByFile;
+        }
+
+        private void ButtonExecuteMultiple_Click(object sender, EventArgs e)
+        {
+            MySqlConnection conn = new MySqlConnection(ConnStr);
+            conn.Open();
+            for (int i = 0; i < checkedListBoxScripts.Items.Count; i++)
+            {
+                if (checkedListBoxScripts.GetItemChecked(i))
+                {
+                    checkedListBoxScripts.SelectedIndex = i;
+                }
+                else
+                {
+                    continue;
+                }
+
+                try
+                {
+                    string fileName = DirectoryPath + checkedListBoxScripts.SelectedItem;
+                    FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                    StreamReader sr = new StreamReader(fs, Encoding.Default);
+                    string script = sr.ReadToEnd();
+
+                    MySqlScript command = new MySqlScript(script)
+                    {
+                        Connection = conn
+                    };
+                    int result = command.Execute();
+
+                    MessageBox.Show($"执行成功！\n影响的行：{result}");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("执行发生错误！\n" + ex.Message);
+                }
+            }
+            conn.Close();            
         }
 
         #region LinkLabel

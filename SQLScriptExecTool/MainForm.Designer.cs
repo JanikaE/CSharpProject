@@ -42,17 +42,15 @@
             this.textBoxPassword = new System.Windows.Forms.TextBox();
             this.buttonTestConnect = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
-            this.tabPageByFile = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonExecute = new System.Windows.Forms.Button();
-            this.buttonOpenFile = new System.Windows.Forms.Button();
-            this.richTextBoxScript = new System.Windows.Forms.RichTextBox();
             this.tabPageByVersion = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonExecuteMultiple = new System.Windows.Forms.Button();
             this.checkedListBoxScripts = new System.Windows.Forms.CheckedListBox();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
+            this.linkLabelChooseAll = new System.Windows.Forms.LinkLabel();
+            this.linkLabelChooseOthers = new System.Windows.Forms.LinkLabel();
+            this.linkLabelChooseNone = new System.Windows.Forms.LinkLabel();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxTargetVersion = new System.Windows.Forms.TextBox();
             this.textBoxCurrentVersion = new System.Windows.Forms.TextBox();
@@ -62,21 +60,24 @@
             this.buttonLoadFolder = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.textBoxDirectory = new System.Windows.Forms.TextBox();
-            this.linkLabelChooseAll = new System.Windows.Forms.LinkLabel();
-            this.linkLabelChooseOthers = new System.Windows.Forms.LinkLabel();
-            this.linkLabelChooseNone = new System.Windows.Forms.LinkLabel();
+            this.tabPageByFile = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonExecuteOne = new System.Windows.Forms.Button();
+            this.buttonOpenFile = new System.Windows.Forms.Button();
+            this.richTextBoxScript = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tabControl.SuspendLayout();
-            this.tabPageByFile.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
             this.tabPageByVersion.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
+            this.tabPageByFile.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -236,81 +237,6 @@
             this.tabControl.Size = new System.Drawing.Size(487, 374);
             this.tabControl.TabIndex = 1;
             // 
-            // tabPageByFile
-            // 
-            this.tabPageByFile.Controls.Add(this.tableLayoutPanel3);
-            this.tabPageByFile.Location = new System.Drawing.Point(4, 22);
-            this.tabPageByFile.Name = "tabPageByFile";
-            this.tabPageByFile.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageByFile.Size = new System.Drawing.Size(479, 348);
-            this.tabPageByFile.TabIndex = 0;
-            this.tabPageByFile.Text = "根据文件";
-            this.tabPageByFile.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80.69815F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.30185F));
-            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.richTextBoxScript, 0, 0);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(473, 342);
-            this.tableLayoutPanel3.TabIndex = 2;
-            // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.ColumnCount = 1;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Controls.Add(this.buttonExecute, 0, 2);
-            this.tableLayoutPanel4.Controls.Add(this.buttonOpenFile, 0, 1);
-            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(384, 3);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 3;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 43.83562F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(86, 336);
-            this.tableLayoutPanel4.TabIndex = 0;
-            // 
-            // buttonExecute
-            // 
-            this.buttonExecute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonExecute.Enabled = false;
-            this.buttonExecute.Location = new System.Drawing.Point(10, 310);
-            this.buttonExecute.Name = "buttonExecute";
-            this.buttonExecute.Size = new System.Drawing.Size(73, 23);
-            this.buttonExecute.TabIndex = 1;
-            this.buttonExecute.Text = "执行脚本";
-            this.buttonExecute.UseVisualStyleBackColor = true;
-            this.buttonExecute.Click += new System.EventHandler(this.ButtonExecute_Click);
-            // 
-            // buttonOpenFile
-            // 
-            this.buttonOpenFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOpenFile.Enabled = false;
-            this.buttonOpenFile.Location = new System.Drawing.Point(10, 277);
-            this.buttonOpenFile.Name = "buttonOpenFile";
-            this.buttonOpenFile.Size = new System.Drawing.Size(73, 23);
-            this.buttonOpenFile.TabIndex = 0;
-            this.buttonOpenFile.Text = "打开脚本";
-            this.buttonOpenFile.UseVisualStyleBackColor = true;
-            this.buttonOpenFile.Click += new System.EventHandler(this.ButtonOpenFile_Click);
-            // 
-            // richTextBoxScript
-            // 
-            this.richTextBoxScript.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxScript.Location = new System.Drawing.Point(3, 3);
-            this.richTextBoxScript.Name = "richTextBoxScript";
-            this.richTextBoxScript.Size = new System.Drawing.Size(375, 336);
-            this.richTextBoxScript.TabIndex = 1;
-            this.richTextBoxScript.Text = "";
-            // 
             // tabPageByVersion
             // 
             this.tabPageByVersion.Controls.Add(this.tableLayoutPanel5);
@@ -344,7 +270,8 @@
             this.tableLayoutPanel7.ColumnCount = 3;
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84.36658F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.63342F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 95F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 97F));
+            this.tableLayoutPanel7.Controls.Add(this.buttonExecuteMultiple, 2, 0);
             this.tableLayoutPanel7.Controls.Add(this.checkedListBoxScripts, 0, 0);
             this.tableLayoutPanel7.Controls.Add(this.tableLayoutPanel8, 1, 0);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -355,6 +282,18 @@
             this.tableLayoutPanel7.Size = new System.Drawing.Size(467, 266);
             this.tableLayoutPanel7.TabIndex = 2;
             // 
+            // buttonExecuteMultiple
+            // 
+            this.buttonExecuteMultiple.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonExecuteMultiple.Enabled = false;
+            this.buttonExecuteMultiple.Location = new System.Drawing.Point(391, 240);
+            this.buttonExecuteMultiple.Name = "buttonExecuteMultiple";
+            this.buttonExecuteMultiple.Size = new System.Drawing.Size(73, 23);
+            this.buttonExecuteMultiple.TabIndex = 2;
+            this.buttonExecuteMultiple.Text = "执行脚本";
+            this.buttonExecuteMultiple.UseVisualStyleBackColor = true;
+            this.buttonExecuteMultiple.Click += new System.EventHandler(this.ButtonExecuteMultiple_Click);
+            // 
             // checkedListBoxScripts
             // 
             this.checkedListBoxScripts.CheckOnClick = true;
@@ -363,7 +302,7 @@
             this.checkedListBoxScripts.HorizontalScrollbar = true;
             this.checkedListBoxScripts.Location = new System.Drawing.Point(3, 3);
             this.checkedListBoxScripts.Name = "checkedListBoxScripts";
-            this.checkedListBoxScripts.Size = new System.Drawing.Size(307, 260);
+            this.checkedListBoxScripts.Size = new System.Drawing.Size(306, 260);
             this.checkedListBoxScripts.TabIndex = 0;
             this.checkedListBoxScripts.DoubleClick += new System.EventHandler(this.CheckedListBoxScripts_DoubleClick);
             // 
@@ -375,15 +314,51 @@
             this.tableLayoutPanel8.Controls.Add(this.linkLabelChooseOthers, 0, 2);
             this.tableLayoutPanel8.Controls.Add(this.linkLabelChooseNone, 0, 3);
             this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(316, 3);
+            this.tableLayoutPanel8.Location = new System.Drawing.Point(315, 3);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
             this.tableLayoutPanel8.RowCount = 4;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 173F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 32.09877F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(52, 260);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(51, 260);
             this.tableLayoutPanel8.TabIndex = 1;
+            // 
+            // linkLabelChooseAll
+            // 
+            this.linkLabelChooseAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.linkLabelChooseAll.AutoSize = true;
+            this.linkLabelChooseAll.Location = new System.Drawing.Point(3, 181);
+            this.linkLabelChooseAll.Name = "linkLabelChooseAll";
+            this.linkLabelChooseAll.Size = new System.Drawing.Size(29, 12);
+            this.linkLabelChooseAll.TabIndex = 0;
+            this.linkLabelChooseAll.TabStop = true;
+            this.linkLabelChooseAll.Text = "全选";
+            this.linkLabelChooseAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelChooseAll_LinkClicked);
+            // 
+            // linkLabelChooseOthers
+            // 
+            this.linkLabelChooseOthers.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.linkLabelChooseOthers.AutoSize = true;
+            this.linkLabelChooseOthers.Location = new System.Drawing.Point(3, 210);
+            this.linkLabelChooseOthers.Name = "linkLabelChooseOthers";
+            this.linkLabelChooseOthers.Size = new System.Drawing.Size(29, 12);
+            this.linkLabelChooseOthers.TabIndex = 1;
+            this.linkLabelChooseOthers.TabStop = true;
+            this.linkLabelChooseOthers.Text = "反选";
+            this.linkLabelChooseOthers.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelChooseOthers_LinkClicked);
+            // 
+            // linkLabelChooseNone
+            // 
+            this.linkLabelChooseNone.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.linkLabelChooseNone.AutoSize = true;
+            this.linkLabelChooseNone.Location = new System.Drawing.Point(3, 239);
+            this.linkLabelChooseNone.Name = "linkLabelChooseNone";
+            this.linkLabelChooseNone.Size = new System.Drawing.Size(41, 12);
+            this.linkLabelChooseNone.TabIndex = 2;
+            this.linkLabelChooseNone.TabStop = true;
+            this.linkLabelChooseNone.Text = "全不选";
+            this.linkLabelChooseNone.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelChooseNone_LinkClicked);
             // 
             // tableLayoutPanel6
             // 
@@ -445,7 +420,7 @@
             this.tableLayoutPanel9.ColumnCount = 3;
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.26316F));
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 69.73684F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 95F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 97F));
             this.tableLayoutPanel9.Controls.Add(this.buttonLoadFolder, 2, 0);
             this.tableLayoutPanel9.Controls.Add(this.label10, 0, 0);
             this.tableLayoutPanel9.Controls.Add(this.textBoxDirectory, 1, 0);
@@ -473,7 +448,7 @@
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(44, 8);
+            this.label10.Location = new System.Drawing.Point(43, 8);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(65, 12);
             this.label10.TabIndex = 1;
@@ -482,48 +457,87 @@
             // textBoxDirectory
             // 
             this.textBoxDirectory.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBoxDirectory.Location = new System.Drawing.Point(115, 3);
+            this.textBoxDirectory.Location = new System.Drawing.Point(114, 3);
             this.textBoxDirectory.Name = "textBoxDirectory";
             this.textBoxDirectory.ReadOnly = true;
-            this.textBoxDirectory.Size = new System.Drawing.Size(253, 21);
+            this.textBoxDirectory.Size = new System.Drawing.Size(252, 21);
             this.textBoxDirectory.TabIndex = 2;
             this.textBoxDirectory.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TextBoxDirectory_MouseClick);
             // 
-            // linkLabelChooseAll
+            // tabPageByFile
             // 
-            this.linkLabelChooseAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.linkLabelChooseAll.AutoSize = true;
-            this.linkLabelChooseAll.Location = new System.Drawing.Point(3, 181);
-            this.linkLabelChooseAll.Name = "linkLabelChooseAll";
-            this.linkLabelChooseAll.Size = new System.Drawing.Size(29, 12);
-            this.linkLabelChooseAll.TabIndex = 0;
-            this.linkLabelChooseAll.TabStop = true;
-            this.linkLabelChooseAll.Text = "全选";
-            this.linkLabelChooseAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelChooseAll_LinkClicked);
+            this.tabPageByFile.Controls.Add(this.tableLayoutPanel3);
+            this.tabPageByFile.Location = new System.Drawing.Point(4, 22);
+            this.tabPageByFile.Name = "tabPageByFile";
+            this.tabPageByFile.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageByFile.Size = new System.Drawing.Size(479, 348);
+            this.tabPageByFile.TabIndex = 0;
+            this.tabPageByFile.Text = "根据文件";
+            this.tabPageByFile.UseVisualStyleBackColor = true;
             // 
-            // linkLabelChooseOthers
+            // tableLayoutPanel3
             // 
-            this.linkLabelChooseOthers.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.linkLabelChooseOthers.AutoSize = true;
-            this.linkLabelChooseOthers.Location = new System.Drawing.Point(3, 210);
-            this.linkLabelChooseOthers.Name = "linkLabelChooseOthers";
-            this.linkLabelChooseOthers.Size = new System.Drawing.Size(29, 12);
-            this.linkLabelChooseOthers.TabIndex = 1;
-            this.linkLabelChooseOthers.TabStop = true;
-            this.linkLabelChooseOthers.Text = "反选";
-            this.linkLabelChooseOthers.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelChooseOthers_LinkClicked);
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80.69815F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.30185F));
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.richTextBoxScript, 0, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(473, 342);
+            this.tableLayoutPanel3.TabIndex = 2;
             // 
-            // linkLabelChooseNone
+            // tableLayoutPanel4
             // 
-            this.linkLabelChooseNone.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.linkLabelChooseNone.AutoSize = true;
-            this.linkLabelChooseNone.Location = new System.Drawing.Point(3, 239);
-            this.linkLabelChooseNone.Name = "linkLabelChooseNone";
-            this.linkLabelChooseNone.Size = new System.Drawing.Size(41, 12);
-            this.linkLabelChooseNone.TabIndex = 2;
-            this.linkLabelChooseNone.TabStop = true;
-            this.linkLabelChooseNone.Text = "全不选";
-            this.linkLabelChooseNone.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelChooseNone_LinkClicked);
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Controls.Add(this.buttonExecuteOne, 0, 2);
+            this.tableLayoutPanel4.Controls.Add(this.buttonOpenFile, 0, 1);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(384, 3);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 3;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 43.83562F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(86, 336);
+            this.tableLayoutPanel4.TabIndex = 0;
+            // 
+            // buttonExecuteOne
+            // 
+            this.buttonExecuteOne.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonExecuteOne.Enabled = false;
+            this.buttonExecuteOne.Location = new System.Drawing.Point(10, 310);
+            this.buttonExecuteOne.Name = "buttonExecuteOne";
+            this.buttonExecuteOne.Size = new System.Drawing.Size(73, 23);
+            this.buttonExecuteOne.TabIndex = 1;
+            this.buttonExecuteOne.Text = "执行脚本";
+            this.buttonExecuteOne.UseVisualStyleBackColor = true;
+            this.buttonExecuteOne.Click += new System.EventHandler(this.ButtonExecuteOne_Click);
+            // 
+            // buttonOpenFile
+            // 
+            this.buttonOpenFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOpenFile.Enabled = false;
+            this.buttonOpenFile.Location = new System.Drawing.Point(10, 277);
+            this.buttonOpenFile.Name = "buttonOpenFile";
+            this.buttonOpenFile.Size = new System.Drawing.Size(73, 23);
+            this.buttonOpenFile.TabIndex = 0;
+            this.buttonOpenFile.Text = "打开脚本";
+            this.buttonOpenFile.UseVisualStyleBackColor = true;
+            this.buttonOpenFile.Click += new System.EventHandler(this.ButtonOpenFile_Click);
+            // 
+            // richTextBoxScript
+            // 
+            this.richTextBoxScript.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxScript.Location = new System.Drawing.Point(3, 3);
+            this.richTextBoxScript.Name = "richTextBoxScript";
+            this.richTextBoxScript.Size = new System.Drawing.Size(375, 336);
+            this.richTextBoxScript.TabIndex = 1;
+            this.richTextBoxScript.Text = "";
             // 
             // MainForm
             // 
@@ -539,9 +553,6 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tabControl.ResumeLayout(false);
-            this.tabPageByFile.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel4.ResumeLayout(false);
             this.tabPageByVersion.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel7.ResumeLayout(false);
@@ -551,6 +562,9 @@
             this.tableLayoutPanel6.PerformLayout();
             this.tableLayoutPanel9.ResumeLayout(false);
             this.tableLayoutPanel9.PerformLayout();
+            this.tabPageByFile.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -572,7 +586,7 @@
         private System.Windows.Forms.TabPage tabPageByFile;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.Button buttonExecute;
+        private System.Windows.Forms.Button buttonExecuteOne;
         private System.Windows.Forms.Button buttonOpenFile;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox comboBoxDatabase;
@@ -594,6 +608,7 @@
         private System.Windows.Forms.LinkLabel linkLabelChooseAll;
         private System.Windows.Forms.LinkLabel linkLabelChooseOthers;
         private System.Windows.Forms.LinkLabel linkLabelChooseNone;
+        private System.Windows.Forms.Button buttonExecuteMultiple;
     }
 }
 
