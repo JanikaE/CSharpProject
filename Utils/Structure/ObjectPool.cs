@@ -12,9 +12,23 @@ namespace Utils.Structure
         private Action<T>? _onRelease;
         private Action<T>? _onRequest;
 
-        public void SetMaxSize(int maxSize)
+        public int? MaxSize 
+        { 
+            get 
+            { 
+                return _maxSize; 
+            } 
+            set 
+            { 
+                _maxSize = value;
+            } 
+        }
+
+        public ObjectPool(Func<T> onCreate, Action<T>? onRequest = null, Action<T>? onRelease = null)
         {
-            _maxSize = maxSize;
+            _onCreate = onCreate;
+            _onRelease = onRelease;
+            _onRequest = onRequest;
         }
 
         public void Setup(Func<T> onCreate, Action<T>? onRequest = null, Action<T>? onRelease = null)

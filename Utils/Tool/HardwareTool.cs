@@ -19,8 +19,12 @@ namespace Utils.Tool
                 string cpuSerialNumber = "";
                 foreach (ManagementObject mo in searcher.Get().Cast<ManagementObject>())
                 {
-                    cpuSerialNumber = mo["ProcessorId"].ToString().Trim();
-                    break;
+                    var o = mo["ProcessorId"].ToString();
+                    if (o != null)
+                    {
+                        cpuSerialNumber = o.Trim();
+                        break;
+                    }
                 }
                 return cpuSerialNumber;
             }
@@ -43,8 +47,12 @@ namespace Utils.Tool
                 string biosSerialNumber = "";
                 foreach (ManagementObject mo in searcher.Get().Cast<ManagementObject>())
                 {
-                    biosSerialNumber = mo.GetPropertyValue("SerialNumber").ToString().Trim();
-                    break;
+                    var o = mo.GetPropertyValue("SerialNumber").ToString();
+                    if (o != null) 
+                    {
+                        biosSerialNumber = o.Trim();
+                        break;
+                    }                    
                 }
                 return biosSerialNumber;
             }
@@ -67,8 +75,12 @@ namespace Utils.Tool
                 string hardDiskSerialNumber = "";
                 foreach (ManagementObject mo in searcher.Get().Cast<ManagementObject>())
                 {
-                    hardDiskSerialNumber = mo["SerialNumber"].ToString().Trim();
-                    break;
+                    var o = mo["SerialNumber"].ToString();
+                    if (o != null)
+                    {
+                        hardDiskSerialNumber = o.Trim();
+                        break;
+                    }
                 }
                 return hardDiskSerialNumber;
             }
@@ -91,8 +103,11 @@ namespace Utils.Tool
                 string netCardMACAddress = "";
                 foreach (ManagementObject mo in searcher.Get().Cast<ManagementObject>())
                 {
-                    netCardMACAddress = mo["MACAddress"].ToString().Trim();
-                    break;
+                    var o = mo["MACAddress"].ToString();
+                    if (o != null) { 
+                        netCardMACAddress = o.Trim();
+                        break;
+                    }
                 }
                 return netCardMACAddress;
             }
