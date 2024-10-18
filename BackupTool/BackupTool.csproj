@@ -51,6 +51,12 @@
   <ItemGroup>
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\PathPair.cs" />
+    <Compile Include="FormExec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormExec.Designer.cs">
+      <DependentUpon>FormExec.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormAdd.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,6 +71,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormExec.resx">
+      <DependentUpon>FormExec.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormAdd.resx">
       <DependentUpon>FormAdd.cs</DependentUpon>
     </EmbeddedResource>
