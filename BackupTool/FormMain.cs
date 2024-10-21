@@ -30,7 +30,6 @@ namespace BackupTool
             int y = panelPathPairs.Top;
             foreach (PathPair pathPair in Config.Config.Instance.PathPairs)
             {
-                int height = 100;
                 RichTextBox textBox = new RichTextBox
                 {
                     ReadOnly = true,
@@ -38,10 +37,10 @@ namespace BackupTool
                     Tag = pathPair,
 
                     Width = panelPathPairs.Width,
-                    Height = height,  // todo: 高度自适应
                     Left = panelPathPairs.Left,
                     Top = y
                 };
+                textBox.Height = textBox.PreferredHeight * 3;
 
                 ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
                 contextMenuStrip.Items.Add("Edit");
@@ -49,9 +48,9 @@ namespace BackupTool
                 contextMenuStrip.Tag = textBox;
                 contextMenuStrip.ItemClicked += ContextMenuStrip_ItemClicked;
                 textBox.ContextMenuStrip = contextMenuStrip;
-
-                y += height;                
+               
                 panelPathPairs.Controls.Add(textBox);
+                y += textBox.Height;
             }
         }
 
