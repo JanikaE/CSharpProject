@@ -36,14 +36,17 @@
             this.textBoxSource = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
+            this.buttonSetSourcePath = new System.Windows.Forms.Button();
+            this.buttonSetTargetPath = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.01653F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.98347F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.buttonAdd, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 2);
@@ -51,6 +54,8 @@
             this.tableLayoutPanel1.Controls.Add(this.textBoxSource, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.textBoxName, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonSetSourcePath, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.buttonSetTargetPath, 2, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -66,7 +71,7 @@
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(51, 8);
+            this.label3.Location = new System.Drawing.Point(46, 8);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 12);
             this.label3.TabIndex = 6;
@@ -75,7 +80,7 @@
             // buttonAdd
             // 
             this.buttonAdd.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.buttonAdd.Location = new System.Drawing.Point(561, 93);
+            this.buttonAdd.Location = new System.Drawing.Point(524, 93);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(75, 23);
             this.buttonAdd.TabIndex = 4;
@@ -87,7 +92,7 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(39, 68);
+            this.label2.Location = new System.Drawing.Point(34, 68);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(41, 12);
             this.label2.TabIndex = 1;
@@ -96,26 +101,24 @@
             // textBoxTarget
             // 
             this.textBoxTarget.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBoxTarget.Location = new System.Drawing.Point(86, 63);
+            this.textBoxTarget.Location = new System.Drawing.Point(81, 63);
             this.textBoxTarget.Name = "textBoxTarget";
-            this.textBoxTarget.ReadOnly = true;
-            this.textBoxTarget.Size = new System.Drawing.Size(550, 21);
+            this.textBoxTarget.Size = new System.Drawing.Size(518, 21);
             this.textBoxTarget.TabIndex = 3;
             // 
             // textBoxSource
             // 
             this.textBoxSource.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBoxSource.Location = new System.Drawing.Point(86, 33);
+            this.textBoxSource.Location = new System.Drawing.Point(81, 33);
             this.textBoxSource.Name = "textBoxSource";
-            this.textBoxSource.ReadOnly = true;
-            this.textBoxSource.Size = new System.Drawing.Size(550, 21);
+            this.textBoxSource.Size = new System.Drawing.Size(518, 21);
             this.textBoxSource.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(39, 38);
+            this.label1.Location = new System.Drawing.Point(34, 38);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 12);
             this.label1.TabIndex = 0;
@@ -124,10 +127,30 @@
             // textBoxName
             // 
             this.textBoxName.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBoxName.Location = new System.Drawing.Point(86, 4);
+            this.textBoxName.Location = new System.Drawing.Point(81, 4);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(110, 21);
             this.textBoxName.TabIndex = 5;
+            // 
+            // buttonChooseSourcePath
+            // 
+            this.buttonSetSourcePath.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.buttonSetSourcePath.Location = new System.Drawing.Point(605, 32);
+            this.buttonSetSourcePath.Name = "buttonChooseSourcePath";
+            this.buttonSetSourcePath.Size = new System.Drawing.Size(31, 23);
+            this.buttonSetSourcePath.TabIndex = 7;
+            this.buttonSetSourcePath.Text = "...";
+            this.buttonSetSourcePath.UseVisualStyleBackColor = true;
+            // 
+            // buttonChooseTargetPath
+            // 
+            this.buttonSetTargetPath.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.buttonSetTargetPath.Location = new System.Drawing.Point(605, 62);
+            this.buttonSetTargetPath.Name = "buttonChooseTargetPath";
+            this.buttonSetTargetPath.Size = new System.Drawing.Size(31, 23);
+            this.buttonSetTargetPath.TabIndex = 8;
+            this.buttonSetTargetPath.Text = "...";
+            this.buttonSetTargetPath.UseVisualStyleBackColor = true;
             // 
             // FormAdd
             // 
@@ -140,6 +163,7 @@
             this.MinimizeBox = false;
             this.Name = "FormAdd";
             this.Text = "新增路径";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAdd_FormClosing);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -156,5 +180,7 @@
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxName;
+        private System.Windows.Forms.Button buttonSetSourcePath;
+        private System.Windows.Forms.Button buttonSetTargetPath;
     }
 }

@@ -30,53 +30,14 @@ namespace BackupTool.Config
 
         private static Config _instance = null;
 
+        private Config()
+        {
+            PathPairs = new List<PathPair>();
+        }
+
         #region Parameter
 
         public List<PathPair> PathPairs { get; set; }
-
-        #region 新增/修改/删除
-
-        public bool AddPathPair(PathPair pathPair)
-        {
-            int id = 1;
-            while (PathPairs.FindIndex(p => p.Id == id) > 0)
-            {
-                id++;
-            }
-            pathPair.Id = id;
-            PathPairs.Add(pathPair);
-            return true;
-        }
-
-        public bool EditPathPair(PathPair pathPair)
-        {
-            PathPair origin = PathPairs.Find(p => p.Id == pathPair.Id);
-            if (origin != null)
-            {
-                origin = pathPair;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool DeletePair(PathPair pathPair)
-        {
-            PathPair origin = PathPairs.Find(p => p.Id == pathPair.Id);
-            if (origin != null)
-            {
-                PathPairs.Remove(origin);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        #endregion
 
         #endregion
 

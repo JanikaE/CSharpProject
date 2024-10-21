@@ -26,15 +26,18 @@ namespace BackupTool
                 buttonAdd.Text = "新增";
             }
 
-            textBoxSource.Click += SetPath;
-            textBoxTarget.Click += SetPath;
+            buttonSetSourcePath.Click += SetPath;
+            buttonSetTargetPath.Click += SetPath;
+            buttonSetSourcePath.Tag = textBoxSource;
+            buttonSetTargetPath.Tag = textBoxTarget;
         }
 
         private PathPair PathPair { get; set; }
 
         private void SetPath(object sender, EventArgs e)
         {
-            TextBox textBox = sender as TextBox;
+            Button button = sender as Button;
+            TextBox textBox = button.Tag as TextBox;
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog()
             {
                 SelectedPath = textBox.Text,
@@ -59,33 +62,30 @@ namespace BackupTool
             {
                 if (buttonAdd.Text == "新增")
                 {
-                    Config.Config.Instance.AddPathPair(new PathPair()
+                    Config.Config.Instance.PathPairs.Add(new PathPair()
                     {
                         Name = name,
                         SourcePath = sourcePath,
                         TargetPath = targetPath
                     });
                     Config.Config.Instance.Save();
-                    MessageBox.Show("添加成功！");
                     Close();
                 }
                 else if (buttonAdd.Text == "修改")
                 {
                     PathPair.Name = name;
                     PathPair.SourcePath = sourcePath;
-                    PathPair.TargetPath = targetPath;
-                    if (Config.Config.Instance.EditPathPair(PathPair))
-                    {
-                        Config.Config.Instance.Save();
-                        MessageBox.Show("修改成功！");
-                        Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("修改失败！");
-                    }
+                    PathPair.TargetPath = targetPath;                 
+                    Config.Config.Instance.Save();
+                    Close();
                 }
             }
+        }
+
+        private void FormAdd_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            FormMain formMain = Owner as FormMain;
+            formMain.UpdatePanel();
         }
     }
 }

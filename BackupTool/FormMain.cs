@@ -19,7 +19,7 @@ namespace BackupTool
             formExec.BringToFront();
         }
 
-        private void UpdatePanel()
+        public void UpdatePanel()
         {
             foreach (Control control in panelPathPairs.Controls)
             {
@@ -30,12 +30,11 @@ namespace BackupTool
             int y = panelPathPairs.Top;
             foreach (PathPair pathPair in Config.Config.Instance.PathPairs)
             {
-                int height = 200;
+                int height = 100;
                 RichTextBox textBox = new RichTextBox
                 {
                     ReadOnly = true,
                     Text = pathPair.ToString(),
-                    ContextMenuStrip = contextMenuStripPathPair,
                     Tag = pathPair,
 
                     Width = panelPathPairs.Width,
@@ -43,10 +42,31 @@ namespace BackupTool
                     Left = panelPathPairs.Left,
                     Top = y
                 };
-                y += height;
 
+                ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
+                contextMenuStrip.Items.Add("Edit");
+                contextMenuStrip.Items.Add("Delete");
+                contextMenuStrip.Tag = textBox;
+                contextMenuStrip.ItemClicked += ContextMenuStrip_ItemClicked;
+                textBox.ContextMenuStrip = contextMenuStrip;
+
+                y += height;                
                 panelPathPairs.Controls.Add(textBox);
-                
+            }
+        }
+
+        private void ContextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            ContextMenuStrip menu = sender as ContextMenuStrip;
+            RichTextBox textBox = menu.Tag as RichTextBox;
+            PathPair pathPair = textBox.Tag as PathPair;
+            if (e.ClickedItem.Text == "Edit")
+            {
+                Edit(pathPair);
+            }
+            else if(e.ClickedItem.Text == "Delete")
+            {
+                Delete(pathPair);
             }
         }
 
@@ -62,10 +82,6 @@ namespace BackupTool
             FormAdd formAdd = new FormAdd(null);
             formAdd.ShowDialog(this);
             formAdd.BringToFront();
-            formAdd.FormClosed += (sender2, e2) =>
-            {
-                UpdatePanel();
-            };
         }
 
         /// <summary>
@@ -73,17 +89,11 @@ namespace BackupTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void EditToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Edit(PathPair pathPair)
         {
-            PathPair pathPair = ((RichTextBox)sender).Tag as PathPair;
-
             FormAdd formAdd = new FormAdd(pathPair);
             formAdd.ShowDialog(this);
             formAdd.BringToFront();
-            formAdd.FormClosed += (sender2, e2) =>
-            {
-                UpdatePanel();
-            };
         }
 
         /// <summary>
@@ -91,10 +101,10 @@ namespace BackupTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Delete(PathPair pathPair)
         {
-            PathPair pathPair = ((RichTextBox)sender).Tag as PathPair;
-            Config.Config.Instance.DeletePair(pathPair);
+            Config.Config.Instance.PathPairs.Remove(pathPair);
+            Config.Config.Instance.Save();
             UpdatePanel();
         }
 
