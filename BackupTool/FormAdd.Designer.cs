@@ -46,7 +46,7 @@
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.01653F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.98347F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 49F));
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.buttonAdd, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 2);
@@ -58,31 +58,34 @@
             this.tableLayoutPanel1.Controls.Add(this.buttonSetTargetPath, 2, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 49.29578F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.70422F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(639, 121);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(852, 151);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // label3
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(46, 8);
+            this.label3.Location = new System.Drawing.Point(61, 11);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 12);
+            this.label3.Size = new System.Drawing.Size(39, 15);
             this.label3.TabIndex = 6;
             this.label3.Text = "Name";
             // 
             // buttonAdd
             // 
             this.buttonAdd.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.buttonAdd.Location = new System.Drawing.Point(524, 93);
+            this.buttonAdd.Location = new System.Drawing.Point(698, 117);
+            this.buttonAdd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(75, 23);
+            this.buttonAdd.Size = new System.Drawing.Size(100, 29);
             this.buttonAdd.TabIndex = 4;
             this.buttonAdd.Text = "新增";
             this.buttonAdd.UseVisualStyleBackColor = true;
@@ -92,73 +95,81 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(34, 68);
+            this.label2.Location = new System.Drawing.Point(45, 86);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 12);
+            this.label2.Size = new System.Drawing.Size(55, 15);
             this.label2.TabIndex = 1;
             this.label2.Text = "Target";
             // 
             // textBoxTarget
             // 
             this.textBoxTarget.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBoxTarget.Location = new System.Drawing.Point(81, 63);
+            this.textBoxTarget.Location = new System.Drawing.Point(108, 81);
+            this.textBoxTarget.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxTarget.Name = "textBoxTarget";
-            this.textBoxTarget.Size = new System.Drawing.Size(518, 21);
+            this.textBoxTarget.Size = new System.Drawing.Size(689, 25);
             this.textBoxTarget.TabIndex = 3;
             // 
             // textBoxSource
             // 
             this.textBoxSource.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBoxSource.Location = new System.Drawing.Point(81, 33);
+            this.textBoxSource.Location = new System.Drawing.Point(108, 43);
+            this.textBoxSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxSource.Name = "textBoxSource";
-            this.textBoxSource.Size = new System.Drawing.Size(518, 21);
+            this.textBoxSource.Size = new System.Drawing.Size(689, 25);
             this.textBoxSource.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(34, 38);
+            this.label1.Location = new System.Drawing.Point(45, 48);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 12);
+            this.label1.Size = new System.Drawing.Size(55, 15);
             this.label1.TabIndex = 0;
             this.label1.Text = "Source";
             // 
             // textBoxName
             // 
             this.textBoxName.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBoxName.Location = new System.Drawing.Point(81, 4);
+            this.textBoxName.Location = new System.Drawing.Point(108, 6);
+            this.textBoxName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(110, 21);
+            this.textBoxName.Size = new System.Drawing.Size(356, 25);
             this.textBoxName.TabIndex = 5;
             // 
-            // buttonChooseSourcePath
+            // buttonSetSourcePath
             // 
             this.buttonSetSourcePath.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.buttonSetSourcePath.Location = new System.Drawing.Point(605, 32);
-            this.buttonSetSourcePath.Name = "buttonChooseSourcePath";
-            this.buttonSetSourcePath.Size = new System.Drawing.Size(31, 23);
+            this.buttonSetSourcePath.Location = new System.Drawing.Point(806, 41);
+            this.buttonSetSourcePath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonSetSourcePath.Name = "buttonSetSourcePath";
+            this.buttonSetSourcePath.Size = new System.Drawing.Size(41, 29);
             this.buttonSetSourcePath.TabIndex = 7;
             this.buttonSetSourcePath.Text = "...";
             this.buttonSetSourcePath.UseVisualStyleBackColor = true;
             // 
-            // buttonChooseTargetPath
+            // buttonSetTargetPath
             // 
             this.buttonSetTargetPath.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.buttonSetTargetPath.Location = new System.Drawing.Point(605, 62);
-            this.buttonSetTargetPath.Name = "buttonChooseTargetPath";
-            this.buttonSetTargetPath.Size = new System.Drawing.Size(31, 23);
+            this.buttonSetTargetPath.Location = new System.Drawing.Point(806, 79);
+            this.buttonSetTargetPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonSetTargetPath.Name = "buttonSetTargetPath";
+            this.buttonSetTargetPath.Size = new System.Drawing.Size(41, 29);
             this.buttonSetTargetPath.TabIndex = 8;
             this.buttonSetTargetPath.Text = "...";
             this.buttonSetTargetPath.UseVisualStyleBackColor = true;
             // 
             // FormAdd
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(639, 121);
+            this.ClientSize = new System.Drawing.Size(852, 151);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormAdd";

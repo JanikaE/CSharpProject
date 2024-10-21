@@ -2,6 +2,8 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BackupTool
@@ -11,10 +13,9 @@ namespace BackupTool
         public FormExec()
         {
             InitializeComponent();
-            Execute();
         }
 
-        private void Execute()
+        public void Execute()
         {
             foreach(PathPair pathPair in Config.Config.Instance.PathPairs)
             {
@@ -66,7 +67,10 @@ namespace BackupTool
                             }
                             else
                             {
-                                WriteProcess($"Ignore:{msg}\n", Color.Gray);
+                                if (Config.Config.Instance.IsShowIgnore)
+                                {
+                                    WriteProcess($"Ignore:{msg}\n", Color.Gray);
+                                }
                             }
                         }
                         else

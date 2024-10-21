@@ -39,6 +39,8 @@ namespace BackupTool.Config
 
         public List<PathPair> PathPairs { get; set; }
 
+        public bool IsShowIgnore { get; set; }
+
         #endregion
 
         public static Config Load()

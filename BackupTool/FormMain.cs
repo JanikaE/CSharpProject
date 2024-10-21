@@ -9,14 +9,16 @@ namespace BackupTool
         public FormMain()
         {
             InitializeComponent();
+
+            checkBoxIsShowIgnore.Checked = Config.Config.Instance.IsShowIgnore;
             UpdatePanel();
         }
 
         private void ButtonExec_Click(object sender, EventArgs e)
         {
             FormExec formExec = new FormExec();
-            formExec.ShowDialog(this);
-            formExec.BringToFront();
+            formExec.Show();
+            formExec.Execute();
         }
 
         public void UpdatePanel()
@@ -80,7 +82,6 @@ namespace BackupTool
         {
             FormAdd formAdd = new FormAdd(null);
             formAdd.ShowDialog(this);
-            formAdd.BringToFront();
         }
 
         /// <summary>
@@ -92,7 +93,6 @@ namespace BackupTool
         {
             FormAdd formAdd = new FormAdd(pathPair);
             formAdd.ShowDialog(this);
-            formAdd.BringToFront();
         }
 
         /// <summary>
@@ -108,5 +108,11 @@ namespace BackupTool
         }
 
         #endregion
+
+        private void CheckBoxIsShowIgnore_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.Config.Instance.IsShowIgnore = checkBoxIsShowIgnore.Checked;
+            Config.Config.Instance.Save();
+        }
     }
 }
