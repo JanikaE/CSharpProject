@@ -47,21 +47,23 @@
             this.tableLayoutPanel1.Controls.Add(this.buttonExec, 0, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 89.83051F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.16949F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(541, 407);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 86.22881F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.77119F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 52F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(721, 509);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // panelPathPairs
             // 
             this.panelPathPairs.AutoScroll = true;
             this.panelPathPairs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelPathPairs.Location = new System.Drawing.Point(3, 3);
+            this.panelPathPairs.Location = new System.Drawing.Point(4, 4);
+            this.panelPathPairs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelPathPairs.Name = "panelPathPairs";
-            this.panelPathPairs.Size = new System.Drawing.Size(535, 333);
+            this.panelPathPairs.Size = new System.Drawing.Size(713, 386);
             this.panelPathPairs.TabIndex = 3;
             // 
             // tableLayoutPanel2
@@ -72,20 +74,21 @@
             this.tableLayoutPanel2.Controls.Add(this.buttonAdd, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.checkBoxIsShowIgnore, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(2, 341);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 396);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(537, 34);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(715, 58);
             this.tableLayoutPanel2.TabIndex = 4;
             // 
             // buttonAdd
             // 
             this.buttonAdd.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.buttonAdd.Location = new System.Drawing.Point(459, 6);
+            this.buttonAdd.Location = new System.Drawing.Point(611, 15);
+            this.buttonAdd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(75, 22);
+            this.buttonAdd.Size = new System.Drawing.Size(100, 28);
             this.buttonAdd.TabIndex = 1;
             this.buttonAdd.Text = "添加路径";
             this.buttonAdd.UseVisualStyleBackColor = true;
@@ -95,10 +98,10 @@
             // 
             this.checkBoxIsShowIgnore.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxIsShowIgnore.AutoSize = true;
-            this.checkBoxIsShowIgnore.Location = new System.Drawing.Point(2, 9);
-            this.checkBoxIsShowIgnore.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBoxIsShowIgnore.Location = new System.Drawing.Point(3, 19);
+            this.checkBoxIsShowIgnore.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxIsShowIgnore.Name = "checkBoxIsShowIgnore";
-            this.checkBoxIsShowIgnore.Size = new System.Drawing.Size(84, 16);
+            this.checkBoxIsShowIgnore.Size = new System.Drawing.Size(104, 19);
             this.checkBoxIsShowIgnore.TabIndex = 2;
             this.checkBoxIsShowIgnore.Text = "显示忽略项";
             this.checkBoxIsShowIgnore.UseVisualStyleBackColor = true;
@@ -107,9 +110,10 @@
             // buttonExec
             // 
             this.buttonExec.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.buttonExec.Location = new System.Drawing.Point(463, 381);
+            this.buttonExec.Location = new System.Drawing.Point(617, 468);
+            this.buttonExec.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonExec.Name = "buttonExec";
-            this.buttonExec.Size = new System.Drawing.Size(75, 22);
+            this.buttonExec.Size = new System.Drawing.Size(100, 28);
             this.buttonExec.TabIndex = 2;
             this.buttonExec.Text = "执行备份";
             this.buttonExec.UseVisualStyleBackColor = true;
@@ -117,10 +121,11 @@
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(541, 407);
+            this.ClientSize = new System.Drawing.Size(721, 509);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormMain";

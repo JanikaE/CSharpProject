@@ -112,11 +112,9 @@ namespace BackupTool.Forms
             float newx = Width / x;
             float newy = Height / y;
             SetControls(newx, newy, this);
-
-            SaveRectangle();
         }
 
-        private void ScalingForm_Move(object sender, EventArgs e)
+        private void ScalingForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveRectangle();
         }
