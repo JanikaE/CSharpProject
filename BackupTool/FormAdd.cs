@@ -1,14 +1,16 @@
 ﻿using BackupTool.Config;
+using BackupTool.Forms;
 using System;
 using System.Windows.Forms;
 
 namespace BackupTool
 {
-    public partial class FormAdd : Form
+    public partial class FormAdd : ScalingForm
     {
         public FormAdd(PathPair pathPair)
         {
             InitializeComponent();
+            InitTag();
 
             if (pathPair != null)
             {
@@ -28,8 +30,6 @@ namespace BackupTool
 
             buttonSetSourcePath.Click += SetPath;
             buttonSetTargetPath.Click += SetPath;
-            buttonSetSourcePath.Tag = textBoxSource;
-            buttonSetTargetPath.Tag = textBoxTarget;
         }
 
         private PathPair PathPair { get; set; }
@@ -37,7 +37,20 @@ namespace BackupTool
         private void SetPath(object sender, EventArgs e)
         {
             Button button = sender as Button;
-            TextBox textBox = button.Tag as TextBox;
+            TextBox textBox;
+            if (button == buttonSetSourcePath)
+            {
+                textBox = textBoxSource;
+            }
+            else if (button == buttonSetTargetPath) 
+            {
+                textBox = textBoxTarget;
+            }
+            else
+            {
+                return;
+            }
+
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog()
             {
                 SelectedPath = textBox.Text,

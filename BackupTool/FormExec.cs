@@ -1,4 +1,5 @@
 ﻿using BackupTool.Config;
+using BackupTool.Forms;
 using System;
 using System.Drawing;
 using System.IO;
@@ -8,11 +9,12 @@ using System.Windows.Forms;
 
 namespace BackupTool
 {
-    public partial class FormExec : Form
+    public partial class FormExec : ScalingForm
     {
         public FormExec()
         {
             InitializeComponent();
+            InitTag();
         }
 
         public void Execute()

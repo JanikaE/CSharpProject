@@ -1,14 +1,17 @@
 ﻿using BackupTool.Config;
+using BackupTool.Controls;
+using BackupTool.Forms;
 using System;
 using System.Windows.Forms;
 
 namespace BackupTool
 {
-    public partial class FormMain : Form
+    public partial class FormMain : ScalingForm
     {
         public FormMain()
         {
             InitializeComponent();
+            InitTag();
 
             checkBoxIsShowIgnore.Checked = Config.Config.Instance.IsShowIgnore;
             UpdatePanel();
@@ -29,38 +32,44 @@ namespace BackupTool
             }
             panelPathPairs.Controls.Clear();
 
-            int y = panelPathPairs.Top;
             foreach (PathPair pathPair in Config.Config.Instance.PathPairs)
             {
-                RichTextBox textBox = new RichTextBox
+                PathPairRichTextBox textBox = new PathPairRichTextBox(pathPair)
                 {
                     ReadOnly = true,
-                    Text = pathPair.ToString(),
-                    Tag = pathPair,
-
-                    Width = panelPathPairs.Width,
-                    Left = panelPathPairs.Left,
-                    Top = y
+                    Text = pathPair.ToString()
                 };
-                textBox.Height = textBox.PreferredHeight * 3;
 
-                ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
+                PathPairContextMenuStrip contextMenuStrip = new PathPairContextMenuStrip(pathPair);
                 contextMenuStrip.Items.Add("Edit");
                 contextMenuStrip.Items.Add("Delete");
-                contextMenuStrip.Tag = textBox;
                 contextMenuStrip.ItemClicked += ContextMenuStrip_ItemClicked;
                 textBox.ContextMenuStrip = contextMenuStrip;
                
                 panelPathPairs.Controls.Add(textBox);
+            }
+
+            SetPanelPosition();
+        }
+
+        private void SetPanelPosition()
+        {
+            int y = panelPathPairs.Top;
+            foreach (Control control in panelPathPairs.Controls)
+            {
+                PathPairRichTextBox textBox = control as PathPairRichTextBox;
+                textBox.Width = panelPathPairs.Width;
+                textBox.Left = panelPathPairs.Left;
+                textBox.Top = y;
+                textBox.Height = textBox.PreferredHeight * 3;
                 y += textBox.Height;
             }
         }
 
         private void ContextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            ContextMenuStrip menu = sender as ContextMenuStrip;
-            RichTextBox textBox = menu.Tag as RichTextBox;
-            PathPair pathPair = textBox.Tag as PathPair;
+            PathPairContextMenuStrip menu = sender as PathPairContextMenuStrip;
+            PathPair pathPair = menu.pathPair;
             if (e.ClickedItem.Text == "Edit")
             {
                 Edit(pathPair);
@@ -113,6 +122,11 @@ namespace BackupTool
         {
             Config.Config.Instance.IsShowIgnore = checkBoxIsShowIgnore.Checked;
             Config.Config.Instance.Save();
+        }
+
+        private void FormMain_Resize(object sender, EventArgs e)
+        {
+            SetPanelPosition();
         }
     }
 }
