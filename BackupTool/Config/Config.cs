@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 
 namespace BackupTool.Config
@@ -24,22 +25,23 @@ namespace BackupTool.Config
                         _instance.Save();
                     }
                 }
+                if (_instance.PathPairs == null)
+                    _instance.PathPairs = new List<PathPair>();
+                if (_instance.FormRectangle == null)
+                    _instance.FormRectangle = new Dictionary<string, Rectangle>();
                 return _instance;
             }
         }
 
         private static Config _instance = null;
 
-        private Config()
-        {
-            PathPairs = new List<PathPair>();
-        }
-
         #region Parameter
 
         public List<PathPair> PathPairs { get; set; }
 
         public bool IsShowIgnore { get; set; }
+
+        public Dictionary<string, Rectangle> FormRectangle { get; set; }
 
         #endregion
 

@@ -14,7 +14,7 @@ namespace BackupTool.Forms
     {
         public ScalingForm()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         #region 控件大小随窗体大小等比例缩放
@@ -78,13 +78,47 @@ namespace BackupTool.Forms
             }
         }
 
+        #endregion
+
+        #region 保存窗体大小位置
+
+        public virtual void SetRectangle()
+        {
+            if (Config.Config.Instance.FormRectangle.ContainsKey(Name))
+            {
+                Rectangle rectangle = Config.Config.Instance.FormRectangle[Name];
+                Left = rectangle.Left;
+                Top = rectangle.Top;
+                Width = rectangle.Width;
+                Height = rectangle.Height;
+            }
+            else
+            {
+                SaveRectangle();
+            }
+        }
+
+        public virtual void SaveRectangle()
+        {
+            Rectangle rectangle = new Rectangle(Left, Top, Width, Height);
+            Config.Config.Instance.FormRectangle[Name] = rectangle;
+            Config.Config.Instance.Save();
+        }
+
+        #endregion
+
         private void ScalingForm_Resize(object sender, EventArgs e)
         {
             float newx = Width / x;
             float newy = Height / y;
             SetControls(newx, newy, this);
+
+            SaveRectangle();
         }
 
-        #endregion
+        private void ScalingForm_Move(object sender, EventArgs e)
+        {
+            SaveRectangle();
+        }
     }
 }

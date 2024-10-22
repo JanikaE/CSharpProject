@@ -13,6 +13,7 @@ namespace BackupTool
             InitializeComponent();
             InitTag();
 
+            SetRectangle();
             checkBoxIsShowIgnore.Checked = Config.Config.Instance.IsShowIgnore;
             UpdatePanel();
         }

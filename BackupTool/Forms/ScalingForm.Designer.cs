@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Name = "ScalingForm";
             this.Text = "Form1";
+            this.Move += new System.EventHandler(this.ScalingForm_Move);
             this.Resize += new System.EventHandler(this.ScalingForm_Resize);
             this.ResumeLayout(false);
 

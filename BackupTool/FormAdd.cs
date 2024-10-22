@@ -12,6 +12,8 @@ namespace BackupTool
             InitializeComponent();
             InitTag();
 
+            SetRectangle();
+
             if (pathPair != null)
             {
                 textBoxName.Text = pathPair.Name;

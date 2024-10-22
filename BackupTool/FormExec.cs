@@ -15,6 +15,8 @@ namespace BackupTool
         {
             InitializeComponent();
             InitTag();
+
+            SetRectangle();
         }
 
         public void Execute()
