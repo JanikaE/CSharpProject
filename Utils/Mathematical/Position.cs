@@ -1,6 +1,6 @@
 ﻿namespace Utils.Mathematical
 {
-    public enum RelativePositio_4
+    public enum RelativePosition_4
     {
         None,
         Up,
@@ -9,7 +9,7 @@
         Right
     }
 
-    public enum RelativePositio_8
+    public enum RelativePosition_8
     {
         None,
         Up,

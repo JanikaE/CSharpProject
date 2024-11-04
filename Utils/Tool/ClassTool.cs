@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Utils.Tool
@@ -69,6 +70,19 @@ namespace Utils.Tool
                 }
             }
             return ListStr;
+        }
+
+        public static void Update<T>(T origin, T update)
+        {
+            Type type = typeof(T);
+            PropertyInfo[] properties = type.GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.GetValue(update) != null)
+                {
+                    property.SetValue(origin, property.GetValue(update));
+                }
+            }
         }
     }
 }
