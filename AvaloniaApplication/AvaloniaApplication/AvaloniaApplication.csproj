@@ -20,6 +20,24 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Avalonia.ReactiveUI" />
-    <PackageReference Include="CefNet.Avalonia.Eleven" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Xilium.CefGlue">
+      <HintPath>..\lib\Xilium.CefGlue.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xilium.CefGlue.Avalonia">
+      <HintPath>..\lib\Xilium.CefGlue.Avalonia.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xilium.CefGlue.Common">
+      <HintPath>..\lib\Xilium.CefGlue.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xilium.CefGlue.Common.Shared">
+      <HintPath>..\lib\Xilium.CefGlue.Common.Shared.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
 </Project>
