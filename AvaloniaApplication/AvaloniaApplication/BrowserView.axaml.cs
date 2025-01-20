@@ -69,8 +69,10 @@ namespace AvaloniaApplication
             Dispatcher.UIThread.Post(() =>
             {
                 var addressTextBox = this.FindControl<TextBox>("addressTextBox");
-
-                addressTextBox.Text = e.Frame.Url;
+                if (addressTextBox != null)
+                {
+                    addressTextBox.Text = e.Frame.Url;
+                }
             });
         }
 
