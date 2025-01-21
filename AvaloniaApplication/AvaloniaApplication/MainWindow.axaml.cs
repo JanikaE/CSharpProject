@@ -36,7 +36,7 @@ namespace AvaloniaApplication
             }
         }
 
-        private BrowserView ActiveBrowserView => (BrowserView) this.FindControl<TabControl>("tabControl").SelectedContent;
+        public BrowserView ActiveBrowserView => (BrowserView) this.FindControl<TabControl>("tabControl").SelectedContent;
 
         private void CreateNewTab()
         {
