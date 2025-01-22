@@ -16,7 +16,7 @@ namespace AvaloniaApplication
 {
     public partial class BrowserView : UserControl
     {
-        private AvaloniaCefBrowser browser;
+        private readonly AvaloniaCefBrowser browser;
 
         public BrowserView()
         {
@@ -76,13 +76,15 @@ namespace AvaloniaApplication
             });
         }
 
-        private void OnAddressTextBoxKeyDown(object sender, global::Avalonia.Input.KeyEventArgs e)
+        private void OnAddressTextBoxKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 browser.Address = ((TextBox)sender).Text;
             }
         }
+
+        #region JavaScript交互
 
         public async void EvaluateJavascript()
         {
@@ -129,15 +131,35 @@ namespace AvaloniaApplication
             browser.ExecuteJavaScript(script);
         }
 
+        #endregion
+
+        #region 浏览器操作
+
+        /// <summary>
+        /// 打开浏览器调试工具
+        /// </summary>
         public void OpenDevTools()
         {
             browser.ShowDeveloperTools();
         }
 
+        /// <summary>
+        /// 刷新浏览器
+        /// </summary>
+        public void Refresh()
+        {
+            browser.Reload();
+        }
+
+        /// <summary>
+        /// 释放浏览器资源
+        /// </summary>
         public void Dispose()
         {
             browser.Dispose();
         }
+
+        #endregion
 
         private class BrowserLifeSpanHandler : LifeSpanHandler
         {
@@ -158,14 +180,18 @@ namespace AvaloniaApplication
                 var bounds = windowInfo.Bounds;
                 Dispatcher.UIThread.Post(() =>
                 {
-                    var window = new Window();
-                    var popupBrowser = new AvaloniaCefBrowser();
-                    popupBrowser.Address = targetUrl;
-                    window.Content = popupBrowser;
-                    window.Position = new PixelPoint(bounds.X, bounds.Y);
-                    window.Height = bounds.Height;
-                    window.Width = bounds.Width;
-                    window.Title = targetUrl;
+                    var popupBrowser = new AvaloniaCefBrowser
+                    {
+                        Address = targetUrl
+                    };
+                    var window = new Window
+                    {
+                        Content = popupBrowser,
+                        Position = new PixelPoint(bounds.X, bounds.Y),
+                        Height = bounds.Height,
+                        Width = bounds.Width,
+                        Title = targetUrl
+                    };
                     window.Show();
                 });
                 return true;

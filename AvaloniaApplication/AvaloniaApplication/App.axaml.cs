@@ -30,6 +30,10 @@ public partial class App : Application
 
             // 创建菜单
             var menu = new NativeMenu();
+            menu.Items.Add(new NativeMenuItem("刷新")
+            {
+                Command = ReactiveCommand.Create(Refresh)
+            });
             menu.Items.Add(new NativeMenuItem("开发者工具")
             {
                 Command = ReactiveCommand.Create(OpenDevTools),
@@ -59,6 +63,20 @@ public partial class App : Application
                 window.ActiveBrowserView?.OpenDevTools();
             }
         }
+    }    
+    
+    /// <summary>
+    /// 刷新
+    /// </summary>
+    private void Refresh()
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            if (desktop.MainWindow is MainWindow window)
+            {
+                window.ActiveBrowserView?.Refresh();
+            }
+        }
     }
 
     /// <summary>
@@ -68,6 +86,10 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            if (desktop.MainWindow is MainWindow window)
+            {
+                window.ActiveBrowserView?.Dispose();
+            }
             desktop.Shutdown();
         }
     }
