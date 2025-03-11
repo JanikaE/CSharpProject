@@ -7,4 +7,18 @@
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
+	<TrayIcon.Icons>
+		<TrayIcons>
+			<TrayIcon Icon="Assets/avalonia-logo.ico" ToolTipText="AvaloniaApplication">
+				<TrayIcon.Menu>
+					<NativeMenu>
+						<NativeMenuItem Header="{Binding SwitchFullScreenHeader}" Command="{Binding SwitchFullScreenCommand}" />
+						<NativeMenuItem Header="刷新" Command="{Binding RefreshCommand}" />
+						<NativeMenuItem Header="开发者工具" Command="{Binding OpenDevToolsCommand}" />
+						<NativeMenuItem Header="退出" Command="{Binding ExitApplicationCommand}" />
+					</NativeMenu>
+				</TrayIcon.Menu>
+			</TrayIcon>
+		</TrayIcons>
+	</TrayIcon.Icons>
 </Application>

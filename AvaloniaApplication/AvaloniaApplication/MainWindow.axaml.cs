@@ -9,10 +9,12 @@ namespace AvaloniaApplication
 {
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly App app;
+
+        public MainWindow(App app)
         {
             InitializeComponent();
-
+            this.app = app;
 #if WINDOWLESS
             Title += " - OSR mode";
 #endif
@@ -26,6 +28,31 @@ namespace AvaloniaApplication
 
             var mainMenu = this.FindControl<Menu>("mainMenu");
             mainMenu.AttachedToVisualTree += MenuAttached;
+
+            Resized += MainWindow_Resized;
+        }
+
+        private void MainWindow_Resized(object? sender, WindowResizedEventArgs e)
+        {
+            if (ActiveBrowserView?.IsInitialized == true)
+            {
+                ActiveBrowserView.Refresh();
+            }
+
+            var menuItem = this.FindControl<MenuItem>("switchFullScreenMenuItem");
+            if (menuItem != null)
+            {
+                if (WindowState == WindowState.FullScreen)
+                {
+                    menuItem.Header = "切换非全屏显示";
+                    app.SwitchFullScreenHeader = "切换非全屏显示";
+                }
+                else
+                {
+                    menuItem.Header = "切换全屏显示";
+                    app.SwitchFullScreenHeader = "切换全屏显示";
+                }
+            }
         }
 
         private void MenuAttached(object sender, VisualTreeAttachmentEventArgs e)

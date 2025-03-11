@@ -24,8 +24,10 @@ namespace AvaloniaApplication
 
             var browserWrapper = this.FindControl<Decorator>("browserWrapper");
 
-            browser = new AvaloniaCefBrowser();
-            browser.Address = "https://www.baidu.com";
+            browser = new AvaloniaCefBrowser
+            {
+                Address = "https://www.baidu.com"
+            };
             browser.RegisterJavascriptObject(new BindingTestClass(), "boundBeforeLoadObject");
             browser.LoadStart += OnBrowserLoadStart;
             browser.TitleChanged += OnBrowserTitleChanged;

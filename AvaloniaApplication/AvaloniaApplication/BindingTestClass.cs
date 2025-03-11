@@ -39,7 +39,7 @@ namespace AvaloniaApplication
 
         public string[] GetList()
         {
-            return new[] { "item 1", "item 2", "item 3" };
+            return ["item 1", "item 2", "item 3"];
         }
 
         public IDictionary<string, object> GetDictionary()
