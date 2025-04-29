@@ -13,14 +13,18 @@ namespace Utils.Tool
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static List<T> Intersection<T>(List<T> left, List<T> right) where T : IEquatable<T>
+        public static List<T> Intersection<T>(IEnumerable<T> left, IEnumerable<T> right) where T : IEquatable<T>
         {
             List<T> result = new();
-            foreach (T item in left)
+            foreach (T item1 in left)
             {
-                if (right.Contains(item))
+                foreach (T item2 in right)
                 {
-                    result.Add(item);
+                    if (item1.Equals(item2))
+                    {
+                        result.Add(item1);
+                        break;
+                    }
                 }
             }
             result.Deduplicate();
@@ -34,7 +38,7 @@ namespace Utils.Tool
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static List<T> Union<T>(List<T> left, List<T> right) where T : IEquatable<T>
+        public static List<T> Union<T>(IEnumerable<T> left, IEnumerable<T> right) where T : IEquatable<T>
         {
             List<T> result = new(left);
             result.AddRange(right);

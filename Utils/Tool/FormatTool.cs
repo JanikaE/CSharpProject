@@ -5,10 +5,10 @@ namespace Utils.Tool
 {
     public static class FormatTool
     {
-        public static List<int> ConvertStringToList(string s)
+        public static List<int> ConvertStringToList(string s, string separator = ",")
         {
             s ??= "";
-            string[] arr = s.Split(',');
+            string[] arr = s.Split(separator);
             List<int> result = new();
             for (int i = 0; i < arr.Length; i++)
             {
@@ -20,12 +20,12 @@ namespace Utils.Tool
             return result;
         }
 
-        public static string ConvertListToString(List<int> list)
+        public static string ConvertListToString(List<int> list, string separator = ",")
         {
             StringBuilder s = new();
             for (int i = 0; i < list.Count; i++)
             {
-                s.Append(list[i].ToString() + ",");
+                s.Append(list[i].ToString() + separator);
             }
             return s.ToString();
         }
