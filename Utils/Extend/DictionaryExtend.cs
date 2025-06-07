@@ -16,8 +16,20 @@ namespace Utils.Extend
             {
                 if (!dicSource.ContainsKey(item.Key) || overWrite)
                 {
-                    dicSource.Add(item.Key, item.Value);
+                    dicSource[item.Key] = item.Value;
                 }
+            }
+        }
+
+        public static TValue? GetValue<TKey, TValue>(this Dictionary<TKey, TValue> dicSource, TKey key, TValue defaultValue) where TKey : notnull
+        {
+            if (dicSource != null && dicSource.ContainsKey(key))
+            {
+                return dicSource[key];
+            }
+            else
+            {
+                return defaultValue;
             }
         }
 
@@ -28,9 +40,10 @@ namespace Utils.Extend
                 return dicSource[key];
             }
             else
-            {
+            {   
                 return default;
             }
         }
+
     }
 }
