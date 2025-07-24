@@ -122,5 +122,73 @@ namespace Utils.Extend
 
             return temp;
         }
+
+        #region 位运算
+
+        /// <summary>
+        /// 将指定的枚举类型，设置为true
+        /// </summary>
+        /// <param name="bitEnum">指定具体的类型</param>
+        /// <param name="value">数据库存储的值</param>
+        public static long SetTrue(this Enum bitEnum, long value)
+        {
+            return value |= Convert.ToInt64(bitEnum);
+        }
+
+        /// <summary>
+        /// 将指定的枚举类型，设置为true
+        /// </summary>
+        /// <param name="bitEnum">指定具体的类型</param>
+        /// <param name="value">数据库存储的值</param>
+        public static int SetTrue(this Enum bitEnum, int value)
+        {
+            return value |= Convert.ToInt32(bitEnum);
+        }
+
+        /// <summary>
+        /// 将指定的枚举类型，设置为false
+        /// </summary>
+        /// <param name="bitEnum">指定具体的类型</param>
+        /// <param name="value">数据库存储的值</param>
+        public static long SetFalse(this Enum bitEnum, long value)
+        {
+            value |= Convert.ToInt64(bitEnum);
+            return value -= Convert.ToInt64(bitEnum);
+        }
+
+        /// <summary>
+        /// 将指定的枚举类型，设置为false
+        /// </summary>
+        /// <param name="bitEnum">指定具体的类型</param>
+        /// <param name="value">数据库存储的值</param>
+        public static int SetFalse(this Enum bitEnum, int value)
+        {
+            value |= Convert.ToInt32(bitEnum);
+            return value -= Convert.ToInt32(bitEnum);
+        }
+
+        /// <summary>
+        /// 判断指定的枚举，true 还是 false
+        /// </summary>
+        /// <param name="bitEnum">指定具体的类型</param>
+        /// <param name="value">数据库存储的值</param>
+        /// <returns></returns>
+        public static bool Check(this Enum bitEnum, long value)
+        {
+            return (value & Convert.ToInt64(bitEnum)) > 0;
+        }
+
+        /// <summary>
+        /// 判断指定的枚举，true 还是 false
+        /// </summary>
+        /// <param name="bitEnum">指定具体的类型</param>
+        /// <param name="value">数据库存储的值</param>
+        /// <returns></returns>
+        public static bool Check(this Enum bitEnum, int value)
+        {
+            return (value & Convert.ToInt32(bitEnum)) > 0;
+        }
+
+        #endregion
     }
 }
