@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Utils.Tool
 {
-    public class StartExeTool
+    public static class StartExeTool
     {
         /// <summary>
         /// 打开exe
@@ -52,8 +52,7 @@ namespace Utils.Tool
                 //循环 用能获取到的用户列表 打开exe
                 for (int nCount = 0; nCount < SessionCount; nCount++)
                 {
-                    Win32Help.WTS_SESSION_INFO tSessionInfo = (Win32Help.WTS_SESSION_INFO)Marshal.PtrToStructure(ppSessionInfo + nCount * Marshal.SizeOf(typeof(Win32Help.WTS_SESSION_INFO)),
-                        typeof(Win32Help.WTS_SESSION_INFO));
+                    Win32Help.WTS_SESSION_INFO tSessionInfo = Marshal.PtrToStructure<Win32Help.WTS_SESSION_INFO>(ppSessionInfo + nCount * Marshal.SizeOf(typeof(Win32Help.WTS_SESSION_INFO)))!;
 
                     var sessionid = tSessionInfo.SessionID;
                     var userState = tSessionInfo.State;
@@ -288,14 +287,14 @@ namespace Utils.Tool
                             bool ChildProcStarted = ChildProcStarted = Win32Help.CreateProcessAsUser(
                                                                         hDupedToken,
                                                                         exePath,
-                                                                        null,
+                                                                        string.Empty,
                                                                         ref sa,
                                                                         ref sa,
                                                                         false,
                                                                         //0,
                                                                         dwCreationFlags,
-                                                                        null,
-                                                                        null,
+                                                                        string.Empty,
+                                                                        string.Empty,
                                                                         ref si,
                                                                         out tProcessInfo
                                                      );
@@ -492,7 +491,7 @@ namespace Utils.Tool
                 uint nameSize = 256;
                 StringBuilder domain = new();
                 uint domainSize = 256;
-                if (!Win32Help.LookupAccountSid(null, sid, name, ref nameSize, domain, ref domainSize, out account))
+                if (!Win32Help.LookupAccountSid(string.Empty, sid, name, ref nameSize, domain, ref domainSize, out account))
                 {
                     int errorCode = Marshal.GetLastWin32Error();
                     outputLogAct?.Invoke($"{msg},LookupAccountSid 失败,错误代码:{errorCode}");
@@ -522,6 +521,8 @@ namespace Utils.Tool
 
         private class Win32Help
         {
+            #region Constants declaration
+
             /// <summary>
             /// 所有请求权限  
             /// 可以对对象进行任何可能的操作（读取、写入、删除等）
@@ -534,12 +535,10 @@ namespace Utils.Tool
             /// </summary>
             public const int MAXIMUM_ALLOWED = 0x2000000;
 
-
             /// <summary>
             /// OpenProcessToken 或 DuplicateToken 等 API 时，标识需要复制现有令牌的操作
             /// </summary>
             public const int TOKEN_DUPLICATE = 0x0002;
-
 
             /// <summary>
             /// toekn 调整权限，即特权
@@ -555,6 +554,10 @@ namespace Utils.Tool
             /// 
             /// </summary>
             public static readonly IntPtr WTS_CURRENT_SERVER_HANDLE = IntPtr.Zero;
+
+            #endregion
+
+            #region DllImport
 
             /// <summary>
             /// 
@@ -724,12 +727,90 @@ namespace Utils.Tool
                 int tokenInformationLength,
                 out int returnLength);
 
+            #endregion
+
+            #region Enum
+
             public enum TOKEN_INFORMATION_CLASS
             {
                 TokenUser = 1,
                 TokenElevation = 20,
                 TokenElevationType
             }
+
+            public enum SECURITY_IMPERSONATION_LEVEL
+            {
+                SecurityAnonymous,
+                SecurityIdentification,
+                SecurityImpersonation,
+                SecurityDelegation
+            }
+
+            public enum TOKEN_TYPE
+            {
+                TokenPrimary = 1,
+                TokenImpersonation
+            }
+
+            /// <summary>
+            /// 会话状态
+            /// </summary>
+            public enum WTS_CONNECTSTATE_CLASS
+            {
+                /// <summary>
+                /// 会话处于活动状态，用户正在使用
+                /// </summary>
+                WTSActive,
+
+                /// <summary>
+                /// 会话已连接但未处于活动状态
+                /// </summary>
+                WTSConnected,
+
+                /// <summary>
+                /// 会话正在连接，但尚未完全连接
+                /// </summary>
+                WTSConnectQuery,
+
+                /// <summary>
+                /// 会话正在被监视（shadowing）
+                /// </summary>
+                WTSShadow,
+
+                /// <summary>
+                /// 会话已断开连接
+                /// </summary>
+                WTSDisconnected,
+
+                /// <summary>
+                /// 会话处于空闲状态，没有用户活动
+                /// </summary>
+                WTSIdle,
+
+                /// <summary>
+                /// 会话正在等待连接
+                /// </summary>
+                WTSListen,
+
+                /// <summary>
+                /// 会话正在重置
+                /// </summary>
+                WTSReset,
+
+                /// <summary>
+                /// 会话已终止
+                /// </summary>
+                WTSDown,
+
+                /// <summary>
+                /// 会话正在初始化
+                /// </summary>
+                WTSInit
+            }
+
+            #endregion
+
+            #region Struct
 
             [StructLayout(LayoutKind.Sequential)]
             public struct TOKEN_ELEVATION
@@ -746,20 +827,6 @@ namespace Utils.Tool
                 public int Length;
                 public IntPtr lpSecurityDescriptor;
                 public bool bInheritHandle;
-            }
-
-            public enum SECURITY_IMPERSONATION_LEVEL
-            {
-                SecurityAnonymous,
-                SecurityIdentification,
-                SecurityImpersonation,
-                SecurityDelegation
-            }
-
-            public enum TOKEN_TYPE
-            {
-                TokenPrimary = 1,
-                TokenImpersonation
             }
 
             /// <summary>
@@ -911,61 +978,7 @@ namespace Utils.Tool
                 public WTS_CONNECTSTATE_CLASS State;
             }
 
-            /// <summary>
-            /// 会话状态
-            /// </summary>
-            public enum WTS_CONNECTSTATE_CLASS
-            {
-                /// <summary>
-                /// 会话处于活动状态，用户正在使用
-                /// </summary>
-                WTSActive,
-
-                /// <summary>
-                /// 会话已连接但未处于活动状态
-                /// </summary>
-                WTSConnected,
-
-                /// <summary>
-                /// 会话正在连接，但尚未完全连接
-                /// </summary>
-                WTSConnectQuery,
-
-                /// <summary>
-                /// 会话正在被监视（shadowing）
-                /// </summary>
-                WTSShadow,
-
-                /// <summary>
-                /// 会话已断开连接
-                /// </summary>
-                WTSDisconnected,
-
-                /// <summary>
-                /// 会话处于空闲状态，没有用户活动
-                /// </summary>
-                WTSIdle,
-
-                /// <summary>
-                /// 会话正在等待连接
-                /// </summary>
-                WTSListen,
-
-                /// <summary>
-                /// 会话正在重置
-                /// </summary>
-                WTSReset,
-
-                /// <summary>
-                /// 会话已终止
-                /// </summary>
-                WTSDown,
-
-                /// <summary>
-                /// 会话正在初始化
-                /// </summary>
-                WTSInit
-            }
+            #endregion
 
             #region 获取进程的用户
 
