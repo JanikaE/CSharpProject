@@ -21,4 +21,15 @@
         DownLeft,
         DownRight
     }
+
+    public enum RelativePosition_6
+    {
+        None,
+        Right,
+        UpRight,
+        UpLeft,
+        Left,
+        DownLeft,
+        DownRight
+    }
 }
