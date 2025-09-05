@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-
-namespace G2048Form
+﻿namespace G2048
 {
     internal static class Program
     {

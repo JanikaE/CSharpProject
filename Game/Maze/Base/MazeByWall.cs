@@ -149,16 +149,16 @@ namespace Maze.Base
             int y = point1.Y;
             switch (GetRelativePosition(point1, point2))
             {
-                case RelativePosition.Left:
+                case RelativePosition_4.Left:
                     wall_vertical[y, x - 1] = true;
                     break;
-                case RelativePosition.Right:
+                case RelativePosition_4.Right:
                     wall_vertical[y, x] = true;
                     break;
-                case RelativePosition.Up:
+                case RelativePosition_4.Up:
                     wall_horizontal[y - 1, x] = true;
                     break;
-                case RelativePosition.Down:
+                case RelativePosition_4.Down:
                     wall_horizontal[y, x] = true;
                     break;
             }
@@ -167,17 +167,17 @@ namespace Maze.Base
         /// <summary>
         /// 计算两个相邻格子的相对位置
         /// </summary>
-        protected static RelativePosition GetRelativePosition(Point2D me, Point2D another)
+        protected static RelativePosition_4 GetRelativePosition(Point2D me, Point2D another)
         {
             if (another.X - me.X == 1 && another.Y == me.Y)
-                return RelativePosition.Right;
+                return RelativePosition_4.Right;
             if (another.X - me.X == -1 && another.Y == me.Y)
-                return RelativePosition.Left;
+                return RelativePosition_4.Left;
             if (another.X == me.X && another.Y - me.Y == 1)
-                return RelativePosition.Down;
+                return RelativePosition_4.Down;
             if (another.X == me.X && another.Y - me.Y == -1)
-                return RelativePosition.Up;
-            return RelativePosition.None;
+                return RelativePosition_4.Up;
+            return RelativePosition_4.None;
         }
 
         /// <summary>

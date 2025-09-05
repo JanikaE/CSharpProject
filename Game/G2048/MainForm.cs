@@ -3,7 +3,7 @@ using System;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace G2048Form
+namespace G2048
 {
     public partial class MainForm : Form
     {

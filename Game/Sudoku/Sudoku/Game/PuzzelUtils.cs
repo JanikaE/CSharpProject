@@ -125,7 +125,7 @@ namespace Sudoku.Game
                 results.Add("Row" + row, resultRow);
                 results.Add("Col" + col, resultCol);
             }
-            results.AddRange(Palaces);
+            results.Append(Palaces, false);
             return results;
         }
 

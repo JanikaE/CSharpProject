@@ -85,17 +85,17 @@ namespace Reversi
             Chess opposite = chess.Opposite();
             for (int i = 1; i <= 8; i++)
             {
-                RelativePositio_8 position = (RelativePositio_8)i;
+                RelativePosition_8 position = (RelativePosition_8)i;
                 Point2D offset = position switch
                 {
-                    RelativePositio_8.Up => new(0, -1),
-                    RelativePositio_8.Down => new(0, 1),
-                    RelativePositio_8.Left => new(-1, 0),
-                    RelativePositio_8.Right => new(1, 0),
-                    RelativePositio_8.UpLeft => new(-1, -1),
-                    RelativePositio_8.UpRight => new(1, -1),
-                    RelativePositio_8.DownLeft => new(-1, 1),
-                    RelativePositio_8.DownRight => new(1, 1),
+                    RelativePosition_8.Up => new(0, -1),
+                    RelativePosition_8.Down => new(0, 1),
+                    RelativePosition_8.Left => new(-1, 0),
+                    RelativePosition_8.Right => new(1, 0),
+                    RelativePosition_8.UpLeft => new(-1, -1),
+                    RelativePosition_8.UpRight => new(1, -1),
+                    RelativePosition_8.DownLeft => new(-1, 1),
+                    RelativePosition_8.DownRight => new(1, 1),
                     _ => Point2D.Zero
                 };
                 Point2D newPoint = point;

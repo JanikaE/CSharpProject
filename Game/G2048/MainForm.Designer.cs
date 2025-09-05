@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace G2048Form
+namespace G2048
 {
     partial class MainForm
     {

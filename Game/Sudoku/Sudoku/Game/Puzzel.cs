@@ -68,7 +68,7 @@ namespace Sudoku.Game
                 }
                 else
                 {
-                    cell.possibleNums = Nums.Clone();
+                    cell.possibleNums = new List<int>(Nums);
                 }
             }
             UpdatePosibleNums();

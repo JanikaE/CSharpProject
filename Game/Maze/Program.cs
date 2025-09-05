@@ -1,6 +1,5 @@
 ﻿using Maze.Base;
 using Maze.WayFinding;
-using Utils.Extend;
 using Utils.Mathematical;
 using Utils.Tool;
 
@@ -60,7 +59,7 @@ namespace Maze
             }
             catch (Exception e)
             {
-                Logger.Error(e);
+                LogTool.Error(e);
             }
 
             Console.ReadLine();

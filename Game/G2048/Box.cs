@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-
-namespace G2048
+﻿namespace G2048
 {
     public class Box
     {
