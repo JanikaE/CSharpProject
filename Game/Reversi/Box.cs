@@ -1,4 +1,6 @@
-﻿using Utils.Mathematical;
+﻿using System;
+using System.Collections.Generic;
+using Utils.Mathematical;
 
 namespace Reversi
 {

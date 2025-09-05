@@ -1,4 +1,8 @@
-﻿namespace Reversi
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace Reversi
 {
     partial class MainForm
     {

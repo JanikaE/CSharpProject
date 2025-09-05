@@ -1,3 +1,6 @@
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 using Utils.Mathematical;
 
 namespace Reversi

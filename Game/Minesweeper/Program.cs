@@ -1,4 +1,6 @@
-﻿namespace Minesweeper 
+﻿using System;
+
+namespace Minesweeper 
 {
     public class Program
     {

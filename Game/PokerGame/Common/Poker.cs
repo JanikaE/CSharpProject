@@ -1,4 +1,6 @@
-﻿namespace PokerGame.Common
+﻿using System;
+
+namespace PokerGame.Common
 {
     public class Poker
     {

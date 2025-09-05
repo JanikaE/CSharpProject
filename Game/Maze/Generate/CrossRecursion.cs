@@ -1,4 +1,5 @@
 ﻿using Maze.Base;
+using System;
 
 namespace Maze.Generate
 {

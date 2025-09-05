@@ -5,6 +5,9 @@ using Utils.Mathematical;
 using Utils.Tool;
 #endif
 
+using System;
+using System.Windows.Forms;
+
 namespace Reversi
 {
     internal static class Program

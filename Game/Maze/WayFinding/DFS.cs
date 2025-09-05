@@ -1,4 +1,5 @@
 ﻿using Maze.Base;
+using System.Collections.Generic;
 using Utils.Mathematical;
 
 namespace Maze.WayFinding

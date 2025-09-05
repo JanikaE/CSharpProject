@@ -1,4 +1,7 @@
-﻿namespace G2048
+﻿using System;
+using System.Collections.Generic;
+
+namespace G2048
 {
     public class Box
     {

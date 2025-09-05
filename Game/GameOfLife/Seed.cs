@@ -1,4 +1,6 @@
-﻿namespace GameOfLife
+﻿using System.Collections.Generic;
+
+namespace GameOfLife
 {
     public static class Seed
     {

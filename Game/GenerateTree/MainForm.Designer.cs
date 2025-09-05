@@ -1,4 +1,7 @@
-﻿namespace GenerateTree
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace GenerateTree
 {
     partial class MainForm
     {

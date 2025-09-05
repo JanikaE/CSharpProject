@@ -1,3 +1,6 @@
+using System;
+using System.Windows.Forms;
+
 namespace GenerateTree
 {
     internal static class Program
