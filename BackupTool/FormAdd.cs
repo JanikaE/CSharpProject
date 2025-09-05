@@ -53,7 +53,7 @@ namespace BackupTool
                 return;
             }
 
-            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog()
+            FolderBrowserDialog folderBrowserDialog = new()
             {
                 SelectedPath = textBox.Text,
                 ShowNewFolderButton = false,

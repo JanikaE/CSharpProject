@@ -61,7 +61,7 @@ namespace BackupTool.Forms
                     string tag = con.Tag.ToString();
                     if (string.IsNullOrEmpty(tag))
                         continue;
-                    string[] mytag = tag.Split(new char[] { ';' });
+                    string[] mytag = tag.Split([';']);
                     // 根据窗体缩放的比例确定控件的值
                     con.Width = Convert.ToInt32(Convert.ToSingle(mytag[0]) * newx);
                     con.Height = Convert.ToInt32(Convert.ToSingle(mytag[1]) * newy);
@@ -84,9 +84,8 @@ namespace BackupTool.Forms
 
         public virtual void SetRectangle()
         {
-            if (Config.Config.Instance.FormRectangle.ContainsKey(Name))
+            if (Config.Config.Instance.FormRectangle.TryGetValue(Name, out Rectangle rectangle))
             {
-                Rectangle rectangle = Config.Config.Instance.FormRectangle[Name];
                 Left = rectangle.Left;
                 Top = rectangle.Top;
                 Width = rectangle.Width;
@@ -100,7 +99,7 @@ namespace BackupTool.Forms
 
         public virtual void SaveRectangle()
         {
-            Rectangle rectangle = new Rectangle(Left, Top, Width, Height);
+            Rectangle rectangle = new(Left, Top, Width, Height);
             Config.Config.Instance.FormRectangle[Name] = rectangle;
             Config.Config.Instance.Save();
         }

@@ -25,10 +25,8 @@ namespace BackupTool.Config
                         _instance.Save();
                     }
                 }
-                if (_instance.PathPairs == null)
-                    _instance.PathPairs = new List<PathPair>();
-                if (_instance.FormRectangle == null)
-                    _instance.FormRectangle = new Dictionary<string, Rectangle>();
+                _instance.PathPairs ??= [];
+                _instance.FormRectangle ??= [];
                 return _instance;
             }
         }

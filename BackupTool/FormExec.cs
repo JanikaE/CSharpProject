@@ -46,7 +46,7 @@ namespace BackupTool
             {
                 foreach (string dir in dirs)
                 {
-                    Copy(dir, targetPath + dir.Substring(dir.LastIndexOf("\\", StringComparison.Ordinal)));
+                    Copy(dir, targetPath + dir.Substring(dir.LastIndexOf('\\')));
                 }
             }
 
@@ -55,14 +55,14 @@ namespace BackupTool
             {
                 foreach (string sourceFile in files)
                 {
-                    string targetFile = targetPath + sourceFile.Substring(sourceFile.LastIndexOf("\\", StringComparison.Ordinal));
-                    FileInfo source = new FileInfo(sourceFile);
+                    string targetFile = targetPath + sourceFile.Substring(sourceFile.LastIndexOf('\\'));
+                    FileInfo source = new(sourceFile);
                     string msg = $"{sourceFile} ==> {targetFile}";
                     try
                     {
                         if (File.Exists(targetFile))
                         {
-                            FileInfo target = new FileInfo(targetFile);
+                            FileInfo target = new(targetFile);
                             if (target.LastWriteTime < source.LastWriteTime)
                             {
                                 File.Delete(targetFile);

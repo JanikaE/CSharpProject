@@ -20,7 +20,7 @@ namespace BackupTool
 
         private void ButtonExec_Click(object sender, EventArgs e)
         {
-            FormExec formExec = new FormExec();
+            FormExec formExec = new();
             formExec.Show();
             formExec.Execute();
         }
@@ -35,16 +35,15 @@ namespace BackupTool
 
             foreach (PathPair pathPair in Config.Config.Instance.PathPairs)
             {
-                PathPairRichTextBox textBox = new PathPairRichTextBox(pathPair)
+                PathPairRichTextBox textBox = new(pathPair)
                 {
                     ReadOnly = true,
                     Text = pathPair.ToString()
                 };
 
-                PathPairContextMenuStrip contextMenuStrip = new PathPairContextMenuStrip(pathPair);
-                contextMenuStrip.Items.Add("Edit");
-                contextMenuStrip.Items.Add("Delete");
-                contextMenuStrip.ItemClicked += ContextMenuStrip_ItemClicked;
+                PathPairContextMenuStrip contextMenuStrip = new(pathPair);
+                contextMenuStrip.Init();
+                contextMenuStrip.Form = this;
                 textBox.ContextMenuStrip = contextMenuStrip;
                
                 panelPathPairs.Controls.Add(textBox);
@@ -67,22 +66,6 @@ namespace BackupTool
             }
         }
 
-        private void ContextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            PathPairContextMenuStrip menu = sender as PathPairContextMenuStrip;
-            PathPair pathPair = menu.pathPair;
-            if (e.ClickedItem.Text == "Edit")
-            {
-                Edit(pathPair);
-            }
-            else if(e.ClickedItem.Text == "Delete")
-            {
-                Delete(pathPair);
-            }
-        }
-
-        #region 新增/修改/删除
-
         /// <summary>
         /// Add
         /// </summary>
@@ -90,34 +73,9 @@ namespace BackupTool
         /// <param name="e"></param>
         private void ButtonAdd_Click(object sender, EventArgs e)
         {
-            FormAdd formAdd = new FormAdd(null);
+            FormAdd formAdd = new(null);
             formAdd.ShowDialog(this);
         }
-
-        /// <summary>
-        /// Edit
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Edit(PathPair pathPair)
-        {
-            FormAdd formAdd = new FormAdd(pathPair);
-            formAdd.ShowDialog(this);
-        }
-
-        /// <summary>
-        /// Delete
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Delete(PathPair pathPair)
-        {
-            Config.Config.Instance.PathPairs.Remove(pathPair);
-            Config.Config.Instance.Save();
-            UpdatePanel();
-        }
-
-        #endregion
 
         private void CheckBoxIsShowIgnore_CheckedChanged(object sender, EventArgs e)
         {
