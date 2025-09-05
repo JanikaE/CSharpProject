@@ -22,21 +22,16 @@ namespace Utils.Mathematical
         /// </summary>
         public readonly int S => -Q - R;
 
-        public static readonly Hexagon[] Directions =
-        {
-            new(0, 0),
-            new(1, 0),   // 东
-            new(1, -1),  // 东北
-            new(0, -1),  // 西北
-            new(-1, 0),  // 西
-            new(-1, 1),  // 西南
-            new(0, 1)    // 东南
-        };
-
         public Hexagon(int q, int r)
         {
             Q = q;
             R = r;
+        }
+
+        public Hexagon(Vector2D vector2D)
+        {
+            Q = (int)vector2D.X;
+            R = (int)vector2D.Y;
         }
 
         public readonly double DistanceTo(Hexagon other)
@@ -48,7 +43,7 @@ namespace Utils.Mathematical
 
         public readonly Hexagon GetNeighbor(RelativePosition_6 direction)
         {
-            var dir = Directions[(int)direction];
+            var dir = RelativePosition.ToHexagon(direction);
             return this + dir;
         }
 
