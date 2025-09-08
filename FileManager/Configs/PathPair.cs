@@ -1,4 +1,4 @@
-﻿namespace BackupTool.Config
+﻿namespace FileManager.Configs
 {
     public class PathPair
     {

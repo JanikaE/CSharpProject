@@ -1,15 +1,12 @@
-﻿using BackupTool.Config;
-using BackupTool.Forms;
+﻿using FileManager.Configs;
+using FileManager.Forms;
 using System;
 using System.Drawing;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace BackupTool
+namespace FileManager
 {
-    public partial class FormExec : ScalingForm
+    public partial class FormExec : ScalingForm_1
     {
         public FormExec()
         {
@@ -21,7 +18,7 @@ namespace BackupTool
 
         public void Execute()
         {
-            foreach(PathPair pathPair in Config.Config.Instance.PathPairs)
+            foreach(PathPair pathPair in Config.Instance.PathPairs)
             {
                 WriteProcess($"Start:{pathPair.SourcePath} ==> {pathPair.TargetPath}\n", Color.Black);
                 Copy(pathPair.SourcePath, pathPair.TargetPath);
@@ -71,7 +68,7 @@ namespace BackupTool
                             }
                             else
                             {
-                                if (Config.Config.Instance.IsShowIgnore)
+                                if (Config.Instance.IsShowIgnore)
                                 {
                                     WriteProcess($"Ignore:{msg}\n", Color.Gray);
                                 }

@@ -1,4 +1,4 @@
-﻿namespace BackupTool.Forms
+﻿namespace WinFormUtils.Forms
 {
     partial class ScalingForm
     {
@@ -28,20 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
+            SuspendLayout();
             // 
             // ScalingForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 562);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "ScalingForm";
-            this.Text = "Form1";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ScalingForm_FormClosing);
-            this.Resize += new System.EventHandler(this.ScalingForm_Resize);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(800, 450);
+            Name = "ScalingForm";
+            Text = "Form1";
+            Resize += ScalingForm_Resize;
+            ResumeLayout(false);
         }
 
         #endregion

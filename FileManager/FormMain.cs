@@ -1,12 +1,12 @@
-﻿using BackupTool.Config;
-using BackupTool.Controls;
-using BackupTool.Forms;
+﻿using FileManager.Configs;
+using FileManager.Controls;
+using FileManager.Forms;
 using System;
 using System.Windows.Forms;
 
-namespace BackupTool
+namespace FileManager
 {
-    public partial class FormMain : ScalingForm
+    public partial class FormMain : ScalingForm_1
     {
         public FormMain()
         {
@@ -14,7 +14,7 @@ namespace BackupTool
             InitTag();
 
             SetRectangle();
-            checkBoxIsShowIgnore.Checked = Config.Config.Instance.IsShowIgnore;
+            checkBoxIsShowIgnore.Checked = Config.Instance.IsShowIgnore;
             UpdatePanel();
         }
 
@@ -33,7 +33,7 @@ namespace BackupTool
             }
             panelPathPairs.Controls.Clear();
 
-            foreach (PathPair pathPair in Config.Config.Instance.PathPairs)
+            foreach (PathPair pathPair in Config.Instance.PathPairs)
             {
                 PathPairRichTextBox textBox = new(pathPair)
                 {
@@ -79,8 +79,8 @@ namespace BackupTool
 
         private void CheckBoxIsShowIgnore_CheckedChanged(object sender, EventArgs e)
         {
-            Config.Config.Instance.IsShowIgnore = checkBoxIsShowIgnore.Checked;
-            Config.Config.Instance.Save();
+            Config.Instance.IsShowIgnore = checkBoxIsShowIgnore.Checked;
+            Config.Instance.Save();
         }
 
         private void FormMain_Resize(object sender, EventArgs e)

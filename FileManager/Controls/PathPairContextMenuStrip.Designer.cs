@@ -1,6 +1,6 @@
-﻿namespace BackupTool.Controls
+﻿namespace FileManager.Controls
 {
-    partial class PathPairRichTextBox
+    partial class PathPairContextMenuStrip
     {
         /// <summary> 
         /// 必需的设计器变量。

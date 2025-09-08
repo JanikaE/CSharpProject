@@ -1,11 +1,11 @@
-﻿using BackupTool.Config;
-using BackupTool.Forms;
+﻿using FileManager.Configs;
+using FileManager.Forms;
 using System;
 using System.Windows.Forms;
 
-namespace BackupTool
+namespace FileManager
 {
-    public partial class FormAdd : ScalingForm
+    public partial class FormAdd : ScalingForm_1
     {
         public FormAdd(PathPair pathPair)
         {
@@ -77,21 +77,21 @@ namespace BackupTool
             {
                 if (buttonAdd.Text == "新增")
                 {
-                    Config.Config.Instance.PathPairs.Add(new PathPair()
+                    Config.Instance.PathPairs.Add(new PathPair()
                     {
                         Name = name,
                         SourcePath = sourcePath,
                         TargetPath = targetPath
                     });
-                    Config.Config.Instance.Save();
+                    Config.Instance.Save();
                     Close();
                 }
                 else if (buttonAdd.Text == "修改")
                 {
                     PathPair.Name = name;
                     PathPair.SourcePath = sourcePath;
-                    PathPair.TargetPath = targetPath;                 
-                    Config.Config.Instance.Save();
+                    PathPair.TargetPath = targetPath;
+                    Config.Instance.Save();
                     Close();
                 }
             }

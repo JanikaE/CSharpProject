@@ -1,7 +1,7 @@
-﻿using BackupTool.Config;
+﻿using FileManager.Configs;
 using System.Windows.Forms;
 
-namespace BackupTool.Controls
+namespace FileManager.Controls
 {
     public partial class PathPairRichTextBox : RichTextBox
     {

@@ -1,4 +1,4 @@
-﻿namespace BackupTool
+﻿namespace FileManager
 {
     partial class FormAdd
     {

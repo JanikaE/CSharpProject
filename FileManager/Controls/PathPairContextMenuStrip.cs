@@ -1,10 +1,9 @@
-﻿using BackupTool.Config;
+﻿using FileManager.Configs;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Windows.Forms;
 
-namespace BackupTool.Controls
+namespace FileManager.Controls
 {
     public partial class PathPairContextMenuStrip : ContextMenuStrip
     {
@@ -64,8 +63,8 @@ namespace BackupTool.Controls
 
         private void Delete()
         {
-            Config.Config.Instance.PathPairs.Remove(pathPair);
-            Config.Config.Instance.Save();
+            Config.Instance.PathPairs.Remove(pathPair);
+            Config.Instance.Save();
             Form.UpdatePanel();
         }
     }
