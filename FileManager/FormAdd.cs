@@ -99,8 +99,7 @@ namespace FileManager
 
         private void FormAdd_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormMain formMain = Owner as FormMain;
-            formMain.UpdatePanel();
+            Global.PanelBackup.UpdatePanel();
         }
     }
 }

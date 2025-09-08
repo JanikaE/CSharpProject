@@ -8,7 +8,6 @@ namespace FileManager.Controls
     public partial class PathPairContextMenuStrip : ContextMenuStrip
     {
         public PathPair pathPair;
-        public FormMain Form { get; set; }
 
         public PathPairContextMenuStrip(PathPair pathPair)
         {
@@ -58,14 +57,14 @@ namespace FileManager.Controls
         private void Edit()
         {
             FormAdd formAdd = new(pathPair);
-            formAdd.ShowDialog(Form);
+            formAdd.ShowDialog(Global.FormMain);
         }
 
         private void Delete()
         {
             Config.Instance.PathPairs.Remove(pathPair);
             Config.Instance.Save();
-            Form.UpdatePanel();
+            Global.PanelBackup.UpdatePanel();
         }
     }
 
