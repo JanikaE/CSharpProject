@@ -6,11 +6,11 @@ using System.Windows.Forms;
 
 namespace FileManager.Controls
 {
-    public partial class PathPairContextMenuStrip : ContextMenuStrip
+    public partial class ContextMenuStripPathPair : ContextMenuStrip
     {
         public PathPair pathPair;
 
-        public PathPairContextMenuStrip(PathPair pathPair)
+        public ContextMenuStripPathPair(PathPair pathPair)
         {
             InitializeComponent();
             this.pathPair = pathPair;

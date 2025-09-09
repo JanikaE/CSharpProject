@@ -6,9 +6,9 @@ using System.Windows.Forms;
 
 namespace FileManager.UserInterface
 {
-    public partial class PanelBackup : UserControl
+    public partial class UIBackup : UserControl
     {
-        public PanelBackup()
+        public UIBackup()
         {
             InitializeComponent();
             UpdatePanel();
@@ -25,13 +25,13 @@ namespace FileManager.UserInterface
 
             foreach (PathPair pathPair in Config.Instance.PathPairs)
             {
-                PathPairRichTextBox textBox = new(pathPair)
+                RichTextBoxPathPair textBox = new(pathPair)
                 {
                     ReadOnly = true,
                     Text = pathPair.ToString()
                 };
 
-                PathPairContextMenuStrip contextMenuStrip = new(pathPair);
+                ContextMenuStripPathPair contextMenuStrip = new(pathPair);
                 contextMenuStrip.Init();
                 textBox.ContextMenuStrip = contextMenuStrip;
 
@@ -46,7 +46,7 @@ namespace FileManager.UserInterface
             int y = panelPathPairs.Top;
             foreach (Control control in panelPathPairs.Controls)
             {
-                PathPairRichTextBox textBox = control as PathPairRichTextBox;
+                RichTextBoxPathPair textBox = control as RichTextBoxPathPair;
                 textBox.Top = y;
                 textBox.Left = panelPathPairs.Left;
                 textBox.Width = panelPathPairs.Width;

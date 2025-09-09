@@ -1,6 +1,6 @@
 ﻿namespace FileManager.UserInterface
 {
-    partial class PanelDelete
+    partial class UIDelete
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -41,12 +41,12 @@
             buttonExec.UseVisualStyleBackColor = true;
             buttonExec.Click += ButtonExec_Click;
             // 
-            // PanelDelete
+            // UIDelete
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             Controls.Add(buttonExec);
-            Name = "PanelDelete";
+            Name = "UIDelete";
             Size = new System.Drawing.Size(261, 350);
             ResumeLayout(false);
         }

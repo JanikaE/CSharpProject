@@ -1,6 +1,6 @@
 ﻿namespace FileManager.Controls
 {
-    partial class PathPairContextMenuStrip
+    partial class RichTextBoxPathPair
     {
         /// <summary> 
         /// 必需的设计器变量。

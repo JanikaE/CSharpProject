@@ -1,6 +1,6 @@
 ﻿namespace FileManager.UserInterface
 {
-    partial class PanelBackup
+    partial class UIBackup
     {
         private System.ComponentModel.IContainer components = null;
 

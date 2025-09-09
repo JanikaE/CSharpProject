@@ -5,9 +5,9 @@ using System.Windows.Forms;
 
 namespace FileManager.UserInterface
 {
-    public partial class PanelDelete : UserControl
+    public partial class UIDelete : UserControl
     {
-        public PanelDelete()
+        public UIDelete()
         {
             InitializeComponent();
         }

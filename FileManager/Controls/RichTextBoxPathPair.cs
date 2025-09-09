@@ -3,11 +3,11 @@ using System.Windows.Forms;
 
 namespace FileManager.Controls
 {
-    public partial class PathPairRichTextBox : RichTextBox
+    public partial class RichTextBoxPathPair : RichTextBox
     {
         public PathPair pathPair;
 
-        public PathPairRichTextBox(PathPair pathPair)
+        public RichTextBoxPathPair(PathPair pathPair)
         {
             InitializeComponent();
             this.pathPair = pathPair;

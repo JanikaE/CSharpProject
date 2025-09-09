@@ -7,20 +7,20 @@ namespace FileManager
 {
     public partial class FormMain : ScalingForm_1
     {
-        private readonly PanelBackup panelBackup;
-        private readonly PanelDelete panelDelete;
+        private readonly UIBackup panelBackup;
+        private readonly UIDelete panelDelete;
 
         public FormMain()
         {
             InitializeComponent();
             InitTag();
 
-            panelBackup = new PanelBackup
+            panelBackup = new UIBackup
             {
                 Dock = DockStyle.Fill
             };
             tabPage1.Controls.Add(panelBackup);
-            panelDelete = new PanelDelete
+            panelDelete = new UIDelete
             {
                 Dock = DockStyle.Fill
             };
