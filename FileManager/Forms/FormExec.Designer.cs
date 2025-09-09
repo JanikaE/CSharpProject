@@ -1,4 +1,4 @@
-﻿namespace FileManager
+﻿namespace FileManager.Forms
 {
     partial class FormExec
     {
@@ -83,7 +83,6 @@
             this.Text = "FormExec";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
-
         }
 
         #endregion

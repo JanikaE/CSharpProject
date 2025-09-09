@@ -1,4 +1,4 @@
-﻿namespace FileManager
+﻿namespace FileManager.Forms.Backups
 {
     partial class FormAdd
     {

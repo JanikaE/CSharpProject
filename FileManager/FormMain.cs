@@ -1,6 +1,5 @@
-﻿using FileManager.Configs;
-using FileManager.Controls;
-using FileManager.Forms;
+﻿using FileManager.Forms;
+using FileManager.UserInterface;
 using System;
 using System.Windows.Forms;
 
@@ -9,6 +8,7 @@ namespace FileManager
     public partial class FormMain : ScalingForm_1
     {
         private readonly PanelBackup panelBackup;
+        private readonly PanelDelete panelDelete;
 
         public FormMain()
         {
@@ -20,9 +20,15 @@ namespace FileManager
                 Dock = DockStyle.Fill
             };
             tabPage1.Controls.Add(panelBackup);
+            panelDelete = new PanelDelete
+            {
+                Dock = DockStyle.Fill
+            };
+            tabPage2.Controls.Add(panelDelete);
 
             Global.FormMain = this;
-            Global.PanelBackup = this.panelBackup;
+            Global.PanelBackup = panelBackup;
+            Global.PanelDelete = panelDelete;
 
             SetRectangle();
         }

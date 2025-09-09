@@ -1,30 +1,27 @@
 ﻿using FileManager.Configs;
-using FileManager.Forms;
 using System;
 using System.Drawing;
 using System.IO;
 
-namespace FileManager
+namespace FileManager.Forms.Backups
 {
-    public partial class FormExec : ScalingForm_1
+    public class FormExecBackup : FormExec
     {
-        public FormExec()
+        public FormExecBackup() : base()
         {
-            InitializeComponent();
             InitTag();
-
             SetRectangle();
         }
 
-        public void Execute()
+        public override void Execute()
         {
-            foreach(PathPair pathPair in Config.Instance.PathPairs)
+            foreach (PathPair pathPair in Config.Instance.PathPairs)
             {
                 WriteProcess($"Start:{pathPair.SourcePath} ==> {pathPair.TargetPath}\n", Color.Black);
                 Copy(pathPair.SourcePath, pathPair.TargetPath);
                 WriteProcess($"End:{pathPair.SourcePath} ==> {pathPair.TargetPath}\n\n", Color.Black);
             }
-            buttonOK.Enabled = true;
+            base.Execute();
         }
 
         private void Copy(string sourcePath, string targetPath)
@@ -86,19 +83,6 @@ namespace FileManager
                     }
                 }
             }
-        }
-
-        private void WriteProcess(string str, Color color) 
-        {
-            int start = richTextBoxProcess.Text.Length;
-            richTextBoxProcess.Select(start, 0);
-            richTextBoxProcess.SelectionColor = color;
-            richTextBoxProcess.AppendText(str);
-        }
-
-        private void ButtonOK_Click(object sender, EventArgs e)
-        {
-            Close();
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using FileManager.Configs;
+using FileManager.Controls;
+using FileManager.Forms.Backups;
 using System;
 using System.Windows.Forms;
 
-namespace FileManager.Controls
+namespace FileManager.UserInterface
 {
     public partial class PanelBackup : UserControl
     {
@@ -45,10 +47,10 @@ namespace FileManager.Controls
             foreach (Control control in panelPathPairs.Controls)
             {
                 PathPairRichTextBox textBox = control as PathPairRichTextBox;
-                textBox.Width = panelPathPairs.Width;
-                textBox.Left = panelPathPairs.Left;
                 textBox.Top = y;
-                textBox.Height = textBox.PreferredHeight * 3;
+                textBox.Left = panelPathPairs.Left;
+                textBox.Width = panelPathPairs.Width;
+                textBox.Height = (int)(textBox.PreferredHeight * 3.2);
                 y += textBox.Height;
             }
         }
@@ -67,7 +69,7 @@ namespace FileManager.Controls
 
         private void ButtonExec_Click(object sender, EventArgs e)
         {
-            FormExec formExec = new();
+            FormExecBackup formExec = new();
             formExec.Show();
             formExec.Execute();
         }

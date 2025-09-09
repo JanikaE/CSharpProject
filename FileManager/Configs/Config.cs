@@ -29,9 +29,19 @@ namespace FileManager.Configs
 
         #region Parameter
 
+        #region Backup
+
         public List<PathPair> PathPairs { get; set; } = [];
 
         public bool IsShowIgnore { get; set; } = false;
+
+        #endregion
+
+        #region Delete
+
+        public List<DeletePattern> DeletePatterns = [];
+
+        #endregion
 
         public Dictionary<string, Rectangle> FormRectangle { get; set; } = [];
 

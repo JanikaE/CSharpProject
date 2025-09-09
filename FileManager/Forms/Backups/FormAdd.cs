@@ -3,7 +3,7 @@ using FileManager.Forms;
 using System;
 using System.Windows.Forms;
 
-namespace FileManager
+namespace FileManager.Forms.Backups
 {
     public partial class FormAdd : ScalingForm_1
     {

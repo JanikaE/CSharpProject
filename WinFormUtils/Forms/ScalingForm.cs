@@ -4,14 +4,16 @@ using System.Windows.Forms;
 
 namespace WinFormUtils.Forms
 {
+    /// <summary>
+    /// 控件大小可随窗体大小等比例缩放
+    /// 需要在构造函数中调用InitTag()方法
+    /// </summary>
     public partial class ScalingForm : Form
     {
         public ScalingForm()
         {
             InitializeComponent();
         }
-
-        #region 控件大小随窗体大小等比例缩放
 
         /// <summary>
         /// 初始化，需要在构造函数中调用
@@ -71,8 +73,6 @@ namespace WinFormUtils.Forms
                 }
             }
         }
-
-        #endregion
 
         protected void ScalingForm_Resize(object sender, EventArgs e)
         {

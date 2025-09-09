@@ -1,4 +1,4 @@
-﻿namespace FileManager.Controls
+﻿namespace FileManager.UserInterface
 {
     partial class PanelBackup
     {

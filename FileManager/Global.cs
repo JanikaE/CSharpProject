@@ -1,4 +1,5 @@
 ﻿using FileManager.Controls;
+using FileManager.UserInterface;
 
 namespace FileManager
 {
@@ -7,5 +8,7 @@ namespace FileManager
         public static FormMain FormMain { get; set; }
 
         public static PanelBackup PanelBackup { get; set; }
-    }
+
+        public static PanelDelete PanelDelete { get; set; }
+        }
 }
