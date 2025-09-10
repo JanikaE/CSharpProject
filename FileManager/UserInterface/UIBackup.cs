@@ -25,16 +25,7 @@ namespace FileManager.UserInterface
 
             foreach (PathPair pathPair in Config.Instance.PathPairs)
             {
-                RichTextBoxPathPair textBox = new(pathPair)
-                {
-                    ReadOnly = true,
-                    Text = pathPair.ToString()
-                };
-
-                ContextMenuStripPathPair contextMenuStrip = new(pathPair);
-                contextMenuStrip.Init();
-                textBox.ContextMenuStrip = contextMenuStrip;
-
+                RichTextBoxPathPair textBox = new(pathPair);
                 panelPathPairs.Controls.Add(textBox);
             }
 
