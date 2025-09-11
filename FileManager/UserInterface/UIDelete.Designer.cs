@@ -28,31 +28,62 @@
         /// </summary>
         private void InitializeComponent()
         {
-            buttonExec = new System.Windows.Forms.Button();
+            tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            panelDeletePatterns = new System.Windows.Forms.Panel();
+            buttonAdd = new System.Windows.Forms.Button();
+            tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
-            // buttonExec
+            // tableLayoutPanel1
             // 
-            buttonExec.Location = new System.Drawing.Point(169, 309);
-            buttonExec.Name = "buttonExec";
-            buttonExec.Size = new System.Drawing.Size(75, 23);
-            buttonExec.TabIndex = 0;
-            buttonExec.Text = "执行删除";
-            buttonExec.UseVisualStyleBackColor = true;
-            buttonExec.Click += ButtonExec_Click;
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            tableLayoutPanel1.Controls.Add(buttonAdd, 0, 1);
+            tableLayoutPanel1.Controls.Add(panelDeletePatterns, 0, 0);
+            tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 89.14286F));
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.8571424F));
+            tableLayoutPanel1.Size = new System.Drawing.Size(261, 350);
+            tableLayoutPanel1.TabIndex = 0;
+            // 
+            // panelDeletePatterns
+            // 
+            panelDeletePatterns.Dock = System.Windows.Forms.DockStyle.Fill;
+            panelDeletePatterns.Location = new System.Drawing.Point(3, 3);
+            panelDeletePatterns.Name = "panelDeletePatterns";
+            panelDeletePatterns.Size = new System.Drawing.Size(255, 306);
+            panelDeletePatterns.TabIndex = 0;
+            // 
+            // buttonAdd
+            // 
+            buttonAdd.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            buttonAdd.Location = new System.Drawing.Point(187, 318);
+            buttonAdd.Name = "buttonAdd";
+            buttonAdd.Size = new System.Drawing.Size(71, 26);
+            buttonAdd.TabIndex = 1;
+            buttonAdd.Text = "新增配置";
+            buttonAdd.UseVisualStyleBackColor = true;
+            buttonAdd.Click += ButtonAdd_Click;
             // 
             // UIDelete
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            Controls.Add(buttonExec);
+            Controls.Add(tableLayoutPanel1);
             Name = "UIDelete";
             Size = new System.Drawing.Size(261, 350);
+            tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
-        private System.Windows.Forms.Button buttonExec;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel panelDeletePatterns;
+        private System.Windows.Forms.Button buttonAdd;
+        private System.Windows.Forms.Button buttonSave;
     }
 }

@@ -1,5 +1,5 @@
 ﻿using FileManager.Configs;
-using FileManager.Forms.Deletes;
+using FileManager.Controls;
 using System;
 using System.Windows.Forms;
 
@@ -10,23 +10,46 @@ namespace FileManager.UserInterface
         public UIDelete()
         {
             InitializeComponent();
+            UpdatePanel();
         }
 
-        private void ButtonExec_Click(object sender, EventArgs e)
+        private void ButtonAdd_Click(object sender, EventArgs e)
         {
-            DeletePattern deletePattern = new()
+            var deletePattern = new DeletePattern();
+            Config.Instance.DeletePatterns.Add(deletePattern);
+            Config.Instance.Save();
+            UserControlDeletePattern uc = new(deletePattern);
+            panelDeletePatterns.Controls.Add(uc);
+            SetPanelPosition();
+        }
+
+        public void UpdatePanel()
+        {
+            foreach (Control control in panelDeletePatterns.Controls)
             {
-                SourcePath = "E:\\Code\\EPIS",
-                MatchFolder = "obj",
-                IsFullMatch = true,
-                IsIgnoreCase = true
-            };
-            FormExecDelete formExecDelete = new()
+                control.Dispose();
+            }
+            panelDeletePatterns.Controls.Clear();
+
+            foreach (DeletePattern deletePattern in Config.Instance.DeletePatterns)
             {
-                DeletePattern = deletePattern
-            };
-            formExecDelete.Show();
-            formExecDelete.Execute();
+                UserControlDeletePattern uc = new(deletePattern);
+                panelDeletePatterns.Controls.Add(uc);
+            }
+            SetPanelPosition();
+        }
+
+        public void SetPanelPosition()
+        {
+            int y = panelDeletePatterns.Top;
+            foreach (Control control in panelDeletePatterns.Controls)
+            {
+                UserControlDeletePattern uc = control as UserControlDeletePattern;
+                uc.Top = y;
+                uc.Left = panelDeletePatterns.Left;
+                uc.Width = panelDeletePatterns.Width;
+                y += uc.Height;
+            }
         }
     }
 }

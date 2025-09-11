@@ -31,7 +31,11 @@
             tabControl1 = new System.Windows.Forms.TabControl();
             tabPage1 = new System.Windows.Forms.TabPage();
             tabPage2 = new System.Windows.Forms.TabPage();
+            uiBackup = new FileManager.UserInterface.UIBackup();
+            uiDelete = new FileManager.UserInterface.UIDelete();
             tabControl1.SuspendLayout();
+            tabPage1.SuspendLayout();
+            tabPage2.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -47,6 +51,7 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(uiBackup);
             tabPage1.Location = new System.Drawing.Point(4, 26);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -57,6 +62,7 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(uiDelete);
             tabPage2.Location = new System.Drawing.Point(4, 26);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -64,6 +70,22 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "删除";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // uiBackup
+            // 
+            uiBackup.Dock = System.Windows.Forms.DockStyle.Fill;
+            uiBackup.Location = new System.Drawing.Point(3, 3);
+            uiBackup.Name = "uiBackup";
+            uiBackup.Size = new System.Drawing.Size(617, 541);
+            uiBackup.TabIndex = 0;
+            // 
+            // uiDelete
+            // 
+            uiDelete.Dock = System.Windows.Forms.DockStyle.Fill;
+            uiDelete.Location = new System.Drawing.Point(3, 3);
+            uiDelete.Name = "uiDelete";
+            uiDelete.Size = new System.Drawing.Size(617, 541);
+            uiDelete.TabIndex = 0;
             // 
             // FormMain
             // 
@@ -76,8 +98,9 @@
             MinimizeBox = false;
             Name = "FormMain";
             Text = "FileManager";
-            Resize += FormMain_Resize;
             tabControl1.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            tabPage2.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -85,6 +108,8 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        private UserInterface.UIBackup uiBackup;
+        private UserInterface.UIDelete uiDelete;
     }
 }
 

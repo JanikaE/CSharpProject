@@ -67,7 +67,7 @@ namespace FileManager.Controls
         {
             Config.Instance.PathPairs.Remove(pathPair);
             Config.Instance.Save();
-            Global.PanelBackup.UpdatePanel();
+            Global.UIBackup.UpdatePanel();
         }
     }
 

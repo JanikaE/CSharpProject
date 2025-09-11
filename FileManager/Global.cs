@@ -7,8 +7,8 @@ namespace FileManager
     {
         public static FormMain FormMain { get; set; }
 
-        public static UIBackup PanelBackup { get; set; }
+        public static UIBackup UIBackup { get; set; }
 
-        public static UIDelete PanelDelete { get; set; }
-        }
+        public static UIDelete UIDelete { get; set; }
+    }
 }

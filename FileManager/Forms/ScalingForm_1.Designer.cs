@@ -39,9 +39,7 @@
             this.Name = "ScalingForm";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ScalingForm_FormClosing);
-            this.Resize += new System.EventHandler(this.ScalingForm_Resize);
             this.ResumeLayout(false);
-
         }
 
         #endregion
