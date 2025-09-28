@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Utils.Mathematical
 {
@@ -71,6 +72,11 @@ namespace Utils.Mathematical
         }
 
         public static explicit operator Vector2D(Point2D point)
+        {
+            return new(point.X, point.Y);
+        }
+
+        public static explicit operator Point(Point2D point)
         {
             return new(point.X, point.Y);
         }

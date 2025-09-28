@@ -4,7 +4,7 @@ namespace MoveSimulation
 {
     public static class Setting
     {
-        public static float Friction { get; set; } = 1f;
+        public static float Friction { get; set; } = 0.2f;
 
         public static float AccelerationModulu { get; set; } = 2f;
 

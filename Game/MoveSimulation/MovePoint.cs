@@ -36,5 +36,11 @@ namespace MoveSimulation
             Velocity += Setting.GetAcceleration(direction);
             Position += Velocity;
         }
+
+        public void Reset()
+        {
+            Position = new Vector2D(0, 0);
+            Velocity = new Vector2D(0, 0);
+        }
     }
 }

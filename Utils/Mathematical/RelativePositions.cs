@@ -123,6 +123,15 @@
             return RelativePosition_4.None;
         }
 
+        public static RelativePosition_4 ToRelativePosition_4(Vector2D vector)
+        {
+            if (vector.X == 0 && vector.Y < 0) return RelativePosition_4.Up;
+            if (vector.X == 0 && vector.Y > 0) return RelativePosition_4.Down;
+            if (vector.X < 0 && vector.Y == 0) return RelativePosition_4.Left;
+            if (vector.X > 0 && vector.Y == 0) return RelativePosition_4.Right;
+            return RelativePosition_4.None;
+        }
+
         public static RelativePosition_8 ToRelativePosition_8(Point2D point)
         {
             if (point.X == 0 && point.Y < 0) return RelativePosition_8.Up;
@@ -133,6 +142,19 @@
             if (point.X > 0 && point.Y < 0) return RelativePosition_8.UpRight;
             if (point.X < 0 && point.Y > 0) return RelativePosition_8.DownLeft;
             if (point.X > 0 && point.Y > 0) return RelativePosition_8.DownRight;
+            return RelativePosition_8.None;
+        }
+
+        public static RelativePosition_8 ToRelativePosition_8(Vector2D vector)
+        {
+            if (vector.X == 0 && vector.Y < 0) return RelativePosition_8.Up;
+            if (vector.X == 0 && vector.Y > 0) return RelativePosition_8.Down;
+            if (vector.X < 0 && vector.Y == 0) return RelativePosition_8.Left;
+            if (vector.X > 0 && vector.Y == 0) return RelativePosition_8.Right;
+            if (vector.X < 0 && vector.Y < 0) return RelativePosition_8.UpLeft;
+            if (vector.X > 0 && vector.Y < 0) return RelativePosition_8.UpRight;
+            if (vector.X < 0 && vector.Y > 0) return RelativePosition_8.DownLeft;
+            if (vector.X > 0 && vector.Y > 0) return RelativePosition_8.DownRight;
             return RelativePosition_8.None;
         }
 
