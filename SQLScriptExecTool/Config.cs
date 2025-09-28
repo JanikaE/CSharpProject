@@ -1,13 +1,12 @@
 ﻿using Newtonsoft.Json;
-using System.IO;
+using Utils.Config;
 
 
 namespace SQLScriptExecTool
 {
-    public class Config
+    public class Config : BaseConfig
     {
-        public static readonly string fileName = "Config.json";
-
+        private static Config _instance = null;
         public static Config Instance
         {
             get
@@ -16,7 +15,7 @@ namespace SQLScriptExecTool
                 {
                     try
                     {
-                        _instance = Load();
+                        _instance = Load<Config>();
                     }
                     catch
                     {
@@ -27,8 +26,6 @@ namespace SQLScriptExecTool
                 return _instance;
             }
         }
-
-        private static Config _instance = null;
 
         #region Parameter
 
@@ -47,18 +44,6 @@ namespace SQLScriptExecTool
         public string Directory { get; set; }
 
         #endregion
-
-        public static Config Load()
-        {
-            string jsonStr = File.ReadAllText(fileName);
-            return JsonConvert.DeserializeObject<Config>(jsonStr);
-        }
-
-        public void Save()
-        {
-            string jsonStr = JsonConvert.SerializeObject(this);
-            File.WriteAllText(fileName, jsonStr);
-        }
     }
 }
 

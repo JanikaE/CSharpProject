@@ -1,7 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -67,7 +66,7 @@ namespace SQLScriptExecTool
         /// <param name="e"></param>
         private void ButtonTestConnect_Click(object sender, EventArgs e)
         {
-            MySqlConnection conn = new MySqlConnection(ConnStr);
+            MySqlConnection conn = new(ConnStr);
 
             try
             {
@@ -92,10 +91,10 @@ namespace SQLScriptExecTool
 
             try
             {
-                List<string> databases = new List<string>() { "" };
+                List<string> databases = new() { "" };
 
                 string sql = "show databases";
-                MySqlCommand command = new MySqlCommand(sql)
+                MySqlCommand command = new(sql)
                 {
                     Connection = conn
                 };
@@ -127,7 +126,7 @@ namespace SQLScriptExecTool
 
         private void ButtonOpenFile_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog()
+            OpenFileDialog openFileDialog = new()
             {
                 Multiselect = false,
                 Title = "选择脚本文件",
@@ -137,8 +136,8 @@ namespace SQLScriptExecTool
             {
                 if (openFileDialog.FileName != "")
                 {
-                    FileStream fs = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read);
-                    StreamReader sr = new StreamReader(fs, Encoding.Default);
+                    FileStream fs = new(openFileDialog.FileName, FileMode.Open, FileAccess.Read);
+                    StreamReader sr = new(fs, Encoding.Default);
                     string script = sr.ReadToEnd();
                     richTextBoxScript.Text = script;
                 }
@@ -147,11 +146,11 @@ namespace SQLScriptExecTool
 
         private void ButtonExecuteOne_Click(object sender, EventArgs e)
         {
-            MySqlConnection conn = new MySqlConnection(ConnStr);
+            MySqlConnection conn = new(ConnStr);
             try
             {
                 conn.Open();
-                MySqlScript command = new MySqlScript(richTextBoxScript.Text)
+                MySqlScript command = new(richTextBoxScript.Text)
                 {
                     Connection = conn
                 };
@@ -213,7 +212,7 @@ namespace SQLScriptExecTool
         {
             if (e.Button == MouseButtons.Left)
             {
-                FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog()
+                FolderBrowserDialog folderBrowserDialog = new()
                 {
                     SelectedPath = textBoxDirectory.Text,
                     ShowNewFolderButton = false,
@@ -278,8 +277,8 @@ namespace SQLScriptExecTool
         private void CheckedListBoxScripts_DoubleClick(object sender, EventArgs e)
         {
             string fileName = DirectoryPath + checkedListBoxScripts.SelectedItem;
-            FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-            StreamReader sr = new StreamReader(fs, Encoding.Default);
+            FileStream fs = new(fileName, FileMode.Open, FileAccess.Read);
+            StreamReader sr = new(fs, Encoding.Default);
             string script = sr.ReadToEnd();
             richTextBoxScript.Text = script;
             tabControl.SelectedTab = tabPageByFile;
@@ -287,7 +286,7 @@ namespace SQLScriptExecTool
 
         private void ButtonExecuteMultiple_Click(object sender, EventArgs e)
         {
-            MySqlConnection conn = new MySqlConnection(ConnStr);
+            MySqlConnection conn = new(ConnStr);
             conn.Open();
             for (int i = 0; i < checkedListBoxScripts.Items.Count; i++)
             {
@@ -303,11 +302,11 @@ namespace SQLScriptExecTool
                 try
                 {
                     string fileName = DirectoryPath + checkedListBoxScripts.SelectedItem;
-                    FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                    StreamReader sr = new StreamReader(fs, Encoding.Default);
+                    FileStream fs = new(fileName, FileMode.Open, FileAccess.Read);
+                    StreamReader sr = new(fs, Encoding.Default);
                     string script = sr.ReadToEnd();
 
-                    MySqlScript command = new MySqlScript(script)
+                    MySqlScript command = new(script)
                     {
                         Connection = conn
                     };
@@ -358,7 +357,7 @@ namespace SQLScriptExecTool
         /// <returns></returns>
         private static List<string> LoadFolder(string path)
         {
-            List<string> result = new List<string>();
+            List<string> result = new();
 
             // 当前文件夹
             List<string> files = Directory.GetFiles(path).ToList();
