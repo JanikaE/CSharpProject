@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Utils.Mathematical;
 
-namespace Maze
+namespace Maze.Generate
 {
     /// <summary>
     /// 深度优先算法

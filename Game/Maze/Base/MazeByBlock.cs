@@ -9,7 +9,7 @@ namespace Maze.Base
     /// <summary>
     /// 只由格子组成的迷宫
     /// </summary>
-    public class MazeByBlock
+    public class MazeByBlock : IMaze
     {
         /// <summary>格子，true为不可通过</summary>
         public bool[,] isWall;

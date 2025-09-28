@@ -4,7 +4,7 @@ namespace Minesweeper
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             Box box = new(10, 20, 10);
             box.StartNew();

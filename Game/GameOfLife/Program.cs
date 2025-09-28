@@ -9,7 +9,7 @@ namespace GameOfLife
         {
             Box box = new();
             box.RandomInit(5, 5, 20, 20);
-            //box.Init(Seed.seeds[0]);
+            //box.Init(Seed.Seeds[0]);
             while (true)
             {
                 Console.SetCursorPosition(0, 0);

@@ -4,11 +4,11 @@ namespace GameOfLife
 {
     public static class Seed
     {
-        public static List<int[,]> seeds;
+        public static List<int[,]> Seeds { get; }
 
         static Seed()
         {
-            seeds = new List<int[,]>
+            Seeds = new List<int[,]>
             {
                 new int[17, 17] { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                                   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },

@@ -34,7 +34,7 @@ namespace G2048
 
         private void Generate()
         {
-            Random random = new Random();
+            Random random = new();
             int x, y;
             while (true)
             {
@@ -165,7 +165,7 @@ namespace G2048
             return result;
         }
 
-        private int ChangeLine(int[] line)
+        private static int ChangeLine(int[] line)
         {
             Move(line);
             int score = Merge(line);
@@ -173,7 +173,7 @@ namespace G2048
             return score;
         }
 
-        private void Move(int[] line)
+        private static void Move(int[] line)
         {
             for (int i = 1; i < line.Length; i++)
             {
@@ -186,7 +186,7 @@ namespace G2048
             }
         }
 
-        private int Merge(int[] line)
+        private static int Merge(int[] line)
         {
             int score = 0;
             for (int i = 0; i < line.Length - 1; i++)
@@ -222,7 +222,7 @@ namespace G2048
 
         public Operation Next()
         {
-            Dictionary<Operation, int> keyValuePairs = new Dictionary<Operation, int>();
+            Dictionary<Operation, int> keyValuePairs = new();
             foreach (Operation op in Enum.GetValues(typeof(Operation)))
             {
                 if (op == Operation.None) continue;

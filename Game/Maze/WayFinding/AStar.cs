@@ -132,7 +132,7 @@ namespace Maze.WayFinding
         /// <summary>
         /// 从起点到某格的实际代价
         /// </summary>
-        private int Gn(Node<Point2D> node)
+        private static int Gn(Node<Point2D> node)
         {
             return node.Level;
         }

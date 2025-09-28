@@ -1,4 +1,5 @@
 ﻿using Maze.Base;
+using Maze.Generate;
 using Maze.WayFinding;
 using System;
 using Utils.Mathematical;
@@ -8,7 +9,7 @@ namespace Maze
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             try
             {
@@ -23,7 +24,7 @@ namespace Maze
                         maze.Show();
                         Console.WriteLine();
 
-                        maze.FindWay(new(0, 0), new(29, 10), FindMode.AStar);
+                        maze.FindWay(new(0, 0), new(29, 9), FindMode.AStar);
                         maze.Show(true);
                         Console.WriteLine();
 

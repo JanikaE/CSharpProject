@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Utils.Mathematical;
 
-namespace Maze
+namespace Maze.Generate
 {
     /// <summary>
     /// 随机Prim算法

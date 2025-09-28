@@ -8,10 +8,12 @@ namespace Maze.Base
     /// <summary>
     /// 迷宫基类，由格子和墙构成的迷宫
     /// </summary>
-    public abstract class MazeByWall
+    public abstract class MazeByWall : IMaze
     {
         public int height;
         public int width;
+        public int Height => height;
+        public int Width => width;
 
         /// <summary>竖直的墙，true为可通过</summary>
         public bool[,] wall_vertical;
