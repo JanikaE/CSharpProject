@@ -9,8 +9,8 @@ namespace Utils.Structure
         private readonly List<T> _busyElements = new();
         private int? _maxSize = null;
         private Func<T> _onCreate;
-        private Action<T>? _onRelease;
-        private Action<T>? _onRequest;
+        private Action<T> _onRelease;
+        private Action<T> _onRequest;
 
         public int? MaxSize 
         { 
@@ -24,14 +24,14 @@ namespace Utils.Structure
             } 
         }
 
-        public ObjectPool(Func<T> onCreate, Action<T>? onRequest = null, Action<T>? onRelease = null)
+        public ObjectPool(Func<T> onCreate, Action<T> onRequest = null, Action<T> onRelease = null)
         {
             _onCreate = onCreate;
             _onRelease = onRelease;
             _onRequest = onRequest;
         }
 
-        public void Setup(Func<T> onCreate, Action<T>? onRequest = null, Action<T>? onRelease = null)
+        public void Setup(Func<T> onCreate, Action<T> onRequest = null, Action<T> onRelease = null)
         {
             _onCreate = onCreate;
             _onRelease = onRelease;

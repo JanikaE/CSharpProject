@@ -403,12 +403,12 @@ namespace Utils.Mathematical
             return result;
         }
 
-        public bool Equals(SquaredMatrix? other)
+        public bool Equals(SquaredMatrix other)
         {
             return other is not null && this == other;
         }
 
-        public override bool Equals(object? obj)
+        public override bool Equals(object obj)
         {
             return obj is SquaredMatrix matrix && Equals(matrix);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace Utils.Tool
 {
@@ -14,7 +15,7 @@ namespace Utils.Tool
         /// <param name="sourcePath">源文件夹路径</param>
         /// <param name="targetPath">目的文件夹路径</param>
         /// <param name="searchPatterns">要复制的文件扩展名数组</param>
-        public static void Copy(string sourcePath, string targetPath, bool isCover, string[]? searchPatterns = null)
+        public static void Copy(string sourcePath, string targetPath, bool isCover, string[] searchPatterns = null, string[] skipDir = null, string[] skipFile = null)
         {
             if (!Directory.Exists(sourcePath))
             {
@@ -24,14 +25,18 @@ namespace Utils.Tool
             {
                 Directory.CreateDirectory(targetPath);
             }
+
             string[] dirs = Directory.GetDirectories(sourcePath);
             if (dirs.Length > 0)
             {
                 foreach (string dir in dirs)
                 {
+                    if (skipDir != null && skipDir.Any(c => c == dir))
+                        continue;
                     Copy(dir, string.Concat(targetPath, dir.AsSpan(dir.LastIndexOf("\\", StringComparison.Ordinal))), isCover);
                 }
             }
+
             if (searchPatterns != null && searchPatterns.Length > 0)
             {
                 foreach (string searchPattern in searchPatterns)
@@ -43,6 +48,8 @@ namespace Utils.Tool
                     }
                     foreach (string file in files)
                     {
+                        if (skipFile != null && skipFile.Any(c => c == file))
+                            continue;
                         FileTool.Copy(file, string.Concat(targetPath, file.AsSpan(file.LastIndexOf("\\", StringComparison.Ordinal))), isCover);
                     }
                 }
@@ -56,6 +63,8 @@ namespace Utils.Tool
                 }
                 foreach (string file in files)
                 {
+                    if (skipFile != null && skipFile.Any(c => c == file))
+                        continue;
                     FileTool.Copy(file, string.Concat(targetPath, file.AsSpan(file.LastIndexOf("\\", StringComparison.Ordinal))), isCover);
                 }
             }
@@ -67,7 +76,7 @@ namespace Utils.Tool
         /// <param name="directory">目录路径</param>
         /// <param name="isDeleteRoot">是否删除根目录</param>
         /// <returns>删除的文件大小（字节）</returns>
-        public static long Delete(string directory, bool isDeleteRoot)
+        public static long Delete(string directory, bool isDeleteRoot = true)
         {
             long temp = 0;
             DirectoryInfo dirPathInfo = new(directory);
@@ -138,7 +147,7 @@ namespace Utils.Tool
         /// <param name="fileFullPath"></param>
         public static void CreateDirectoryByFilePath(string fileFullPath)
         {
-            string? dirPath = Path.GetDirectoryName(fileFullPath);
+            string dirPath = Path.GetDirectoryName(fileFullPath);
             if (!Directory.Exists(dirPath))
             {
                 Directory.CreateDirectory(dirPath ?? string.Empty);

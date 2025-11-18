@@ -290,8 +290,8 @@ namespace Utils.Tool
         public static string GetWindowsServiceInstallPath(string ServiceName)
         {
             string key = @"SYSTEM\CurrentControlSet\Services\" + ServiceName;
-            using RegistryKey? registryKey = Registry.LocalMachine.OpenSubKey(key) ?? throw new InvalidOperationException($"Registry key not found: {key}");
-            object? imagePathValue = registryKey.GetValue("ImagePath") ?? throw new InvalidOperationException($"ImagePath value not found for service: {ServiceName}");
+            using RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(key) ?? throw new InvalidOperationException($"Registry key not found: {key}");
+            object imagePathValue = registryKey.GetValue("ImagePath") ?? throw new InvalidOperationException($"ImagePath value not found for service: {ServiceName}");
             string path = imagePathValue.ToString() ?? throw new InvalidOperationException("ImagePath value is null.");
             // 替换掉双引号   
             path = path.Replace("\"", string.Empty);

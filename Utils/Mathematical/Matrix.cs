@@ -284,12 +284,12 @@ namespace Utils.Mathematical
             return result;
         }
 
-        public bool Equals(Matrix? other)
+        public bool Equals(Matrix other)
         {
             return other is not null && this == other;
         }
 
-        public override bool Equals(object? obj)
+        public override bool Equals(object obj)
         {
             return obj is Matrix matrix && Equals(matrix);
         }

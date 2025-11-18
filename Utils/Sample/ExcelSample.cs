@@ -6,9 +6,9 @@ namespace Utils.Sample
 {
     public class ExcelSample
     {
-        public string? Id { get; set; }
+        public string Id { get; set; }
 
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         public static List<ExcelSample> ReadExcel()
         {

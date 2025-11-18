@@ -171,7 +171,7 @@ namespace Utils.Mathematical
             return this == value;
         }
 
-        public override readonly bool Equals(object? obj)
+        public override readonly bool Equals(object obj)
         {
             return obj is Vector3D o && Equals(o);
         }

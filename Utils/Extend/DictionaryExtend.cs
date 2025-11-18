@@ -21,7 +21,7 @@ namespace Utils.Extend
             }
         }
 
-        public static TValue? GetValue<TKey, TValue>(this Dictionary<TKey, TValue> dicSource, TKey key, TValue defaultValue) where TKey : notnull
+        public static TValue GetValue<TKey, TValue>(this Dictionary<TKey, TValue> dicSource, TKey key, TValue defaultValue) where TKey : notnull
         {
             if (dicSource != null && dicSource.ContainsKey(key))
             {
@@ -33,7 +33,7 @@ namespace Utils.Extend
             }
         }
 
-        public static TValue? GetValue<TKey, TValue>(this Dictionary<TKey, TValue> dicSource, TKey key) where TKey : notnull
+        public static TValue GetValue<TKey, TValue>(this Dictionary<TKey, TValue> dicSource, TKey key) where TKey : notnull
         {
             if (dicSource != null && dicSource.ContainsKey(key))
             {

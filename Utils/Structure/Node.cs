@@ -23,7 +23,7 @@ namespace Utils.Structure
         /// <summary>
         /// 父节点
         /// </summary>
-        public Node<T>? Parent { get; }
+        public Node<T> Parent { get; }
 
         /// <summary>
         /// 子节点
@@ -79,7 +79,7 @@ namespace Utils.Structure
         /// </summary>
         public bool HasChild => !IsLeaf;
 
-        public Node(T item, Node<T>? parent)
+        public Node(T item, Node<T> parent)
         {
             Current = item;
             Parent = parent;

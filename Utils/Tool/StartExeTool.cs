@@ -17,7 +17,7 @@ namespace Utils.Tool
         /// <param name="exePath"></param>
         /// <param name="outputLogAct"></param>
         /// <param name="errorMsg"></param>
-        public static void Open(string exePath, Action<string>? outputLogAct, out string errorMsg)
+        public static void Open(string exePath, Action<string> outputLogAct, out string errorMsg)
         {
             errorMsg = "";
             if (string.IsNullOrEmpty(exePath) == true)
@@ -442,7 +442,7 @@ namespace Utils.Tool
         /// <param name="process"></param>
         /// <param name="outputLogAct"></param>
         /// <returns></returns>
-        public static string GetProcessUser(Process process, Action<string>? outputLogAct)
+        public static string GetProcessUser(Process process, Action<string> outputLogAct)
         {
             IntPtr processHandle = IntPtr.Zero;
             IntPtr tokenHandle = IntPtr.Zero;

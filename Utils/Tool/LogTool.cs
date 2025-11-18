@@ -100,7 +100,7 @@ namespace Utils.Tool
         #region 日志写入文件
 
         private static bool isWriteToFile = false;
-        private static string? logPath = null;
+        private static string logPath = null;
 
         /// <summary>
         /// 初始化将日志同步写入文件的功能

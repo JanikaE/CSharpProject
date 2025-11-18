@@ -9,11 +9,11 @@ namespace Utils.MyException
         {
         }
 
-        public MatrixException(string? message) : base(message)
+        public MatrixException(string message) : base(message)
         {
         }
 
-        public MatrixException(string? message, Exception? innerException) : base(message, innerException)
+        public MatrixException(string message, Exception innerException) : base(message, innerException)
         {
         }
 

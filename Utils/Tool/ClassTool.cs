@@ -25,7 +25,7 @@ namespace Utils.Tool
             foreach (PropertyInfo item in properties)
             {
                 string name = item.Name;
-                object? value = item.GetValue(t, null);
+                object value = item.GetValue(t, null);
 
                 if (item.PropertyType.IsValueType || item.PropertyType.Name.StartsWith("String"))
                 {
@@ -58,7 +58,7 @@ namespace Utils.Tool
             foreach (FieldInfo item in fields)
             {
                 string name = item.Name;
-                object? value = item.GetValue(t);
+                object value = item.GetValue(t);
 
                 if (item.FieldType.IsValueType || item.FieldType.Name.StartsWith("String"))
                 {

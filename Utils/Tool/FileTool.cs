@@ -93,7 +93,7 @@ namespace Utils.Tool
             {
                 Delete(targetFileName, false);
             }
-            string? destDir = Path.GetDirectoryName(targetFileName);
+            string destDir = Path.GetDirectoryName(targetFileName);
             if (destDir != null && !Directory.Exists(destDir))
             {
                 Directory.CreateDirectory(destDir);
@@ -129,7 +129,7 @@ namespace Utils.Tool
         /// </summary>
         /// <param name="fileName"> 完整文件名 </param>
         /// <returns> 文件版本号 </returns>
-        public static string? GetVersion(string fileName)
+        public static string GetVersion(string fileName)
         {
             if (File.Exists(fileName))
             {
@@ -236,7 +236,7 @@ namespace Utils.Tool
         /// <returns></returns>
         public static bool FileIsReady(FileInfo fileInfo)
         {
-            FileStream? fs = null;
+            FileStream fs = null;
             try
             {
                 fs = fileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.None);
@@ -267,7 +267,7 @@ namespace Utils.Tool
                 index++;
 
                 FileInfo fi = new(fileName);
-                FileStream? fs = null;
+                FileStream fs = null;
                 try
                 {
                     fs = fi.Open(FileMode.Open, FileAccess.Read, FileShare.None);

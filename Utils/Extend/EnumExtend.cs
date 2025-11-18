@@ -21,7 +21,7 @@ namespace Utils.Extend
 
             if (i + 1 < values.GetLength(0))
             {
-                object? next = values.GetValue(i + 1);
+                object next = values.GetValue(i + 1);
                 return next == null ? null : (TEnum)next;
             }
             else
@@ -45,7 +45,7 @@ namespace Utils.Extend
 
             if (i - 1 >= 0)
             {
-                object? next = values.GetValue(i - 1);
+                object next = values.GetValue(i - 1);
                 return next == null ? null : (TEnum)next;
             }
             else
@@ -59,12 +59,12 @@ namespace Utils.Extend
         /// </summary>
         /// <param name="enumName">需要获取枚举描述的枚举</param>
         /// <returns>描述内容</returns>
-        public static string? GetDescription(this Enum enumName)
+        public static string GetDescription(this Enum enumName)
         {
             if (enumName == null)
                 return null;
 
-            FieldInfo? fieldInfo = enumName.GetType().GetField(enumName.ToString());
+            FieldInfo fieldInfo = enumName.GetType().GetField(enumName.ToString());
             if (fieldInfo == null)
                 return null;
 
@@ -99,11 +99,11 @@ namespace Utils.Extend
             T[] enums = (T[])Enum.GetValues(type);
             for (int i = 0; i < enums.Length; i++)
             {
-                string? name = enums[i].ToString();
+                string name = enums[i].ToString();
                 if (name == null)
                     continue;
 
-                FieldInfo? field = type.GetField(name);
+                FieldInfo field = type.GetField(name);
                 if (field == null)
                     continue;
 
