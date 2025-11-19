@@ -35,6 +35,11 @@ namespace FileManager.Configs
 
         public bool IsShowIgnore { get; set; } = false;
 
+        /// <summary>
+        /// 备份策略  0：覆盖；1：追加
+        /// </summary>
+        public int Policy { get; set; } = 0;
+
         #endregion
 
         #region Delete

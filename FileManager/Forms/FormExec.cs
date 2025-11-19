@@ -10,7 +10,7 @@ namespace FileManager.Forms
             InitializeComponent();
         }
 
-        public virtual void Execute()
+        public virtual void Execute(object param)
         {
             buttonOK.Enabled = true;
         }

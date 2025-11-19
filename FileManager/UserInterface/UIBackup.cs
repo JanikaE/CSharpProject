@@ -1,4 +1,5 @@
 ﻿using FileManager.Configs;
+using FileManager.Configs.Enum;
 using FileManager.Controls;
 using FileManager.Forms.Backups;
 using System;
@@ -29,6 +30,12 @@ namespace FileManager.UserInterface
                 panelPathPairs.Controls.Add(textBox);
             }
 
+            foreach (string operate in Enum.GetNames(typeof(BackupPolicy)))
+            {
+                comboBoxPolicy.Items.Add(operate);
+            }
+            comboBoxPolicy.SelectedIndex = Config.Instance.Policy;
+
             SetPanelPosition();
         }
 
@@ -58,11 +65,17 @@ namespace FileManager.UserInterface
             Config.Instance.Save();
         }
 
+        private void ComboBoxPolicy_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Config.Instance.Policy = comboBoxPolicy.SelectedIndex;
+            Config.Instance.Save();
+        }
+
         private void ButtonExec_Click(object sender, EventArgs e)
         {
             FormExecBackup formExec = new();
             formExec.Show();
-            formExec.Execute();
+            formExec.Execute(Config.Instance.PathPairs);
         }
 
         private void BackupPanel_Resize(object sender, EventArgs e)

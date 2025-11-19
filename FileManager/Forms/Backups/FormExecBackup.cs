@@ -1,5 +1,7 @@
 ﻿using FileManager.Configs;
+using FileManager.Configs.Enum;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
@@ -13,15 +15,31 @@ namespace FileManager.Forms.Backups
             SetRectangle();
         }
 
-        public override void Execute()
+        public override void Execute(object param)
         {
-            foreach (PathPair pathPair in Config.Instance.PathPairs)
+            if (param is List<PathPair> pathPairs)
             {
-                WriteProcess($"Start:{pathPair.SourcePath} ==> {pathPair.TargetPath}\n", Color.Black);
-                Copy(pathPair.SourcePath, pathPair.TargetPath);
-                WriteProcess($"End:{pathPair.SourcePath} ==> {pathPair.TargetPath}\n\n", Color.Black);
+                foreach (PathPair pathPair in pathPairs)
+                {
+                    switch (Config.Instance.Policy)
+                    {
+                        case (int)BackupPolicy.Overwrite:
+                            WriteProcess($"Start:{pathPair.SourcePath} ==> {pathPair.TargetPath}\n", Color.Black);
+                            Copy(pathPair.SourcePath, pathPair.TargetPath);
+                            WriteProcess($"End:{pathPair.SourcePath} ==> {pathPair.TargetPath}\n\n", Color.Black);
+                            break;
+
+                        case (int)BackupPolicy.Append:
+                            string timeStamp = DateTime.Now.ToString("yyyyMMddhhmmss");
+                            string targetPath = $"{pathPair.TargetPath}_{timeStamp}";
+                            WriteProcess($"Start:{pathPair.SourcePath} ==> {targetPath}\n", Color.Black);
+                            Copy(pathPair.SourcePath, targetPath);
+                            WriteProcess($"End:{pathPair.SourcePath} ==> {targetPath}\n\n", Color.Black);
+                            break;
+                    }
+                }
+                base.Execute(param);
             }
-            base.Execute();
         }
 
         private void Copy(string sourcePath, string targetPath)
@@ -29,18 +47,19 @@ namespace FileManager.Forms.Backups
             if (!Directory.Exists(sourcePath))
             {
                 WriteProcess($"DirectoryNotFound:{sourcePath}\n\n", Color.Red);
+                return;
             }
             if (!Directory.Exists(targetPath))
             {
                 Directory.CreateDirectory(targetPath);
-                WriteProcess($"CreateDirectory:{targetPath}\n", Color.Yellow);
+                WriteProcess($"CreateDirectory:{targetPath}\n", Color.Purple);
             }
             string[] dirs = Directory.GetDirectories(sourcePath);
             if (dirs.Length > 0)
             {
                 foreach (string dir in dirs)
                 {
-                    Copy(dir, targetPath + dir.Substring(dir.LastIndexOf('\\')));
+                    Copy(dir, string.Concat(targetPath, dir.AsSpan(dir.LastIndexOf('\\'))));
                 }
             }
 
@@ -49,7 +68,7 @@ namespace FileManager.Forms.Backups
             {
                 foreach (string sourceFile in files)
                 {
-                    string targetFile = targetPath + sourceFile.Substring(sourceFile.LastIndexOf('\\'));
+                    string targetFile = string.Concat(targetPath, sourceFile.AsSpan(sourceFile.LastIndexOf('\\')));
                     FileInfo source = new(sourceFile);
                     string msg = $"{sourceFile} ==> {targetFile}";
                     try

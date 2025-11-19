@@ -16,7 +16,7 @@ namespace FileManager.Forms.Deletes
             SetRectangle();
         }
 
-        public override void Execute()
+        public override void Execute(object param)
         {
             if (DeletePattern != null)
             {
@@ -28,7 +28,7 @@ namespace FileManager.Forms.Deletes
             {
                 WriteProcess("DeletePattern is null!", Color.Red);
             }
-            base.Execute();
+            base.Execute(param);
         }
 
         private void Delete(string path)

@@ -58,7 +58,7 @@ namespace FileManager.Controls
                 DeletePattern = DeletePattern
             };
             formExecDelete.Show();
-            formExecDelete.Execute();
+            formExecDelete.Execute(null);
         }
 
         private void ButtonDelete_Click(object sender, EventArgs e)

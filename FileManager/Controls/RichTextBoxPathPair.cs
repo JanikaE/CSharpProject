@@ -1,6 +1,7 @@
 ﻿using FileManager.Configs;
 using FileManager.Forms.Backups;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -41,6 +42,10 @@ namespace FileManager.Controls
             {
                 Edit();
             }
+            else if (e.ClickedItem.Text == Operates.ExecOne.ToString())
+            {
+                ExecOne();
+            }
             else if (e.ClickedItem.Text == Operates.Delete.ToString())
             {
                 Delete();
@@ -63,6 +68,13 @@ namespace FileManager.Controls
             formAdd.ShowDialog(Global.FormMain);
         }
 
+        private void ExecOne()
+        {
+            FormExecBackup formExec = new();
+            formExec.Show();
+            formExec.Execute(new List<PathPair>() { pathPair });
+        }
+
         private void Delete()
         {
             Config.Instance.PathPairs.Remove(pathPair);
@@ -76,6 +88,7 @@ namespace FileManager.Controls
         OpenSourcePath,
         OpenTargetPath,
         Edit,
+        ExecOne,
         Delete
     }
 }
