@@ -81,7 +81,7 @@ namespace GenerateTree
             string fileName = DateTime.Now.ToString("yyyyMMddhhmmss") + ".xml";
             string filePath = Path.Combine(XMLPath, fileName);
             DirectoryTool.CreateDirectoryByFilePath(filePath);
-            XMLTool.ToXmlFile(this, filePath);
+            XmlTool.ToXmlFile(this, filePath);
         }
     }
 }

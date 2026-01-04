@@ -1,6 +1,6 @@
 ﻿namespace Utils.Mathematical
 {
-    public class RelativePosition
+    public static class RelativePosition
     {
         public static RelativePosition_4 Opposite(RelativePosition_4 position)
         {
@@ -167,6 +167,34 @@
                 RelativePosition_4.Left => RelativePosition_8.Left,
                 RelativePosition_4.Right => RelativePosition_8.Right,
                 _ => RelativePosition_8.None,
+            };
+        }
+
+        public static Point2D Move(this Point2D point, RelativePosition_4 position)
+        {
+            return position switch
+            {
+                RelativePosition_4.Up => new Point2D(point.X, point.Y - 1),
+                RelativePosition_4.Down => new Point2D(point.X, point.Y + 1),
+                RelativePosition_4.Left => new Point2D(point.X - 1, point.Y),
+                RelativePosition_4.Right => new Point2D(point.X + 1, point.Y),
+                _ => point,
+            };
+        }
+
+        public static Point2D Move(this Point2D point, RelativePosition_8 position)
+        {
+            return position switch
+            {
+                RelativePosition_8.Up => new Point2D(point.X, point.Y - 1),
+                RelativePosition_8.Down => new Point2D(point.X, point.Y + 1),
+                RelativePosition_8.Left => new Point2D(point.X - 1, point.Y),
+                RelativePosition_8.Right => new Point2D(point.X + 1, point.Y),
+                RelativePosition_8.UpLeft => new Point2D(point.X - 1, point.Y - 1),
+                RelativePosition_8.UpRight => new Point2D(point.X + 1, point.Y - 1),
+                RelativePosition_8.DownLeft => new Point2D(point.X - 1, point.Y + 1),
+                RelativePosition_8.DownRight => new Point2D(point.X + 1, point.Y + 1),
+                _ => point,
             };
         }
     }

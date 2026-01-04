@@ -52,7 +52,7 @@ namespace GenerateTree
                 return;
 
             MainForm form = (MainForm)Owner;
-            Config? config = XMLTool.FromXmlFile<Config>(Config.XMLPath + path);
+            Config? config = XmlTool.FromXmlFile<Config>(Config.XMLPath + path);
             if (config != null)
             {
                 form.config = config;
