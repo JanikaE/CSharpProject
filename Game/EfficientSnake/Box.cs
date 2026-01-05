@@ -40,7 +40,7 @@ namespace EfficientSnake
                     var point = new Point2D(x, y);
                     if (Snake[0].Equals(point))
                     {
-                        Console.Write("#");
+                        Console.Write("%");
                     }
                     else if (Snake.Contains(point))
                     {
@@ -94,7 +94,7 @@ namespace EfficientSnake
             }
         }
 
-        private List<Point2D> FindPath()
+        private List<Point2D> DfsFindPath()
         {
             List<Point2D> visited = [];
             Queue<(Point2D position, List<Point2D> path)> queue = new();
@@ -106,13 +106,25 @@ namespace EfficientSnake
                 {
                     return path;
                 }
-                foreach (var direction in new List<RelativePosition_4>
+
+                var directions = new List<RelativePosition_4>();
+                if (currentPosition.Y % 2 == 0)
                 {
-                    RelativePosition_4.Up,
-                    RelativePosition_4.Down,
-                    RelativePosition_4.Left,
-                    RelativePosition_4.Right
-                })
+                    directions.Add(RelativePosition_4.Right);
+                }
+                else
+                {
+                    directions.Add(RelativePosition_4.Left);
+                }
+                if (currentPosition.X % 2 == 0)
+                {
+                    directions.Add(RelativePosition_4.Up);
+                }
+                else
+                {
+                    directions.Add(RelativePosition_4.Down);
+                }
+                foreach (var direction in directions)
                 {
                     var newPosition = currentPosition.Move(direction);
                     if (!visited.Contains(newPosition) && Check(newPosition))
@@ -152,7 +164,7 @@ namespace EfficientSnake
 
         public Point2D NextMove()
         {
-            var findPath = FindPath();
+            var findPath = DfsFindPath();
             if (findPath?.Count > 0)
             {
                 return findPath[0];
@@ -166,12 +178,12 @@ namespace EfficientSnake
             }
 
             foreach (var direction in new List<RelativePosition_4>
-                {
-                    RelativePosition_4.Up,
-                    RelativePosition_4.Down,
-                    RelativePosition_4.Left,
-                    RelativePosition_4.Right
-                })
+            {
+                RelativePosition_4.Up,
+                RelativePosition_4.Down,
+                RelativePosition_4.Left,
+                RelativePosition_4.Right
+            })
             {
                 nextPoint = Snake[0].Move(direction);
                 if (Check(nextPoint))

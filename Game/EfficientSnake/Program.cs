@@ -6,9 +6,17 @@ namespace EfficientSnake
     {
         static void Main(string[] args)
         {
-            Box box = new(10);
-            box.Init();
-            box.Run();
+            var input = Console.ReadLine();
+            if (int.TryParse(input, out int n))
+            {
+                while (true)
+                {
+                    Box box = new(n);
+                    box.Init();
+                    box.Run();
+                    Console.ReadLine();
+                }
+            }
         }
     }
 }
