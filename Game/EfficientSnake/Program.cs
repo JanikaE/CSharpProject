@@ -12,7 +12,6 @@ namespace EfficientSnake
                 while (true)
                 {
                     Box box = new(n);
-                    box.Init();
                     box.Run();
                     Console.ReadLine();
                 }
