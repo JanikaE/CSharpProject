@@ -1,4 +1,6 @@
-﻿namespace SudokuForm
+﻿using System.Collections.Generic;
+
+namespace SudokuForm
 {
     public static class Example
     {

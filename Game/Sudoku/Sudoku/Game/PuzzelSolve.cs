@@ -1,4 +1,7 @@
 ﻿using Sudoku.Snap;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Utils.Extend;
 using Utils.Mathematical;
 using Utils.Tool;
@@ -13,7 +16,7 @@ namespace Sudoku.Game
         /// 暴力求解
         /// </summary>
         /// <param name="action">记录所有的步骤</param>
-        public void SolveBuster(Action<string, Puzzel>? action = null, bool consoleLog = false)
+        public void SolveBuster(Action<string, Puzzel> action = null, bool consoleLog = false)
         {
             List<Func<string>> Funcs = new()
             {
@@ -51,7 +54,7 @@ namespace Sudoku.Game
                     // 无法继续时选择一个格子猜测
                     if (result == string.Empty)
                     {
-                        Cell? toGuess = GetGuessTarget();
+                        Cell toGuess = GetGuessTarget();
                         // 没有格子可猜时，可以认为已经完成了
                         if (toGuess == null)
                         {
@@ -147,7 +150,7 @@ namespace Sudoku.Game
                     // 无法继续时选择一个格子猜测
                     if (result == string.Empty)
                     {
-                        Cell? toGuess = GetGuessTarget();
+                        Cell toGuess = GetGuessTarget();
                         // 没有格子可猜时，可以认为已经完成了
                         if (toGuess == null)
                         {
@@ -228,7 +231,7 @@ namespace Sudoku.Game
                     // 无法继续时选择一个格子猜测
                     if (result == string.Empty)
                     {
-                        Cell? toGuess = GetGuessTarget();
+                        Cell toGuess = GetGuessTarget();
                         // 没有格子可猜时，可以认为已经完成了
                         if (toGuess == null)
                         {
@@ -273,10 +276,10 @@ namespace Sudoku.Game
             }
         }
 
-        private Cell? GetGuessTarget()
+        private Cell GetGuessTarget()
         {
             int patern = 2;
-            Cell? result = null;
+            Cell result = null;
             int min = Length + 1;
             switch (patern)
             {
@@ -464,7 +467,7 @@ namespace Sudoku.Game
             foreach (var pair in Houses)
             {
                 List<int> house = pair.Value;
-                Dictionary<int, Cell?> valueInCell = new();
+                Dictionary<int, Cell> valueInCell = new();
                 foreach (int index in house)
                 {
                     Cell cell = PlayMat(index);
@@ -490,7 +493,7 @@ namespace Sudoku.Game
                 }
                 foreach (int value in valueInCell.Keys)
                 {
-                    Cell? cell = valueInCell[value];
+                    Cell cell = valueInCell[value];
                     if (cell != null)
                     {
                         cell.num = value;

@@ -1,4 +1,5 @@
-﻿using Utils.Extend;
+﻿using System.Collections.Generic;
+using Utils.Extend;
 using Utils.Tool;
 
 namespace Sudoku.Game

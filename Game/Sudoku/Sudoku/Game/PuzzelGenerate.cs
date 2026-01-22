@@ -1,4 +1,7 @@
-﻿namespace Sudoku.Game
+﻿using System;
+using System.Collections.Generic;
+
+namespace Sudoku.Game
 {
     public partial class Puzzel
     {
@@ -30,7 +33,7 @@
         /// <summary>
         /// 随机生成具有唯一解的数独
         /// </summary>
-        public void GenerateRandom(Action<string, Puzzel>? action = null)
+        public void GenerateRandom(Action<string, Puzzel> action = null)
         {
             // 对一个空白的数独暴力求解，可随机产生一个满的数独
             string blank = string.Empty;

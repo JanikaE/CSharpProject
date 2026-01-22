@@ -1,4 +1,5 @@
 ﻿using Sudoku.Game;
+using Utils.Mathematical;
 
 namespace Sudoku.Snap
 {
@@ -6,7 +7,7 @@ namespace Sudoku.Snap
     {
         public int H;
         public int W;
-        public CellSnap[,] playMat;
+        public Map2D<CellSnap> playMat;
 
         public readonly int Length => H * W;
         public readonly int Square => Length * Length;
@@ -15,7 +16,7 @@ namespace Sudoku.Snap
         {
             H = puzzel.H;
             W = puzzel.W;
-            playMat = new CellSnap[H * W, H * W];
+            playMat = new Map2D<CellSnap>(H * W, H * W);
             for (int i = 0; i < H * W; i++)
             {
                 for (int j = 0; j < H * W; j++)

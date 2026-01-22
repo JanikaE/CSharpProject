@@ -1,4 +1,5 @@
-﻿using Utils.Mathematical;
+﻿using System.Collections.Generic;
+using Utils.Mathematical;
 
 namespace Sudoku.Game
 {

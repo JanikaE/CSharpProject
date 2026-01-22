@@ -6,8 +6,7 @@ namespace Reversi
 {
     public class Box
     {
-        public readonly Chess[,] board;
-        public Chess Board(Point2D point) => board[point.Y, point.X];
+        public readonly Map2D<Chess> board;
 
         public Chess turn;
         public State state;
@@ -17,7 +16,7 @@ namespace Reversi
 
         public Box()
         {
-            board = new Chess[8, 8];
+            board = new Map2D<Chess>(8, 8);
             board[3, 3] = Chess.Black;
             board[3, 4] = Chess.White;
             board[4, 3] = Chess.White;
@@ -98,7 +97,7 @@ namespace Reversi
                     {
                         break;
                     }
-                    Chess newChess = Board(newPoint);
+                    Chess newChess = board[newPoint];
                     if (newChess == Chess.None)
                     {
                         break;

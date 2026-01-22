@@ -7,7 +7,7 @@ namespace Reversi
 {
     public partial class MainForm : Form
     {
-        private Box? box = null;
+        private Box box = null;
 
         /// <summary>
         /// 棋盘背景色
@@ -106,7 +106,7 @@ namespace Reversi
                 // 清除上一个预览
                 DrawChess(graphics, lastPointX, lastPointY, noneColor);
                 Point2D point = new(pointX, pointY);
-                if (box.Board(point) == Chess.None)
+                if (box.board[point] == Chess.None)
                 {
                     lastPointX = pointX;
                     lastPointY = pointY;

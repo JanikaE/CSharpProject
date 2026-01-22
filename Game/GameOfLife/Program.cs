@@ -8,8 +8,8 @@ namespace GameOfLife
         private static void Main()
         {
             Box box = new();
-            box.RandomInit(5, 5, 20, 20);
-            //box.Init(Seed.Seeds[0]);
+            //box.RandomInit(5, 5, 20, 20);
+            box.Init(Seed.Seeds[0]);
             while (true)
             {
                 Console.SetCursorPosition(0, 0);

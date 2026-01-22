@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace Sudoku
 {
@@ -8,11 +9,11 @@ namespace Sudoku
         {
         }
 
-        public SolveException(string? message) : base(message)
+        public SolveException(string message) : base(message)
         {
         }
 
-        public SolveException(string? message, Exception? innerException) : base(message, innerException)
+        public SolveException(string message, Exception innerException) : base(message, innerException)
         {
         }
 

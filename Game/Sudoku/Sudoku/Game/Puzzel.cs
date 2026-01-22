@@ -1,4 +1,6 @@
-﻿using Utils.Extend;
+﻿using System;
+using System.Collections.Generic;
+using Utils.Extend;
 using Utils.Mathematical;
 
 namespace Sudoku.Game
@@ -15,7 +17,7 @@ namespace Sudoku.Game
         public int Length => H * W;
         public int Square => Length * Length;
 
-        private readonly Cell[,] playMat;
+        private readonly Map2D<Cell> playMat;
 
         public Cell PlayMat(int row, int col) => playMat[row, col];
         public Cell PlayMat(int index) => playMat[index / Length, index % Length];
@@ -37,7 +39,7 @@ namespace Sudoku.Game
                 throw new ArgumentException("参数不能为负数或0");
             this.H = H;
             this.W = W;
-            playMat = new Cell[Length, Length];
+            playMat = new Map2D<Cell>(Length, Length);
             for (int row = 0; row < Length; row++)
             {
                 for (int col = 0; col < Length; col++)

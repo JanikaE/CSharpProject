@@ -233,7 +233,7 @@ namespace EfficientSnake
             if (!Check(start))
                 return 0;
 
-            HashSet<Point2D> visited = new();
+            HashSet<Point2D> visited = [];
             Queue<Point2D> queue = new();
 
             queue.Enqueue(start);
@@ -292,7 +292,7 @@ namespace EfficientSnake
 
             // 计算从新蛇头位置可以访问的空格数量
             int accessibleCells = 0;
-            HashSet<Point2D> visited = new();
+            HashSet<Point2D> visited = [];
             Queue<Point2D> queue = new();
 
             queue.Enqueue(newHead);
@@ -372,7 +372,7 @@ namespace EfficientSnake
             return GetMoveDirections(Head);
         }
 
-        private List<RelativePosition_4> GetMoveDirections(Point2D point)
+        private static List<RelativePosition_4> GetMoveDirections(Point2D point)
         {
             //var directions = new List<RelativePosition_4>()
             //{

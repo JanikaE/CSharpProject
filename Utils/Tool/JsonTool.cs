@@ -99,12 +99,12 @@ namespace Utils.Tool
 
             foreach (var segment in segments)
             {
-                if (segment.Contains("["))
+                if (segment.Contains('['))
                 {
                     int bracketStart = segment.IndexOf('[');
                     int bracketEnd = segment.IndexOf(']');
 
-                    string propertyName = segment.Substring(0, bracketStart);
+                    string propertyName = segment[..bracketStart];
                     string indexStr = segment.Substring(bracketStart + 1, bracketEnd - bracketStart - 1);
 
                     if (int.TryParse(indexStr, out int index))

@@ -9,7 +9,7 @@ namespace WinFormUtils.Tool
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private readonly System.ComponentModel.IContainer? components;
+        private readonly System.ComponentModel.IContainer components;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -104,16 +104,12 @@ namespace WinFormUtils.Tool
         {
             InitializeComponent();
 
-#pragma warning disable CS8602 // 解引用可能出现空引用。
-
             label1.Text = msg;
             ButtonNo.Visible = isShowNo;
             ButtonNo.Text = no;
             ButtonYes.Text = yes;
             ButtonNo.Click += (s, e) => { _result = DialogResult.No; Close(); };
             ButtonYes.Click += (s, e) => { _result = DialogResult.Yes; Close(); };
-
-#pragma warning restore CS8602 // 解引用可能出现空引用。
         }
 
         public static DialogResult Show(string msg, bool isShowNo = true, string no = "取消", string yes = "确定")

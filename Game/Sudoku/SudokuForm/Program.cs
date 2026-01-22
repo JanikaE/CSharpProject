@@ -1,4 +1,7 @@
-﻿namespace SudokuForm
+﻿using System;
+using System.Windows.Forms;
+
+namespace SudokuForm
 {
     internal static class Program
     {

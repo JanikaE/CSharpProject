@@ -1,4 +1,7 @@
-﻿namespace SudokuForm
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace SudokuForm
 {
     partial class MainForm
     {

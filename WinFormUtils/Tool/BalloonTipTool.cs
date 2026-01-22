@@ -16,7 +16,7 @@ namespace WinFormUtils.Tool
         public static void ShowBalloonTip(
             string title,
             string text,
-            Icon? icon = null,
+            Icon icon = null,
             ToolTipIcon tooltipIcon = ToolTipIcon.Info,
             int timeout = 1000)
         {

@@ -4,7 +4,7 @@ namespace EfficientSnake
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             var input = Console.ReadLine();
             if (int.TryParse(input, out int n))

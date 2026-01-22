@@ -11,15 +11,11 @@ namespace Minesweeper
         private readonly int width;
         private readonly int boomNum;
 
-        private bool[,] isBoom;
-        private bool[,] isMark;
-        private bool[,] isOpen;
+        private Map2D<bool> isBoom;
+        private Map2D<bool> isMark;
+        private Map2D<bool> isOpen;
 
-        private bool IsBoom(Point2D p) => isBoom[p.Y, p.X];
-        private bool IsMark(Point2D p) => isMark[p.Y, p.X];
-        private bool IsOpen(Point2D p) => isOpen[p.Y, p.X];
-
-        private int[,] surroundNum;
+        private Map2D<int> surroundNum;
 
         public State State { get; private set; }
 
@@ -44,19 +40,19 @@ namespace Minesweeper
             this.height = height;
             this.width = width;
             this.boomNum = boomNum;
-            isBoom = new bool[height, width];
-            isMark = new bool[height, width];
-            isOpen = new bool[height, width];
-            surroundNum = new int[height, width];
+            isBoom = new Map2D<bool>(height, width);
+            isMark = new Map2D<bool>(height, width);
+            isOpen = new Map2D<bool>(height, width);
+            surroundNum = new Map2D<int>(height, width);
             State = State.None;
         }
 
         private void Init()
         {
-            isBoom = new bool[height, width];
-            isMark = new bool[height, width];
-            isOpen = new bool[height, width];
-            surroundNum = new int[height, width];
+            isBoom = new Map2D<bool>(height, width);
+            isMark = new Map2D<bool>(height, width);
+            isOpen = new Map2D<bool>(height, width);
+            surroundNum = new Map2D<int>(height, width);
             State = State.None;
         }
 
@@ -90,9 +86,9 @@ namespace Minesweeper
         /// </summary>
         public void Restart()
         {
-            isMark = new bool[height, width];
-            isOpen = new bool[height, width];
-            surroundNum = new int[height, width];
+            isMark = new Map2D<bool>(height, width);
+            isOpen = new Map2D<bool>(height, width);
+            surroundNum = new Map2D<int>(height, width);
         }
 
         /// <summary>
@@ -121,7 +117,7 @@ namespace Minesweeper
                 Point2D sur = point + p;
                 if (!CheckRange(sur))
                     continue;
-                if (IsBoom(sur))
+                if (isBoom[sur])
                     boomNum++;
             }
             surroundNum[y, x] = boomNum;
@@ -182,7 +178,7 @@ namespace Minesweeper
                 Point2D sur = point + p;
                 if (!CheckRange(sur))
                     continue;
-                if (!IsOpen(sur) && IsMark(sur))
+                if (!isOpen[sur] && isMark[sur])
                     markNum++;
             }
 
@@ -194,7 +190,7 @@ namespace Minesweeper
                     Point2D sur = point + p;
                     if (!CheckRange(sur))
                         continue;
-                    if (!IsOpen(sur) && !IsMark(sur))
+                    if (!isOpen[sur] && !isMark[sur])
                         Open(sur);
                 }
             }

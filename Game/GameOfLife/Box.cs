@@ -6,43 +6,33 @@ namespace GameOfLife
 {
     public class Box
     {
-        public bool[,] map;
-        public bool[,] next;
-        private bool Map(Point2D point) => map[point.Y, point.X];
+        public Map2D<bool> map;
+        public Map2D<bool> next;
 
-        private int Height => map.GetLength(0);
-        private int Width => map.GetLength(1);
+        private int Height => map.Width;
+        private int Width => map.Height;
 
         public Box()
         {
-            map = new bool[1,1];
-            next = new bool[1, 1];
+            map = new Map2D<bool>(1, 1);
+            next = new Map2D<bool>(1, 1);
         }
 
         public void Init(bool[,] seed)
         {
-            map = (bool[,])seed.Clone();
-            next = (bool[,])seed.Clone();
+            map = new Map2D<bool>(seed);
+            next = new Map2D<bool>(seed);
         }
 
         public void Init(int[,] seed)
         {
-            int height = seed.GetLength(0);
-            int width = seed.GetLength(1);
-            map = new bool[height, width];
-            for (int i = 0; i < height; i++)
-            {
-                for (int j = 0; j < width; j++)
-                {
-                    map[i, j] = seed[i, j] != 0;
-                }
-            }
-            next = (bool[,])map.Clone();
+            map = Map2D<bool>.ToMap2D(seed, (n) => n == 1);
+            next = map.Clone();
         }
 
         public void RandomInit(int height, int width)
         {
-            map = new bool[height, width];
+            map = new Map2D<bool>(height, width);
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
@@ -50,14 +40,14 @@ namespace GameOfLife
                     map[i, j] = Random.Shared.Next(2) != 0;
                 }
             }
-            next = (bool[,])map.Clone();
+            next = map.Clone();
         }
 
         public void RandomInit(int height, int width, int maxHeight, int maxWidth)
         {
             if (height > maxHeight) height = maxHeight;
             if (width > maxWidth) width = maxWidth;
-            map = new bool[maxHeight, maxWidth];
+            map = new Map2D<bool>(maxHeight, maxWidth);
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
@@ -65,7 +55,7 @@ namespace GameOfLife
                     map[(maxHeight - height) / 2 + i, (maxWidth - width) / 2 + j] = Random.Shared.Next(2) != 0;
                 }
             }
-            next = (bool[,])map.Clone();
+            next = map.Clone();
         }
 
         public void Update()
@@ -76,7 +66,7 @@ namespace GameOfLife
                 {
                     Point2D point = new(j, i);
                     int count = CountNeighbor(point);
-                    if (Map(point))
+                    if (map[point])
                     {
                         if (count < 2 || count > 3)
                             next[i, j] = false;
@@ -92,7 +82,7 @@ namespace GameOfLife
                     }
                 }
             }
-            map = (bool[,])next.Clone();
+            map = next.Clone();
         }
 
         public void Print()
@@ -141,7 +131,7 @@ namespace GameOfLife
             int count = 0;
             foreach (var neighbor in neighbors)
             {
-                if (Map(neighbor))
+                if (map[neighbor])
                     count++;
             }
             return count;

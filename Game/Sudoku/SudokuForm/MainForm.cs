@@ -1,5 +1,9 @@
 ﻿using Sudoku.Game;
 using Sudoku.Snap;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace SudokuForm
 {
@@ -23,7 +27,7 @@ namespace SudokuForm
 
         #region 属性
 
-        private Puzzel? puzzel;
+        private Puzzel puzzel;
         private int H => puzzel == null ? 0 : puzzel.H;
         private int W => puzzel == null ? 0 : puzzel.W;
         private int BoardSize => Math.Max(SudokuBoard.Height, SudokuBoard.Width);

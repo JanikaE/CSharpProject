@@ -11,7 +11,7 @@ namespace Maze.WayFinding
     public class Tree : Find
     {
         private readonly Node<Point2D> root;
-        private Node<Point2D>? endNode;
+        private Node<Point2D> endNode;
         private readonly TreeType tree;
 
         private readonly Queue<Node<Point2D>> queue = new();

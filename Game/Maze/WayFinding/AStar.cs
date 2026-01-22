@@ -12,7 +12,7 @@ namespace Maze.WayFinding
         private readonly Node<Point2D> root;
 
         /// <summary>终点结点</summary>
-        private Node<Point2D>? endNode = null;
+        private Node<Point2D> endNode = null;
 
         /// <summary>待计算的点</summary>
         private readonly List<Node<Point2D>> open;

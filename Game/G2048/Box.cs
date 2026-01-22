@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Utils.Mathematical;
 
 namespace G2048
 {
     public class Box
     {
-        public int rage;
-        public int[,] playMat;
+        public int Rage => playMat.Width;
+        public Map2D<int> playMat;
 
         public State state;
 
@@ -14,15 +15,14 @@ namespace G2048
 
         public Box(int rage)
         {
-            this.rage = rage;
-            playMat = new int[rage, rage];
+            playMat = new Map2D<int>(rage, rage);
         }
 
         public void Init()
         {
-            for (int i = 0; i < rage; i++)
+            for (int i = 0; i < Rage; i++)
             {
-                for (int j = 0; j < rage; j++)
+                for (int j = 0; j < Rage; j++)
                 {
                     playMat[i, j] = 0;
                 }
@@ -38,8 +38,8 @@ namespace G2048
             int x, y;
             while (true)
             {
-                x = random.Next(rage);
-                y = random.Next(rage);
+                x = random.Next(Rage);
+                y = random.Next(Rage);
                 if (playMat[x, y] == 0)
                 {
                     break;
@@ -50,11 +50,11 @@ namespace G2048
 
         public void Operate(Operation op)
         {
-            int[,] playMatNew = Operate(playMat, op, out int score);
+            Map2D<int> playMatNew = Operate(playMat, op, out int score);
             // 如果操作没有使数字发生变化，视为无效操作
             if (!Compare(playMatNew, playMat))
             {
-                playMat = (int[,])playMatNew.Clone();
+                playMat = playMatNew.Clone();
                 this.score += score;
                 // 在操作有效且游戏继续的情况下生成新的数字
                 Generate();
@@ -64,9 +64,9 @@ namespace G2048
         public bool CheckFail()
         {
             // 判定是否有空位
-            for (int i = 0; i < rage; i++)
+            for (int i = 0; i < Rage; i++)
             {
-                for (int j = 0; j < rage; j++)
+                for (int j = 0; j < Rage; j++)
                 {
                     if (playMat[i, j] == 0)
                     {
@@ -76,9 +76,9 @@ namespace G2048
             }
 
             // 判定是否有相邻数字相同，有则继续
-            for (int i = 0; i < rage; i++)
+            for (int i = 0; i < Rage; i++)
             {
-                for (int j = 0; j < rage - 1; j++)
+                for (int j = 0; j < Rage - 1; j++)
                 {
                     if (playMat[i, j] == playMat[i, j + 1])
                     {
@@ -98,66 +98,66 @@ namespace G2048
 
         #region Operate
 
-        private int[,] Operate(int[,] playMat, Operation op, out int score)
+        private Map2D<int> Operate(Map2D<int> playMat, Operation op, out int score)
         {
-            int[,] result = (int[,])playMat.Clone();
-            int[] line = new int[rage];
+            var result = playMat.Clone();
+            int[] line = new int[Rage];
             score = 0;
             switch (op)
             {
                 case Operation.Up:
-                    for (int i = 0; i < rage; i++)
+                    for (int i = 0; i < Rage; i++)
                     {
-                        for (int j = 0; j < rage; j++)
+                        for (int j = 0; j < Rage; j++)
                         {
                             line[j] = result[j, i];
                         }
                         score += ChangeLine(line);
-                        for (int j = 0; j < rage; j++)
+                        for (int j = 0; j < Rage; j++)
                         {
                             result[j, i] = line[j];
                         }
                     }
                     break;
                 case Operation.Down:
-                    for (int i = 0; i < rage; i++)
+                    for (int i = 0; i < Rage; i++)
                     {
-                        for (int j = 0; j < rage; j++)
+                        for (int j = 0; j < Rage; j++)
                         {
-                            line[rage - j - 1] = result[j, i];
+                            line[Rage - j - 1] = result[j, i];
                         }
                         score += ChangeLine(line);
-                        for (int j = 0; j < rage; j++)
+                        for (int j = 0; j < Rage; j++)
                         {
-                            result[j, i] = line[rage - j - 1];
+                            result[j, i] = line[Rage - j - 1];
                         }
                     }
                     break;
                 case Operation.Left:
-                    for (int i = 0; i < rage; i++)
+                    for (int i = 0; i < Rage; i++)
                     {
-                        for (int j = 0; j < rage; j++)
+                        for (int j = 0; j < Rage; j++)
                         {
                             line[j] = result[i, j];
                         }
                         score += ChangeLine(line);
-                        for (int j = 0; j < rage; j++)
+                        for (int j = 0; j < Rage; j++)
                         {
                             result[i, j] = line[j];
                         }
                     }
                     break;
                 case Operation.Right:
-                    for (int i = 0; i < rage; i++)
+                    for (int i = 0; i < Rage; i++)
                     {
-                        for (int j = 0; j < rage; j++)
+                        for (int j = 0; j < Rage; j++)
                         {
-                            line[rage - j - 1] = result[i, j];
+                            line[Rage - j - 1] = result[i, j];
                         }
                         score += ChangeLine(line);
-                        for (int j = 0; j < rage; j++)
+                        for (int j = 0; j < Rage; j++)
                         {
-                            result[i, j] = line[rage - j - 1];
+                            result[i, j] = line[Rage - j - 1];
                         }
                     }
                     break;
@@ -201,11 +201,11 @@ namespace G2048
             return score;
         }
 
-        private bool Compare(int[,] nums1, int[,] nums2)
+        private bool Compare(Map2D<int> nums1, Map2D<int> nums2)
         {
-            for (int i = 0; i < rage; i++)
+            for (int i = 0; i < Rage; i++)
             {
-                for (int j = 0; j < rage; j++)
+                for (int j = 0; j < Rage; j++)
                 {
                     if (nums1[i, j] != nums2[i, j])
                     {
@@ -226,7 +226,7 @@ namespace G2048
             foreach (Operation op in Enum.GetValues(typeof(Operation)))
             {
                 if (op == Operation.None) continue;
-                int[,] playMatNew = Operate(playMat, op, out _);
+                Map2D<int> playMatNew = Operate(playMat, op, out _);
                 if (!Compare(playMatNew, playMat))
                 {
                     int value = Value(Operate(playMat, op, out _));
@@ -251,10 +251,10 @@ namespace G2048
             return result;
         }
 
-        private static int Value(int[,] playMat)
+        private static int Value(Map2D<int> playMat)
         {
-            int height = playMat.GetLength(0);
-            int width = playMat.GetLength(1);
+            int height = playMat.Height;
+            int width = playMat.Width;
             int result = 0;
             for (int i = 0; i < height; i++)
             {

@@ -227,7 +227,7 @@ namespace PokerGame.Stare
         /// </summary>
         /// <param name="tar">上家的出牌牌型，主要用于顺子判定</param>
         /// <returns>变换后没有相应牌型返回false</returns>
-        private static bool ChangeRogue(List<Poker> pokers, StareList? tar = null)
+        private static bool ChangeRogue(List<Poker> pokers, StareList tar = null)
         {
             ResetRogue(pokers);
             int length = pokers.Count;
@@ -608,7 +608,7 @@ namespace PokerGame.Stare
         /// 获取牌组中所有能压过目标的炸弹，没有则返回null
         /// </summary>
         /// <param name="target">目标，如果不是炸弹就传入null</param>
-        private static List<List<Poker>> GetAllBoom(List<Poker> pokers, StareList? target = null)
+        private static List<List<Poker>> GetAllBoom(List<Poker> pokers, StareList target = null)
         {
             List<List<Poker>> result = new();
             ResetRogue(pokers);
@@ -754,7 +754,7 @@ namespace PokerGame.Stare
         /// <summary>
         /// 提示，包含所有能出的牌
         /// </summary>
-        public static List<List<Poker>> SuggestList(List<Poker> pokers, List<Poker>? lastPokers)
+        public static List<List<Poker>> SuggestList(List<Poker> pokers, List<Poker> lastPokers)
         {
             List<List<Poker>> result = new();
             List<Poker> list;

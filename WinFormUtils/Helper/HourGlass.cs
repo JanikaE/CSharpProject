@@ -32,7 +32,7 @@ namespace WinFormUtils.Helper
             {
                 if (value == Application.UseWaitCursor) return;
                 Application.UseWaitCursor = value;
-                Form? f = Form.ActiveForm;
+                Form f = Form.ActiveForm;
                 if (f != null && !f.Disposing && !f.IsDisposed) // Send WM_SETCURSOR
                 {
                     SendMessage(f.Handle, 0x20, f.Handle, 1);

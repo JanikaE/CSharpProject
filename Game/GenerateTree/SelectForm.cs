@@ -27,13 +27,13 @@ namespace GenerateTree
 
         private void ListBoxXml_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string? path = ListBoxXml.SelectedItem?.ToString();
+            string path = ListBoxXml.SelectedItem?.ToString();
             if (path == null)
                 return;
 
             XmlDocument xmlDoc = new();
             xmlDoc.Load(Config.XMLPath + path);
-            XmlNode? root = xmlDoc.SelectSingleNode("Config");
+            XmlNode root = xmlDoc.SelectSingleNode("Config");
             if (root == null)
                 return;
 
@@ -47,12 +47,12 @@ namespace GenerateTree
 
         private void ButtonOpen_Click(object sender, EventArgs e)
         {
-            string? path = ListBoxXml.SelectedItem?.ToString();
+            string path = ListBoxXml.SelectedItem?.ToString();
             if (path == null)
                 return;
 
             MainForm form = (MainForm)Owner;
-            Config? config = XmlTool.FromXmlFile<Config>(Config.XMLPath + path);
+            Config config = XmlTool.FromXmlFile<Config>(Config.XMLPath + path);
             if (config != null)
             {
                 form.config = config;

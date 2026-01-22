@@ -1,4 +1,5 @@
 ﻿using Sudoku.Game;
+using System;
 
 namespace SudokuConsole
 {

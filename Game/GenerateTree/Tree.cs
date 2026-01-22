@@ -36,7 +36,7 @@ namespace GenerateTree
             }
         }
 
-        private Node? root;
+        private Node root;
         private readonly Random random;
         private readonly Config config;
 
