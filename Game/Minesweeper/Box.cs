@@ -19,18 +19,6 @@ namespace Minesweeper
 
         public State State { get; private set; }
 
-        public static readonly List<Point2D> surroundBlock = new ()
-        {  
-            new(-1, -1),
-            new(-1, 0), 
-            new(-1, 1),
-            new(0, -1),
-            new(0, 1),
-            new(1, -1),  
-            new(1, 0),
-            new(1, 1),
-        };
-
         public Box(int height, int width, int boomNum)
         {
             if (height <= 0 || width <= 0 || boomNum <= 0)
@@ -112,9 +100,8 @@ namespace Minesweeper
 
             // 计算周围8格雷数
             int boomNum = 0;
-            foreach (Point2D p in surroundBlock)
+            foreach (Point2D sur in point.GetSurroundPoints_8())
             {
-                Point2D sur = point + p;
                 if (!CheckRange(sur))
                     continue;
                 if (isBoom[sur])
@@ -126,9 +113,8 @@ namespace Minesweeper
             // 如果雷数为0则打开周围8格
             if (boomNum == 0)
             {
-                foreach (Point2D p in surroundBlock)
+                foreach (Point2D sur in point.GetSurroundPoints_8())
                 {
-                    Point2D sur = point + p;
                     if (!CheckRange(sur))
                         continue;
                     Open(sur);
@@ -173,9 +159,8 @@ namespace Minesweeper
 
             // 计算周围8格标记的个数
             int markNum = 0;
-            foreach(Point2D p in surroundBlock)
+            foreach (Point2D sur in point.GetSurroundPoints_8())
             {
-                Point2D sur = point + p;
                 if (!CheckRange(sur))
                     continue;
                 if (!isOpen[sur] && isMark[sur])
@@ -185,9 +170,8 @@ namespace Minesweeper
             // 标记的个数和雷数一样则打开未标记的格子
             if (surroundNum[y, x] == markNum)
             {
-                foreach (Point2D p in surroundBlock)
+                foreach (Point2D sur in point.GetSurroundPoints_8())
                 {
-                    Point2D sur = point + p;
                     if (!CheckRange(sur))
                         continue;
                     if (!isOpen[sur] && !isMark[sur])

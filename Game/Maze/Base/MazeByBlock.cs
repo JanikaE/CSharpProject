@@ -12,13 +12,13 @@ namespace Maze.Base
     public class MazeByBlock : IMaze
     {
         /// <summary>格子，true为不可通过</summary>
-        public bool[,] isWall;
+        public Map2D<bool> isWall;
 
-        public int Height => isWall.GetLength(0);
+        public int Height => isWall.Height;
 
-        public int Width => isWall.GetLength(1);
+        public int Width => isWall.Width;
 
-        public bool IsWall(Point2D p) => isWall[p.Y, p.X];
+        public bool IsWall(Point2D p) => isWall[p];
 
         public List<Point2D> way = new();
 
@@ -26,7 +26,7 @@ namespace Maze.Base
         {
             int width = maze.width;
             int height = maze.height;
-            isWall = new bool[height * 2 + 1, width * 2 + 1];
+            isWall = new Map2D<bool>(height * 2 + 1, width * 2 + 1);
             for (int i = 0; i < width * 2 + 1; i++)
             {
                 isWall[0, i] = true;
@@ -56,7 +56,7 @@ namespace Maze.Base
         /// <param name="isWall">false表示可通过</param>
         public MazeByBlock(bool[,] isWall)
         {
-            this.isWall = isWall;
+            this.isWall = new Map2D<bool>(isWall);
         }
 
         /// <summary>
@@ -65,16 +65,7 @@ namespace Maze.Base
         /// <param name="isWall">0表示可通过</param>
         public MazeByBlock(int[,] isWall)
         {
-            int height = isWall.GetLength(0);
-            int width = isWall.GetLength(1);
-            this.isWall = new bool[height, width];
-            for (int i = 0; i < height; i++)
-            {
-                for (int j = 0; j < width; j++)
-                {
-                    this.isWall[i, j] = !(isWall[i, j] == 0);
-                }
-            }
+            this.isWall = Map2D<bool>.ToMap2D(isWall, (n) => n != 0);
         }
 
         /// <summary>
@@ -82,7 +73,7 @@ namespace Maze.Base
         /// </summary>
         public MazeByBlock(int height, int width, int wallNum, Point2D start = default, Point2D end = default)
         {
-            isWall = new bool[height, width];
+            isWall = new Map2D<bool>(height, width);
             if (start == default)
                 start = new Point2D(1, 1);
             if (end == default)
@@ -262,9 +253,7 @@ namespace Maze.Base
         /// </summary>
         private bool CheckPoint(Point2D point)
         {
-            if (point.X < 0 || point.X >= Width || point.Y < 0 || point.Y >= Height)
-                return false;
-            return true;
+            return isWall.IsValidPoint(point);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Maze.WayFinding;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Utils.Mathematical;
 
 namespace Maze.Base
@@ -15,11 +16,15 @@ namespace Maze.Base
         public int Height => height;
         public int Width => width;
 
-        /// <summary>竖直的墙，true为可通过</summary>
-        public bool[,] wall_vertical;
+        /// <summary>
+        /// 竖直的墙，true为可通过
+        /// </summary>
+        public Map2D<bool> wall_vertical;
 
-        /// <summary>水平的墙，true为可通过</summary>
-        public bool[,] wall_horizontal;
+        /// <summary>
+        /// 水平的墙，true为可通过
+        /// </summary>
+        public Map2D<bool> wall_horizontal;
 
         private List<Point2D> way = new();
 
@@ -27,8 +32,8 @@ namespace Maze.Base
         {
             this.height = height;
             this.width = width;
-            wall_vertical = new bool[height, width];
-            wall_horizontal = new bool[height, width];
+            wall_vertical = new Map2D<bool>(height, width);
+            wall_horizontal = new Map2D<bool>(height, width);
         }
 
         public abstract void Generate();
@@ -132,15 +137,7 @@ namespace Maze.Base
         /// </summary>
         protected List<Point2D> GetNeighborBlocks(int x, int y)
         {
-            List<Point2D> points = new();
-            if (x > 0)
-                points.Add(new(x - 1, y));
-            if (x < width - 1)
-                points.Add(new(x + 1, y));
-            if (y > 0)
-                points.Add(new(x, y - 1));
-            if (y < height - 1)
-                points.Add(new(x, y + 1));
+            List<Point2D> points = (new Point2D(x, y)).GetSurroundPoints_4().Where(n => wall_horizontal.IsValidPoint(n)).ToList();
             return points;
         }
 
@@ -189,9 +186,7 @@ namespace Maze.Base
         /// </summary>
         private bool CheckPoint(Point2D point)
         {
-            if (point.X < 0 || point.X >= width || point.Y < 0 || point.Y >= height)
-                return false;
-            return true;
+            return wall_horizontal.IsValidPoint(point);
         }
     }
 }

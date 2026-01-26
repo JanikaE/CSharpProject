@@ -48,7 +48,7 @@ namespace G2048
             playMat[x, y] = 2;
         }
 
-        public void Operate(Operation op)
+        public void Operate(RelativePosition_4 op)
         {
             Map2D<int> playMatNew = Operate(playMat, op, out int score);
             // 如果操作没有使数字发生变化，视为无效操作
@@ -98,14 +98,14 @@ namespace G2048
 
         #region Operate
 
-        private Map2D<int> Operate(Map2D<int> playMat, Operation op, out int score)
+        private Map2D<int> Operate(Map2D<int> playMat, RelativePosition_4 op, out int score)
         {
             var result = playMat.Clone();
             int[] line = new int[Rage];
             score = 0;
             switch (op)
             {
-                case Operation.Up:
+                case RelativePosition_4.Up:
                     for (int i = 0; i < Rage; i++)
                     {
                         for (int j = 0; j < Rage; j++)
@@ -119,7 +119,7 @@ namespace G2048
                         }
                     }
                     break;
-                case Operation.Down:
+                case RelativePosition_4.Down:
                     for (int i = 0; i < Rage; i++)
                     {
                         for (int j = 0; j < Rage; j++)
@@ -133,7 +133,7 @@ namespace G2048
                         }
                     }
                     break;
-                case Operation.Left:
+                case RelativePosition_4.Left:
                     for (int i = 0; i < Rage; i++)
                     {
                         for (int j = 0; j < Rage; j++)
@@ -147,7 +147,7 @@ namespace G2048
                         }
                     }
                     break;
-                case Operation.Right:
+                case RelativePosition_4.Right:
                     for (int i = 0; i < Rage; i++)
                     {
                         for (int j = 0; j < Rage; j++)
@@ -220,12 +220,12 @@ namespace G2048
 
         #region AI
 
-        public Operation Next()
+        public RelativePosition_4 Next()
         {
-            Dictionary<Operation, int> keyValuePairs = new();
-            foreach (Operation op in Enum.GetValues(typeof(Operation)))
+            Dictionary<RelativePosition_4, int> keyValuePairs = new();
+            foreach (RelativePosition_4 op in Enum.GetValues(typeof(RelativePosition_4)))
             {
-                if (op == Operation.None) continue;
+                if (op == RelativePosition_4.None) continue;
                 Map2D<int> playMatNew = Operate(playMat, op, out _);
                 if (!Compare(playMatNew, playMat))
                 {
@@ -233,10 +233,10 @@ namespace G2048
                     keyValuePairs.Add(op, value);
                 }
             }
-            Operation result = Operation.None;
+            RelativePosition_4 result = RelativePosition_4.None;
             int maxValue = 0;
             string message = "";
-            foreach (Operation op in keyValuePairs.Keys)
+            foreach (RelativePosition_4 op in keyValuePairs.Keys)
             {
                 int value = keyValuePairs[op];
                 if (value > maxValue)

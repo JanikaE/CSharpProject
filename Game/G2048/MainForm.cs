@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using System.Windows.Forms;
+using Utils.Mathematical;
 
 namespace G2048
 {
@@ -39,22 +40,22 @@ namespace G2048
 
         private void Up_Click(object sender, EventArgs e)
         {
-            Operate(Operation.Up);
+            Operate(RelativePosition_4.Up);
         }
 
         private void Down_Click(object sender, EventArgs e)
         {
-            Operate(Operation.Down);
+            Operate(RelativePosition_4.Down);
         }
 
         private void Left_Click(object sender, EventArgs e)
         {
-            Operate(Operation.Left);
+            Operate(RelativePosition_4.Left);
         }
 
         private void Right_Click(object sender, EventArgs e)
         {
-            Operate(Operation.Right);
+            Operate(RelativePosition_4.Right);
         }
 
         private void Start_Click(object sender, EventArgs e)
@@ -73,16 +74,16 @@ namespace G2048
             switch (e.KeyCode)
             {
                 case Keys.A:
-                    Operate(Operation.Left);
+                    Operate(RelativePosition_4.Left);
                     break;
                 case Keys.D:
-                    Operate(Operation.Right);
+                    Operate(RelativePosition_4.Right);
                     break;
                 case Keys.W:
-                    Operate(Operation.Up);
+                    Operate(RelativePosition_4.Up);
                     break;
                 case Keys.S:
-                    Operate(Operation.Down);
+                    Operate(RelativePosition_4.Down);
                     break;
             }
         }
@@ -98,8 +99,8 @@ namespace G2048
                 box.Init();
                 while (box.state == State.Playing)
                 {
-                    Operation op = box.Next();
-                    if (op == Operation.None)
+                    RelativePosition_4 op = box.Next();
+                    if (op == RelativePosition_4.None)
                     {
                         break;
                     }
@@ -124,7 +125,7 @@ namespace G2048
             MessageBox.Show($"ave:{all / 100} max:{max} min:{min}");
         }
 
-        private void Operate(Operation op)
+        private void Operate(RelativePosition_4 op)
         {
             box.Operate(op);
             UpdateForm();

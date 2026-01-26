@@ -23,11 +23,11 @@ namespace Utils.Mathematical
             {
                 if (y < 0 || y > Height)
                 {
-                    throw new System.IndexOutOfRangeException($"Y index {y} is out of range (0 to {Height - 1})");
+                    throw new IndexOutOfRangeException($"Y index {y} is out of range (0 to {Height - 1})");
                 }
                 if (x < 0 || x > Width)
                 {
-                    throw new System.IndexOutOfRangeException($"X index {x} is out of range (0 to {Width - 1})");
+                    throw new IndexOutOfRangeException($"X index {x} is out of range (0 to {Width - 1})");
                 }
                 return data[y, x];
             }
@@ -94,6 +94,11 @@ namespace Utils.Mathematical
                 }
             }
             return new Map2D<T>(newData);
+        }
+
+        public bool IsValidPoint(Point2D point)
+        {
+            return point.X >= 0 && point.X < Width && point.Y >= 0 && point.Y < Height;
         }
 
         #region IEnumerable Implementation

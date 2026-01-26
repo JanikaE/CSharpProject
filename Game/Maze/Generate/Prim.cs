@@ -10,8 +10,8 @@ namespace Maze.Generate
     /// </summary>
     public class Prim : MazeByWall
     {
-        public bool[,] canReach;
-        public bool CanReach(Point2D point) => canReach[point.Y, point.X];
+        public Map2D<bool> canReach;
+        public bool CanReach(Point2D point) => canReach[point];
         /// <summary>已连通的格子数</summary>
         private int reachNum;
         /// <summary>所有格子都连通时判定迷宫生成完成</summary>
@@ -19,7 +19,7 @@ namespace Maze.Generate
 
         public Prim(int height, int width) : base(height, width)
         {
-            canReach = new bool[height, width];
+            canReach = new Map2D<bool>(height, width);
             canReach[0, 0] = true;
             reachNum = 1;
         }
@@ -34,7 +34,7 @@ namespace Maze.Generate
                 // 随机选择一个邻格并打通
                 Point2D newPoint = points[Random.Shared.Next(points.Count)];
                 BreakWall(point, newPoint);
-                canReach[newPoint.Y, newPoint.X] = true;
+                canReach[newPoint] = true;
                 reachNum++;
             }
         }

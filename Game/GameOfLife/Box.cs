@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Utils.Mathematical;
 
 namespace GameOfLife
@@ -106,32 +105,12 @@ namespace GameOfLife
             if (map == null)
                 return 0;
 
-            List<Point2D> neighbors = new();
-            if (point.X > 0)
-            {
-                neighbors.Add(point + new Point2D(-1, 0));
-                if (point.Y > 0)
-                    neighbors.Add(point + new Point2D(-1, -1));
-                if (point.Y < Height - 1)
-                    neighbors.Add(point + new Point2D(-1, 1));
-            }
-            if (point.X < Width - 1)
-            {
-                neighbors.Add(point + new Point2D(1, 0));
-                if (point.Y > 0)
-                    neighbors.Add(point + new Point2D(1, -1));
-                if (point.Y < Height - 1)
-                    neighbors.Add(point + new Point2D(1, 1));
-            }
-            if (point.Y > 0)
-                neighbors.Add(point + new Point2D(0, -1));
-            if (point.Y < Height - 1)
-                neighbors.Add(point + new Point2D(0, 1));
+            var neighbors = point.GetSurroundPoints_8();
 
             int count = 0;
             foreach (var neighbor in neighbors)
             {
-                if (map[neighbor])
+                if (map.IsValidPoint(neighbor) && map[neighbor])
                     count++;
             }
             return count;

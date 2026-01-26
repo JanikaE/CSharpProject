@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Utils.Mathematical
@@ -129,6 +130,26 @@ namespace Utils.Mathematical
             else if (Y > 0)
             {
                 Y = 1;
+            }
+        }
+
+        public readonly IEnumerable<Point2D> GetSurroundPoints_4()
+        {
+            foreach (var dir in (RelativePosition_4[])Enum.GetValues(typeof(RelativePosition_4)))
+            {
+                if (dir == RelativePosition_4.None)
+                    continue;
+                yield return this.Move(dir);
+            }
+        }
+
+        public readonly IEnumerable<Point2D> GetSurroundPoints_8()
+        {
+            foreach (var dir in (RelativePosition_8[])Enum.GetValues(typeof(RelativePosition_8)))
+            {
+                if (dir == RelativePosition_8.None)
+                    continue;
+                yield return this.Move(dir);
             }
         }
 
