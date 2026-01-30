@@ -1,72 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
+using Utils.Structure;
 using Utils.Tool;
 
 namespace GenerateTree
 {
     public class Tree
     {
-        private class Node
-        {
-            /// <summary>
-            /// 角度
-            /// </summary>
-            public float rad;
-            /// <summary>
-            /// 大小
-            /// </summary>
-            public float size;
-            /// <summary>
-            /// 长度
-            /// </summary>
-            public float length;
-
-            /// <summary>
-            /// 子节点
-            /// </summary>
-            public List<Node> children;
-
-            public Node(float rad, float size, float length)
-            {
-                this.rad = rad;
-                this.size = size;
-                this.length = length;
-                children = new List<Node>();
-            }
-        }
-
-        private Node root;
-        private readonly Random random;
+        private readonly Node<Leaf> root;
         private readonly Config config;
 
         public Tree(int seed, Config config)
         {
-            root = null;
-            random = new Random(seed);
-            MathTool.Random = random;
+            root = new(new(config.RootRad, config.RootSize, config.RootLength), null);
+            RandomTool.Random = new Random(seed);
             this.config = config;
         }
 
         public void Generate()
         {
-            root = new Node(config.RootRad, config.RootSize, config.RootLength);
-            GenerateChildren(root, 1);
+            GenerateChildren(root);
         }
 
-        private void GenerateChildren(Node node, int depth)
+        private void GenerateChildren(Node<Leaf> node)
         {
-            if (node.length < config.MinLength || node.size < config.MinSize || depth > config.MaxDepth)
+            if (node.Current.length < config.MinLength || node.Current.size < config.MinSize || node.Level >= config.MaxDepth)
                 return;
-            int childrenNum = (int)MathTool.Gaussian(config.ChildrenNumMu, config.ChildrenNumSigma);
+            int childrenNum = (int)RandomTool.Gaussian(config.ChildrenNumMu, config.ChildrenNumSigma);
             for (int i = 0; i < childrenNum; i++)
             {
-                float rad = node.rad + random.NextSingle() * config.MaxRad * 2 - config.MaxRad;
-                float size = node.size * (float)MathTool.Gaussian(config.SizeChangeMu, config.SizeChangeSigma);
-                float length = node.length * (float)MathTool.Gaussian(config.LengthChangeMu, config.LengthChangeSigma);
-                Node child = new(rad, size, length);
-                node.children.Add(child);
-                GenerateChildren(child, depth + 1);
+                float rad = node.Current.rad + RandomTool.Single(-1, 1) * config.MaxRad;
+                float size = node.Current.size * (float)RandomTool.Gaussian(config.SizeChangeMu, config.SizeChangeSigma);
+                float length = node.Current.length * (float)RandomTool.Gaussian(config.LengthChangeMu, config.LengthChangeSigma);
+                Node<Leaf> child = new(new(rad, size, length), node);
+                node.Children.Add(child);
+                GenerateChildren(child);
             }
         }
 
@@ -77,14 +45,37 @@ namespace GenerateTree
             DrawNode(g, startPoint, root);
         }
 
-        private static void DrawNode(Graphics g, Point startPoint, Node node)
+        private static void DrawNode(Graphics g, Point startPoint, Node<Leaf> node)
         {
-            Point endPoint = startPoint + new Size((int)(node.length * Math.Cos(node.rad * Math.PI / 180)), (int)(node.length * Math.Sin(node.rad * Math.PI / 180)));
-            g.DrawLine(new Pen(Color.Black, node.size), startPoint, endPoint);
-            foreach (Node child in node.children)
+            Point endPoint = startPoint + new Size((int)(node.Current.length * Math.Cos(node.Current.rad * Math.PI / 180)), (int)(node.Current.length * Math.Sin(node.Current.rad * Math.PI / 180)));
+            g.DrawLine(new Pen(Color.Black, node.Current.size), startPoint, endPoint);
+            foreach (Node<Leaf> child in node.Children)
             {
                 DrawNode(g, endPoint, child);
             }
+        }
+    }
+
+    public class Leaf
+    {
+        /// <summary>
+        /// 角度
+        /// </summary>
+        public float rad;
+        /// <summary>
+        /// 大小
+        /// </summary>
+        public float size;
+        /// <summary>
+        /// 长度
+        /// </summary>
+        public float length;
+
+        public Leaf(float rad, float size, float length)
+        {
+            this.rad = rad;
+            this.size = size;
+            this.length = length;
         }
     }
 }

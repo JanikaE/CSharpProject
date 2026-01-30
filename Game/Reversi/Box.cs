@@ -192,9 +192,9 @@ namespace Reversi
         /// <summary>
         /// 某点是否在棋盘内
         /// </summary>
-        private static bool IsInBoard(Point2D point)
+        private bool IsInBoard(Point2D point)
         {
-            return (point.X >= 0 && point.X <= 7 && point.Y >= 0 && point.Y <= 7);
+            return board.IsValidPoint(point);
         }
     }
 }

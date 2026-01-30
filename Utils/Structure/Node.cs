@@ -13,7 +13,7 @@ namespace Utils.Structure
         /// <summary>
         /// 当前节点数据
         /// </summary>
-        public T Current { get; }
+        public T Current { get; set; }
 
         /// <summary>
         /// 根节点
@@ -78,6 +78,10 @@ namespace Utils.Structure
         /// 是否有子节点
         /// </summary>
         public bool HasChild => !IsLeaf;
+
+        public Node()
+        {
+        }
 
         public Node(T item, Node<T> parent)
         {

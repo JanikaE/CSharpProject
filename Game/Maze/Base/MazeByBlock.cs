@@ -1,6 +1,7 @@
 ﻿using Maze.WayFinding;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Utils.Extend;
 using Utils.Mathematical;
 
@@ -121,7 +122,7 @@ namespace Maze.Base
                     {
                         if (showWay)
                         {
-                            if (way.FindAll(p => p.X == j && p.Y == i).Count > 0)
+                            if (way.Exists(p => p.X == j && p.Y == i))
                             {
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 Console.Write('*');
@@ -215,7 +216,7 @@ namespace Maze.Base
                 if (x > 0)
                 {
                     Point2D left = new(x - 1, y);
-                    if (close.FindAll(p => p == left).Count == 0 && open.FindAll(p => p == left).Count == 0 && !IsWall(left))
+                    if (!close.Exists(p => p == left) && !open.Exists(p => p == left) && !IsWall(left))
                     {
                         open.Add(left);
                     }
@@ -223,7 +224,7 @@ namespace Maze.Base
                 if (x < Width - 1)
                 {
                     Point2D right = new(x + 1, y);
-                    if (close.FindAll(p => p == right).Count == 0 && open.FindAll(p => p == right).Count == 0 && !IsWall(right))
+                    if (!close.Exists(p => p == right) && !open.Exists(p => p == right) && !IsWall(right))
                     {
                         open.Add(right);
                     }
@@ -231,7 +232,7 @@ namespace Maze.Base
                 if (y > 0)
                 {
                     Point2D up = new(x, y - 1);
-                    if (close.FindAll(p => p == up).Count == 0 && open.FindAll(p => p == up).Count == 0 && !IsWall(up))
+                    if (!close.Exists(p => p == up) && !open.Exists(p => p == up) && !IsWall(up))
                     {
                         open.Add(up);
                     }
@@ -239,7 +240,7 @@ namespace Maze.Base
                 if (y < Height - 1)
                 {
                     Point2D down = new(x, y + 1);
-                    if (close.FindAll(p => p == down).Count == 0 && open.FindAll(p => p == down).Count == 0 && !IsWall(down))
+                    if (!close.Exists(p => p == down) && !open.Exists(p => p == down) && !IsWall(down))
                     {
                         open.Add(down);
                     }
