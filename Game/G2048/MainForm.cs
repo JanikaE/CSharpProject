@@ -93,10 +93,12 @@ namespace G2048
             int all = 0;
             int min = 0;
             int max = 0;
+            Box maxBox = null;
             for (int i = 0; i < 100; i++)
             {
                 box = new Box(rage);
                 box.Init();
+                box.InitAI();
                 while (box.state == State.Playing)
                 {
                     RelativePosition_4 op = box.Next();
@@ -112,16 +114,20 @@ namespace G2048
                 {
                     min = score;
                     max = score;
+                    maxBox = box;
                 }
                 if (score > max)
                 {
                     max = score;
+                    maxBox = box;
                 }
                 if (score < min)
                 {
                     min = score;
                 }
             }
+            box = maxBox;
+            UpdateForm();
             MessageBox.Show($"ave:{all / 100} max:{max} min:{min}");
         }
 

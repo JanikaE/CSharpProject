@@ -220,25 +220,45 @@ namespace G2048
 
         #region AI
 
+        public List<Point2D> Lines { get; private set; }
+
+        public void InitAI()
+        {
+            Lines = new List<Point2D>();
+            for (int y = 0; y < Rage; y++)
+            {
+                if (y % 2 == 0)
+                {
+                    for (int x = 0; x < Rage; x++)
+                        Lines.Add(new Point2D(x, y));
+                }
+                else
+                {
+                    for (int x = Rage - 1; x >= 0; x--)
+                        Lines.Add(new Point2D(x, y));
+                }
+            }
+        }
+
         public RelativePosition_4 Next()
         {
-            Dictionary<RelativePosition_4, int> keyValuePairs = new();
+            Dictionary<RelativePosition_4, long> keyValuePairs = new();
             foreach (RelativePosition_4 op in Enum.GetValues(typeof(RelativePosition_4)))
             {
                 if (op == RelativePosition_4.None) continue;
                 Map2D<int> playMatNew = Operate(playMat, op, out _);
                 if (!Compare(playMatNew, playMat))
                 {
-                    int value = Value(Operate(playMat, op, out _));
+                    long value = Value(Operate(playMat, op, out _));
                     keyValuePairs.Add(op, value);
                 }
             }
             RelativePosition_4 result = RelativePosition_4.None;
-            int maxValue = 0;
+            long maxValue = 0;
             string message = "";
             foreach (RelativePosition_4 op in keyValuePairs.Keys)
             {
-                int value = keyValuePairs[op];
+                long value = keyValuePairs[op];
                 if (value > maxValue)
                 {
                     maxValue = value;
@@ -251,28 +271,13 @@ namespace G2048
             return result;
         }
 
-        private static int Value(Map2D<int> playMat)
+        private long Value(Map2D<int> playMat)
         {
-            int height = playMat.Height;
-            int width = playMat.Width;
             int result = 0;
-            for (int i = 0; i < height; i++)
+            foreach (var point in Lines)
             {
-                for (int j = 0; j < width; j++)
-                {
-                    int num = playMat[i, j];
-                    if (num > 0)
-                    {
-                        int x = Math.Min(i, height - i - 1) + 1;
-                        int y = Math.Min(j, width - j - 1) + 1;
-                        int weight = (int)Math.Pow(2, height + width - x - y);
-                        result += weight * num;
-                    }
-                    else
-                    {
-                        result += 8192;
-                    }
-                }
+                result *= 2;
+                result += playMat[point];
             }
             return result;
         }
