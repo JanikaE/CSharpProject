@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 
 namespace Utils.Mathematical
 {
@@ -35,11 +36,11 @@ namespace Utils.Mathematical
             {
                 if (y < 0 || y > Height)
                 {
-                    throw new System.IndexOutOfRangeException($"Y index {y} is out of range (0 to {Height - 1})");
+                    throw new IndexOutOfRangeException($"Y index {y} is out of range (0 to {Height - 1})");
                 }
                 if (x < 0 || x > Width)
                 {
-                    throw new System.IndexOutOfRangeException($"X index {x} is out of range (0 to {Width - 1})");
+                    throw new IndexOutOfRangeException($"X index {x} is out of range (0 to {Width - 1})");
                 }
                 data[y, x] = value;
             }
@@ -64,6 +65,18 @@ namespace Utils.Mathematical
                 for (int j = 0; j < width; j++)
                 {
                     data[i, j] = defaultValue;
+                }
+            }
+        }
+
+        public Map2D(int height, int width, Func<int, int, T> func)
+        {
+            data = new T[height, width];
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    data[i, j] = func(i, j);
                 }
             }
         }
@@ -122,5 +135,60 @@ namespace Utils.Mathematical
         }
 
         #endregion
+
+        /// <summary>
+        /// 蛇形排序
+        /// </summary>
+        /// <param name="comparison"></param>
+        /// <param name="isAsc"></param>
+        public void Sort(Comparison<T> comparison, bool isAsc)
+        {
+            // 对每行进行排序
+            for (int i = 0; i < Height; i++)
+            {
+                // 偶数行：从左到右排序
+                if (i % 2 == 0)
+                {
+                    for (int j = 0; j < Width - 1; j++)
+                    {
+                        for (int k = 0; k < Width - j - 1; k++)
+                        {
+                            if (isAsc ? comparison(data[i, k], data[i, k + 1]) > 0 : comparison(data[i, k], data[i, k + 1]) < 0)
+                            {
+                                (data[i, k], data[i, k + 1]) = (data[i, k + 1], data[i, k]);
+                            }
+                        }
+                    }
+                }
+                // 奇数行：从右到左排序
+                else
+                {
+                    for (int j = 0; j < Width - 1; j++)
+                    {
+                        for (int k = 0; k < Width - j - 1; k++)
+                        {
+                            if (isAsc ? comparison(data[i, Width - k - 2], data[i, Width - k - 1]) > 0 : comparison(data[i, Width - k - 2], data[i, Width - k - 1]) < 0)
+                            {
+                                (data[i, Width - k - 2], data[i, Width - k - 1]) = (data[i, Width - k - 1], data[i, Width - k - 2]);
+                            }
+                        }
+                    }
+                }
+            }
+            // 对每列进行排序
+            for (int j = 0; j < Width; j++)
+            {
+                for (int i = 0; i < Height - 1; i++)
+                {
+                    for (int k = 0; k < Height - i - 1; k++)
+                    {
+                        if (isAsc ? comparison(data[k, j], data[k + 1, j]) > 0 : comparison(data[k, j], data[k + 1, j]) < 0)
+                        {
+                            (data[k, j], data[k + 1, j]) = (data[k + 1, j], data[k, j]);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
