@@ -17,6 +17,7 @@
     <PackageVersion Include="Avalonia.ReactiveUI" Version="11.2.1" />
     <PackageVersion Include="CefNet.Avalonia" Version="105.3.22248.142" />
     <PackageVersion Include="CefNet.Avalonia.Eleven" Version="105.3.22248.146" />
+    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.1" />
   </ItemGroup>
 </Project>

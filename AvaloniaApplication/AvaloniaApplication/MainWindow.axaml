@@ -4,32 +4,18 @@
         MinWidth="500"
         MinHeight="300"
         Title="AvaloniaApplication">
-    <NativeMenu.Menu>
-        <NativeMenu>
-            <NativeMenuItem Header="File">
-                <NativeMenuItem.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Header="New Tab" Click="OnNewTabNativeMenuItemClick" />
-                        <NativeMenuItem Header="Open Dev Tools..." Click="OnOpenDevToolsNativeMenuItemClick"/>
-                        <NativeMenuItem Header="Evaluate Javascript" Click="OnEvaluateJavascriptNativeMenuItemClick" />
-                        <NativeMenuItem Header="Bind Javascript Object" Click="OnBindJavascriptObjectNativeMenuItemClick" />
-                    </NativeMenu>
-                </NativeMenuItem.Menu>
-            </NativeMenuItem>
-        </NativeMenu>
-    </NativeMenu.Menu>
-    
-    <DockPanel>
-        <Menu Name="mainMenu" DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_New Tab" Click="OnNewTabMenuItemClick" />
-                <MenuItem Header="_Open Dev Tools..." Click="OnOpenDevToolsMenuItemClick"/>
-                <MenuItem Header="_Evaluate Javascript" Click="OnEvaluateJavascriptMenuItemClick" />
-                <MenuItem Header="_Bind Javascript Object" Click="OnBindJavascriptObjectMenuItemClick" />
-            </MenuItem>
-        </Menu>
-        
-        <TabControl Name="tabControl">
-        </TabControl>
-    </DockPanel>
+
+	<DockPanel>
+		<Menu Name="mainMenu" DockPanel.Dock="Top">
+			<MenuItem Header="_File">
+				<MenuItem Header="_New Tab" Click="OnNewTabMenuItemClick" />
+				<MenuItem Header="_Switch Full Screen" Click="OnSwitchFullScreenMenuItemClick"/>
+				<MenuItem Header="_Refresh" Click="OnRefreshMenuItemClick"/>
+				<MenuItem Header="_Open Dev Tools..." Click="OnOpenDevToolsMenuItemClick"/>
+			</MenuItem>
+		</Menu>
+
+		<TabControl Name="tabControl">
+		</TabControl>
+	</DockPanel>
 </Window>

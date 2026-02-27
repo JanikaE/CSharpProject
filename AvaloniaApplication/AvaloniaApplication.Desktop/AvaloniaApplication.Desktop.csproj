@@ -30,13 +30,13 @@
       <HintPath>..\lib\Xilium.CefGlue.dll</HintPath>
     </Reference>
     <Reference Include="Xilium.CefGlue.Avalonia">
-      <HintPath>..\..\..\..\CallClient\CallClientByAvalonia\libCefGlue\Xilium.CefGlue.Avalonia.dll</HintPath>
+      <HintPath>..\lib\Xilium.CefGlue.Avalonia.dll</HintPath>
     </Reference>
     <Reference Include="Xilium.CefGlue.Common">
       <HintPath>..\lib\Xilium.CefGlue.Common.dll</HintPath>
     </Reference>
     <Reference Include="Xilium.CefGlue.Common.Shared">
-      <HintPath>..\..\..\..\CallClient\CallClientByAvalonia\libCefGlue\Xilium.CefGlue.Common.Shared.dll</HintPath>
+      <HintPath>..\lib\Xilium.CefGlue.Common.Shared.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

@@ -3,10 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Threading;
 using System;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Xilium.CefGlue;
 using Xilium.CefGlue.Avalonia;
@@ -28,7 +24,6 @@ namespace AvaloniaApplication
             {
                 Address = "https://www.baidu.com"
             };
-            browser.RegisterJavascriptObject(new BindingTestClass(), "boundBeforeLoadObject");
             browser.LoadStart += OnBrowserLoadStart;
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.LifeSpanHandler = new BrowserLifeSpanHandler();
@@ -44,7 +39,7 @@ namespace AvaloniaApplication
                 {
                     if (task.GetType().IsGenericType)
                     {
-                        return ((dynamic) task).Result;
+                        return ((dynamic)task).Result;
                     }
 
                     return task;
@@ -71,10 +66,7 @@ namespace AvaloniaApplication
             Dispatcher.UIThread.Post(() =>
             {
                 var addressTextBox = this.FindControl<TextBox>("addressTextBox");
-                if (addressTextBox != null)
-                {
-                    addressTextBox.Text = e.Frame.Url;
-                }
+                addressTextBox?.Text = e.Frame.Url;
             });
         }
 
@@ -85,55 +77,6 @@ namespace AvaloniaApplication
                 browser.Address = ((TextBox)sender).Text;
             }
         }
-
-        #region JavaScript交互
-
-        public async void EvaluateJavascript()
-        {
-            var result = new StringWriter();
-
-            result.Write(await browser.EvaluateJavaScript<string>("return \"Hello World!\""));
-
-            result.Write("; " + await browser.EvaluateJavaScript<int>("return 1+1"));
-
-            result.Write("; " + await browser.EvaluateJavaScript<bool>("return false"));
-
-            result.Write ("; " + await browser.EvaluateJavaScript<double>("return 1.5+1.5"));
-
-            result.Write("; " + await browser.EvaluateJavaScript<double>("return 3+1.5"));
-
-            result.Write("; " + await browser.EvaluateJavaScript<DateTime>("return new Date()"));
-
-            result.Write("; " + string.Join(", ", await browser.EvaluateJavaScript<object[]>("return [1, 2, 3]")));
-
-            result.Write("; " + string.Join(", ", (await browser.EvaluateJavaScript<ExpandoObject>("return (function() { return { a: 'valueA', b: 1, c: true } })()")).Select(p => p.Key + ":" + p.Value)));
-
-            browser.ExecuteJavaScript($"alert(\"{result.ToString().Replace("\r\n", " | ").Replace("\"", "\\\"")}\")");
-        }
-
-        public void BindJavascriptObject()
-        {
-            const string TestObject = "dotNetObject";
-
-            var obj = new BindingTestClass();
-            browser.RegisterJavascriptObject(obj, TestObject, AsyncCallNativeMethod);
-
-            var methods = obj.GetType().GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public)
-                                       .Where(m => m.GetParameters().Length == 0)
-                                       .Select(m => m.Name.Substring(0, 1).ToLowerInvariant() + m.Name.Substring(1));
-
-            var script = "(function () {" +
-                "let calls = [];" +
-                string.Join("", methods.Select(m => $"calls.push({{ name: '{m}', promise: {TestObject}.{m}() }});")) +
-                $"calls.push({{ name: 'asyncGetObjectWithParams', promise: {TestObject}.asyncGetObjectWithParams('a string') }});" +
-                $"calls.push({{ name: 'getObjectWithParams', promise: {TestObject}.getObjectWithParams(5, 'a string', {{ Name: 'obj name', Value: 10 }}, [ 1, 2 ]) }});" +
-                "calls.forEach(c => c.promise.then(r => console.log(c.name + ': ' + JSON.stringify(r))).catch(e => console.log(e)));" +
-                "})()";
-
-            browser.ExecuteJavaScript(script);
-        }
-
-        #endregion
 
         #region 浏览器操作
 
