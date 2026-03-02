@@ -103,7 +103,13 @@ public class UpdateService : IUpdateService
         {
             LogTool.Debug("3.开始解压安装包");
             ZipTool.Decompress(newZipPath, TempFolder, true);
-            // todo: 需要兼容压缩包内还套了一层文件夹的情况
+            // 兼容压缩包内还套了一层文件夹的情况
+            if (Directory.GetDirectories(TempFolder).Length == 1 && Directory.GetFiles(TempFolder).Length == 0)
+            {
+                string subDir = Directory.GetDirectories(TempFolder)[0];
+                DirectoryTool.Copy(subDir, TempFolder, false);
+                DirectoryTool.DeleteEmptyFolders(subDir, true);
+            }
             RaiseUpdateProgress("解压成功... ", percent += 0.02f);
         }
         catch (Exception ex3)
