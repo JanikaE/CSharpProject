@@ -1,24 +1,20 @@
-﻿using System;
+using System;
+using System.Windows.Forms;
 
 namespace ImageEditor
 {
-    internal class Program
+    internal static class Program
     {
+        /// <summary>
+        ///  The main entry point for the application.
+        /// </summary>
+        [STAThread]
         static void Main()
         {
-            while (true)
-            {
-                Console.Write("Enter the file name of the image to edit (or 'exit' to quit):");
-                string input = Console.ReadLine();
-                if (input == "exit")
-                {
-                    break;
-                }
-                else
-                {
-                    Editor.Edit(input);
-                }
-            }
+            // To customize application configuration such as set high DPI settings or default font,
+            // see https://aka.ms/applicationconfiguration.
+            ApplicationConfiguration.Initialize();
+            Application.Run(new MainForm());
         }
     }
 }
