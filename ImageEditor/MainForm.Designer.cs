@@ -37,10 +37,18 @@ namespace ImageEditor
             pictureBoxExport = new PictureBox();
             buttonImport = new Button();
             buttonExport = new Button();
+            tabControlMain = new TabControl();
+            tabPageNormal = new TabPage();
+            buttonBlackWhite = new Button();
+            buttonMonochrome = new Button();
+            buttonInvertColor = new Button();
+            tabPageClosestColor = new TabPage();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxImport).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxExport).BeginInit();
+            tabControlMain.SuspendLayout();
+            tabPageNormal.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -49,6 +57,7 @@ namespace ImageEditor
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75.5F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24.5F));
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
+            tableLayoutPanel1.Controls.Add(tabControlMain, 1, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -117,6 +126,71 @@ namespace ImageEditor
             buttonExport.UseVisualStyleBackColor = true;
             buttonExport.Click += ButtonExport_Click;
             // 
+            // tabControlMain
+            // 
+            tabControlMain.Controls.Add(tabPageNormal);
+            tabControlMain.Controls.Add(tabPageClosestColor);
+            tabControlMain.Dock = DockStyle.Fill;
+            tabControlMain.Location = new Point(607, 3);
+            tabControlMain.Multiline = true;
+            tabControlMain.Name = "tabControlMain";
+            tabControlMain.SelectedIndex = 0;
+            tabControlMain.Size = new Size(190, 444);
+            tabControlMain.TabIndex = 1;
+            // 
+            // tabPageNormal
+            // 
+            tabPageNormal.Controls.Add(buttonBlackWhite);
+            tabPageNormal.Controls.Add(buttonMonochrome);
+            tabPageNormal.Controls.Add(buttonInvertColor);
+            tabPageNormal.Location = new Point(4, 26);
+            tabPageNormal.Name = "tabPageNormal";
+            tabPageNormal.Padding = new Padding(3);
+            tabPageNormal.Size = new Size(182, 414);
+            tabPageNormal.TabIndex = 0;
+            tabPageNormal.Text = "Normal";
+            tabPageNormal.UseVisualStyleBackColor = true;
+            // 
+            // buttonBlackWhite
+            // 
+            buttonBlackWhite.Location = new Point(6, 64);
+            buttonBlackWhite.Name = "buttonBlackWhite";
+            buttonBlackWhite.Size = new Size(92, 23);
+            buttonBlackWhite.TabIndex = 2;
+            buttonBlackWhite.Text = "BlackWhite";
+            buttonBlackWhite.UseVisualStyleBackColor = true;
+            buttonBlackWhite.Click += ButtonBlackWhite_Click;
+            // 
+            // buttonMonochrome
+            // 
+            buttonMonochrome.Location = new Point(6, 35);
+            buttonMonochrome.Name = "buttonMonochrome";
+            buttonMonochrome.Size = new Size(92, 23);
+            buttonMonochrome.TabIndex = 1;
+            buttonMonochrome.Text = "Monochrome";
+            buttonMonochrome.UseVisualStyleBackColor = true;
+            buttonMonochrome.Click += ButtonMonochrome_Click;
+            // 
+            // buttonInvertColor
+            // 
+            buttonInvertColor.Location = new Point(6, 6);
+            buttonInvertColor.Name = "buttonInvertColor";
+            buttonInvertColor.Size = new Size(92, 23);
+            buttonInvertColor.TabIndex = 0;
+            buttonInvertColor.Text = "InvertColor";
+            buttonInvertColor.UseVisualStyleBackColor = true;
+            buttonInvertColor.Click += ButtonInvertColor_Click;
+            // 
+            // tabPageClosestColor
+            // 
+            tabPageClosestColor.Location = new Point(4, 26);
+            tabPageClosestColor.Name = "tabPageClosestColor";
+            tabPageClosestColor.Padding = new Padding(3);
+            tabPageClosestColor.Size = new Size(182, 414);
+            tabPageClosestColor.TabIndex = 1;
+            tabPageClosestColor.Text = "ClosestColor";
+            tabPageClosestColor.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -130,6 +204,8 @@ namespace ImageEditor
             tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBoxImport).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxExport).EndInit();
+            tabControlMain.ResumeLayout(false);
+            tabPageNormal.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -141,5 +217,11 @@ namespace ImageEditor
         private PictureBox pictureBoxExport;
         private Button buttonImport;
         private Button buttonExport;
+        private TabControl tabControlMain;
+        private TabPage tabPageNormal;
+        private TabPage tabPageClosestColor;
+        private Button buttonInvertColor;
+        private Button buttonBlackWhite;
+        private Button buttonMonochrome;
     }
 }

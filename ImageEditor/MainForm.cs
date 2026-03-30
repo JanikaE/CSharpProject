@@ -78,5 +78,27 @@ namespace ImageEditor
                 image.Save(saveFileDialog.FileName);
             }
         }
+
+        #region Normal
+
+        private void ButtonInvertColor_Click(object sender, EventArgs e)
+        {
+            Image newImage = Editor.InvertColor(pictureBoxImport.Image);
+            pictureBoxExport.Image = newImage;
+        }
+
+        private void ButtonMonochrome_Click(object sender, EventArgs e)
+        {
+            Image newImage = Editor.Monochrome(pictureBoxImport.Image);
+            pictureBoxExport.Image = newImage;
+        }
+
+        private void ButtonBlackWhite_Click(object sender, EventArgs e)
+        {
+            Image newImage = Editor.BlackWhite(pictureBoxImport.Image);
+            pictureBoxExport.Image = newImage;
+        }
+
+        #endregion
     }
 }

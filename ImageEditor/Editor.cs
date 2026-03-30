@@ -5,9 +5,9 @@ namespace ImageEditor
 {
     public class Editor
     {
-        public static void InvertColor(Image image)
+        public static Image InvertColor(Image image)
         {
-            EditPixel(image, (color) =>
+            return EditPixel(image, (color) =>
             {
                 int r = color.R;
                 int g = color.G;
@@ -16,9 +16,9 @@ namespace ImageEditor
             });
         }
 
-        public static void Monochrome(Image image)
+        public static Image Monochrome(Image image)
         {
-            EditPixel(image, (color) =>
+            return EditPixel(image, (color) =>
             {
                 int r = color.R;
                 int g = color.G;
@@ -28,9 +28,9 @@ namespace ImageEditor
             });
         }
 
-        public static void BlackWhite(Image image)
+        public static Image BlackWhite(Image image)
         {
-            EditPixel(image, (color) =>
+            return EditPixel(image, (color) =>
             {
                 int r = color.R;
                 int g = color.G;
@@ -47,7 +47,7 @@ namespace ImageEditor
             });
         }
 
-        private static void EditPixel(Image image, Func<Color, Color> func)
+        private static Image EditPixel(Image image, Func<Color, Color> func)
         {
             Bitmap bitmap = new(image);
             int w = bitmap.Width;
@@ -60,6 +60,7 @@ namespace ImageEditor
                     bitmap.SetPixel(x, y, func(pixelColor));
                 }
             }
+            return bitmap;
         }
     }
 }
