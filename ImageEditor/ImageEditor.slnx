@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="../Utils/Utils.csproj" />
+  <Project Path="../WinFormUtils/WinFormUtils.csproj" />
   <Project Path="ImageEditor.csproj" />
 </Solution>

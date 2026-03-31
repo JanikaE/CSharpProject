@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using Utils.Tool;
 
 namespace ImageEditor
 {
@@ -47,7 +48,16 @@ namespace ImageEditor
             });
         }
 
-        private static Image EditPixel(Image image, Func<Color, Color> func)
+        public static Image ClosestColor(Image image, Color[] colors)
+        {
+            return EditPixel(image, (color) =>
+            {
+                Color closestColor = color.FindClosestLab(colors);
+                return closestColor;
+            });
+        }
+
+        private static Bitmap EditPixel(Image image, Func<Color, Color> func)
         {
             Bitmap bitmap = new(image);
             int w = bitmap.Width;

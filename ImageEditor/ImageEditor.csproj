@@ -2,12 +2,13 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net6.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Utils\Utils.csproj" />
+		<ProjectReference Include="..\WinFormUtils\WinFormUtils.csproj" />
 	</ItemGroup>
 
 </Project>

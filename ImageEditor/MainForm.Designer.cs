@@ -43,12 +43,14 @@ namespace ImageEditor
             buttonMonochrome = new Button();
             buttonInvertColor = new Button();
             tabPageClosestColor = new TabPage();
+            uiClosestColor = new ImageEditor.UserInterface.UIClosestColor();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxImport).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxExport).BeginInit();
             tabControlMain.SuspendLayout();
             tabPageNormal.SuspendLayout();
+            tabPageClosestColor.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -79,8 +81,8 @@ namespace ImageEditor
             tableLayoutPanel2.Location = new Point(3, 3);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 2;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 93.46847F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 6.53153133F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             tableLayoutPanel2.Size = new Size(598, 444);
             tableLayoutPanel2.TabIndex = 0;
             // 
@@ -89,7 +91,7 @@ namespace ImageEditor
             pictureBoxImport.Dock = DockStyle.Fill;
             pictureBoxImport.Location = new Point(3, 3);
             pictureBoxImport.Name = "pictureBoxImport";
-            pictureBoxImport.Size = new Size(293, 409);
+            pictureBoxImport.Size = new Size(293, 408);
             pictureBoxImport.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBoxImport.TabIndex = 0;
             pictureBoxImport.TabStop = false;
@@ -99,7 +101,7 @@ namespace ImageEditor
             pictureBoxExport.Dock = DockStyle.Fill;
             pictureBoxExport.Location = new Point(302, 3);
             pictureBoxExport.Name = "pictureBoxExport";
-            pictureBoxExport.Size = new Size(293, 409);
+            pictureBoxExport.Size = new Size(293, 408);
             pictureBoxExport.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBoxExport.TabIndex = 1;
             pictureBoxExport.TabStop = false;
@@ -107,9 +109,9 @@ namespace ImageEditor
             // buttonImport
             // 
             buttonImport.Dock = DockStyle.Right;
-            buttonImport.Location = new Point(221, 418);
+            buttonImport.Location = new Point(221, 417);
             buttonImport.Name = "buttonImport";
-            buttonImport.Size = new Size(75, 23);
+            buttonImport.Size = new Size(75, 24);
             buttonImport.TabIndex = 2;
             buttonImport.Text = "Import";
             buttonImport.UseVisualStyleBackColor = true;
@@ -118,9 +120,9 @@ namespace ImageEditor
             // buttonExport
             // 
             buttonExport.Dock = DockStyle.Right;
-            buttonExport.Location = new Point(520, 418);
+            buttonExport.Location = new Point(520, 417);
             buttonExport.Name = "buttonExport";
-            buttonExport.Size = new Size(75, 23);
+            buttonExport.Size = new Size(75, 24);
             buttonExport.TabIndex = 3;
             buttonExport.Text = "Export";
             buttonExport.UseVisualStyleBackColor = true;
@@ -183,6 +185,7 @@ namespace ImageEditor
             // 
             // tabPageClosestColor
             // 
+            tabPageClosestColor.Controls.Add(uiClosestColor);
             tabPageClosestColor.Location = new Point(4, 26);
             tabPageClosestColor.Name = "tabPageClosestColor";
             tabPageClosestColor.Padding = new Padding(3);
@@ -190,6 +193,14 @@ namespace ImageEditor
             tabPageClosestColor.TabIndex = 1;
             tabPageClosestColor.Text = "ClosestColor";
             tabPageClosestColor.UseVisualStyleBackColor = true;
+            // 
+            // uiClosestColor
+            // 
+            uiClosestColor.Dock = DockStyle.Fill;
+            uiClosestColor.Location = new Point(3, 3);
+            uiClosestColor.Name = "uiClosestColor";
+            uiClosestColor.Size = new Size(176, 408);
+            uiClosestColor.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -206,6 +217,7 @@ namespace ImageEditor
             ((System.ComponentModel.ISupportInitialize)pictureBoxExport).EndInit();
             tabControlMain.ResumeLayout(false);
             tabPageNormal.ResumeLayout(false);
+            tabPageClosestColor.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -223,5 +235,6 @@ namespace ImageEditor
         private Button buttonInvertColor;
         private Button buttonBlackWhite;
         private Button buttonMonochrome;
+        private UserInterface.UIClosestColor uiClosestColor;
     }
 }

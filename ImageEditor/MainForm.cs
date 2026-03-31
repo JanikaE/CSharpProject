@@ -9,11 +9,22 @@ namespace ImageEditor
         private ImageViewForm ImageViewFormImport = null;
         private ImageViewForm ImageViewFormExport = null;
 
+        internal Image ImportImage => pictureBoxImport.Image;
+
+        internal Image ExportImage
+        {
+            set
+            {
+                pictureBoxExport.Image = value;
+            }
+        }
+
         public MainForm()
         {
             InitializeComponent();
             pictureBoxImport.Click += PictureBox_Click;
             pictureBoxExport.Click += PictureBox_Click;
+            uiClosestColor.MainForm = this;
         }
 
         private void PictureBox_Click(object sender, EventArgs e)
