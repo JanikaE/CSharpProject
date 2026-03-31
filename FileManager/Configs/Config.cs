@@ -4,31 +4,8 @@ using Utils.Config;
 
 namespace FileManager.Configs
 {
-    public class Config : BaseConfig
+    public class Config : BaseConfig<Config>
     {
-        private static Config _instance = null;
-        public static Config Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    try
-                    {
-                        _instance = Load<Config>();
-                    }
-                    catch
-                    {
-                        _instance = new Config();
-                        _instance.Save();
-                    }
-                }
-                return _instance;
-            }
-        }
-
-        #region Parameter
-
         #region Backup
 
         public List<PathPair> PathPairs { get; set; } = [];
@@ -49,8 +26,6 @@ namespace FileManager.Configs
         #endregion
 
         public Dictionary<string, Rectangle> FormRectangle { get; set; } = [];
-
-        #endregion
     }
 }
 

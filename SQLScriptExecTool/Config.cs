@@ -1,34 +1,10 @@
-﻿using Newtonsoft.Json;
-using Utils.Config;
+﻿using Utils.Config;
 
 
 namespace SQLScriptExecTool
 {
-    public class Config : BaseConfig
+    public class Config : BaseConfig<Config>
     {
-        private static Config _instance = null;
-        public static Config Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    try
-                    {
-                        _instance = Load<Config>();
-                    }
-                    catch
-                    {
-                        _instance = new Config();
-                        _instance.Save();
-                    }
-                }
-                return _instance;
-            }
-        }
-
-        #region Parameter
-
         public string Server { get; set; } = "localhost";
 
         public string Port { get; set; } = "3306";
@@ -42,8 +18,6 @@ namespace SQLScriptExecTool
         public string TargetVertion { get; set; }
 
         public string Directory { get; set; }
-
-        #endregion
     }
 }
 
