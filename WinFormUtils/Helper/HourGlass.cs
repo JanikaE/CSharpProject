@@ -5,7 +5,7 @@ using System.Windows.Forms;
 namespace WinFormUtils.Helper
 {
     /// <summary>
-    /// 等待
+    /// 等待操作，将鼠标指针变为沙漏，直到操作完成。
     /// </summary>
     public partial class HourGlass : IDisposable
     {
@@ -40,7 +40,7 @@ namespace WinFormUtils.Helper
             }
         }
 
-        [LibraryImport("user32.dll")]
+        [LibraryImport("user32.dll", EntryPoint = "SendMessageW")]
         private static partial nint SendMessage(nint hWnd, int msg, nint wp, nint lp);
     }
 }

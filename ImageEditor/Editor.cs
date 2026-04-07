@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using Utils.Tool;
+using WinFormUtils.Helper;
 
 namespace ImageEditor
 {
@@ -59,18 +60,21 @@ namespace ImageEditor
 
         private static Bitmap EditPixel(Image image, Func<Color, Color> func)
         {
-            Bitmap bitmap = new(image);
-            int w = bitmap.Width;
-            int h = bitmap.Height;
-            for (int x = 0; x < w; x++)
+            using (HourGlass.New())
             {
-                for (int y = 0; y < h; y++)
+                Bitmap bitmap = new(image);
+                int w = bitmap.Width;
+                int h = bitmap.Height;
+                for (int x = 0; x < w; x++)
                 {
-                    Color pixelColor = bitmap.GetPixel(x, y);
-                    bitmap.SetPixel(x, y, func(pixelColor));
+                    for (int y = 0; y < h; y++)
+                    {
+                        Color pixelColor = bitmap.GetPixel(x, y);
+                        bitmap.SetPixel(x, y, func(pixelColor));
+                    }
                 }
+                return bitmap;
             }
-            return bitmap;
         }
     }
 }
