@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -25,6 +25,7 @@ namespace ImageEditor
             pictureBoxImport.Click += PictureBox_Click;
             pictureBoxExport.Click += PictureBox_Click;
             uiClosestColor.MainForm = this;
+            uiSplitImage.MainForm = this;
         }
 
         private void PictureBox_Click(object sender, EventArgs e)

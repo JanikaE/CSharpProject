@@ -44,6 +44,8 @@ namespace ImageEditor
             buttonInvertColor = new Button();
             tabPageClosestColor = new TabPage();
             uiClosestColor = new ImageEditor.UserInterface.UIClosestColor();
+            tabPageSplitImage = new TabPage();
+            uiSplitImage = new ImageEditor.UserInterface.UISplitImage();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxImport).BeginInit();
@@ -51,6 +53,7 @@ namespace ImageEditor
             tabControlMain.SuspendLayout();
             tabPageNormal.SuspendLayout();
             tabPageClosestColor.SuspendLayout();
+            tabPageSplitImage.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -132,6 +135,7 @@ namespace ImageEditor
             // 
             tabControlMain.Controls.Add(tabPageNormal);
             tabControlMain.Controls.Add(tabPageClosestColor);
+            tabControlMain.Controls.Add(tabPageSplitImage);
             tabControlMain.Dock = DockStyle.Fill;
             tabControlMain.Location = new Point(607, 3);
             tabControlMain.Multiline = true;
@@ -202,6 +206,25 @@ namespace ImageEditor
             uiClosestColor.Size = new Size(176, 408);
             uiClosestColor.TabIndex = 0;
             // 
+            // tabPageSplitImage
+            // 
+            tabPageSplitImage.Controls.Add(uiSplitImage);
+            tabPageSplitImage.Location = new Point(4, 26);
+            tabPageSplitImage.Name = "tabPageSplitImage";
+            tabPageSplitImage.Padding = new Padding(3);
+            tabPageSplitImage.Size = new Size(182, 414);
+            tabPageSplitImage.TabIndex = 2;
+            tabPageSplitImage.Text = "Split";
+            tabPageSplitImage.UseVisualStyleBackColor = true;
+            // 
+            // uiSplitImage
+            // 
+            uiSplitImage.Dock = DockStyle.Fill;
+            uiSplitImage.Location = new Point(3, 3);
+            uiSplitImage.Name = "uiSplitImage";
+            uiSplitImage.Size = new Size(176, 408);
+            uiSplitImage.TabIndex = 0;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -218,6 +241,7 @@ namespace ImageEditor
             tabControlMain.ResumeLayout(false);
             tabPageNormal.ResumeLayout(false);
             tabPageClosestColor.ResumeLayout(false);
+            tabPageSplitImage.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -236,5 +260,7 @@ namespace ImageEditor
         private Button buttonBlackWhite;
         private Button buttonMonochrome;
         private UserInterface.UIClosestColor uiClosestColor;
+        private TabPage tabPageSplitImage;
+        private UserInterface.UISplitImage uiSplitImage;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using Utils.Tool;
 using WinFormUtils.Helper;
@@ -74,6 +75,53 @@ namespace ImageEditor
                     }
                 }
                 return bitmap;
+            }
+        }
+
+        /// <summary>
+        /// 将图片按指定像素大小分割为若干子图
+        /// </summary>
+        /// <param name="image">来源图片</param>
+        /// <param name="pixelSize">每块子图的边长（像素）</param>
+        /// <returns>分割后的 Bitmap 列表，按行优先排列（从左到右、从上到下）</returns>
+        public static List<Bitmap> SplitImage(Image image, int pixelSize)
+        {
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            if (pixelSize <= 0)
+                throw new ArgumentOutOfRangeException(nameof(pixelSize), "分割像素必须大于0");
+
+            using (HourGlass.New())
+            {
+                Bitmap source = new(image);
+                int w = source.Width;
+                int h = source.Height;
+
+                // 整除计算行列数，忽略不足一个完整块的边缘像素
+                int cols = w / pixelSize;
+                int rows = h / pixelSize;
+
+                List<Bitmap> result = new(cols * rows);
+
+                for (int row = 0; row < rows; row++)
+                {
+                    for (int col = 0; col < cols; col++)
+                    {
+                        int srcX = col * pixelSize;
+                        int srcY = row * pixelSize;
+
+                        Bitmap piece = new(pixelSize, pixelSize);
+                        using Graphics g = Graphics.FromImage(piece);
+                        g.DrawImage(source,
+                            new Rectangle(0, 0, pixelSize, pixelSize),   // 目标矩形
+                            new Rectangle(srcX, srcY, pixelSize, pixelSize), // 源矩形
+                            GraphicsUnit.Pixel);
+
+                        result.Add(piece);
+                    }
+                }
+
+                return result;
             }
         }
     }
