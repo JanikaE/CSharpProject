@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ImageEditor
+namespace WinFormUtils.Forms
 {
     public class ImageViewForm : Form
     {
