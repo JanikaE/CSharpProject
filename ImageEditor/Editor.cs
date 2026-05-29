@@ -86,8 +86,7 @@ namespace ImageEditor
         /// <returns>分割后的 Bitmap 列表，按行优先排列（从左到右、从上到下）</returns>
         public static List<Bitmap> SplitImage(Image image, int pixelSize)
         {
-            if (image == null)
-                throw new ArgumentNullException(nameof(image));
+            ArgumentNullException.ThrowIfNull(image);
             if (pixelSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(pixelSize), "分割像素必须大于0");
 

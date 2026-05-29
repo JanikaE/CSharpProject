@@ -84,6 +84,8 @@ namespace ImageEditor.UserInterface
 
             // 在 FlowLayoutPanel 中展示预览缩略图
             ShowPreview(exportSize);
+            // 在主界面右侧展示分割线
+            ShowSplitLint();
         }
 
         /// <summary>
@@ -110,6 +112,28 @@ namespace ImageEditor.UserInterface
                 };
                 flowLayoutPanel.Controls.Add(pb);
             }
+        }
+
+        /// <summary>
+        /// 在主界面右侧展示分割线
+        /// </summary>
+        private void ShowSplitLint()
+        {
+            int splitSize = (int)numericUpDownSplit.Value;
+            var image = new Bitmap(MainForm.ImportImage);
+            using Graphics graphics = Graphics.FromImage(image);
+            Pen pen = new(Color.Black, 1);
+            for (int i = 1; i <= splitCols; i++)
+            {
+                int x = i * splitSize;
+                graphics.DrawLine(pen, new PointF(x, 0), new PointF(x, image.Height));
+            }
+            for (int i = 1; i <= splitRows; i++)
+            {
+                int y = i * splitSize;
+                graphics.DrawLine(pen, new PointF(0, y), new PointF(image.Width, y));
+            }
+            MainForm.ExportImage = image;
         }
 
         #endregion
