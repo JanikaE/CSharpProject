@@ -1,7 +1,12 @@
-﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Text;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.Storage.Streams;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -14,10 +19,14 @@ namespace UsefulTools
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        // PDF 相关状态
+        private string _pdfFilePath = null;
+
         public MainWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             DecodeButton.Click += DecodeBase64AndShowImage;
+            FormatComboBox.SelectionChanged += FormatComboBox_SelectionChanged;
         }
 
         /// <summary>
@@ -25,60 +34,48 @@ namespace UsefulTools
         /// </summary>
         private async void DecodeBase64AndShowImage(object sender, RoutedEventArgs e)
         {
-            // 1. 清空之前的错误信息和图片
-            ErrorTextBlock.Visibility = Visibility.Collapsed;
-            ResultImage.Visibility = Visibility.Collapsed;
-            ResultImage.Source = null;
+            // 1. 清空之前的错误信息和所有显示
+            PdfViewer.CoreWebView2?.NavigateToString("<html><body></body></html>");
+            PdfViewer.Visibility = Visibility.Collapsed;
 
             // 2. 获取输入文本，验证非空
             string input = InputTextBox.Text?.Trim();
-            if (string.IsNullOrEmpty(input))
+            if (string.IsNullOrWhiteSpace(input))
             {
                 ShowError("请输入 Base64 字符串。");
                 return;
             }
 
-            // 3. 预处理：去除 Data URI 前缀（如 "data:image/jpeg;base64,"）
-            string base64 = StripDataUriPrefix(input);
+            // 3. 预处理：去除 Data URI 前缀
+            string base64 = StripDataUriPrefix(input.Trim());
 
-            // 4. Base64 解码为字节数组
-            byte[] imageBytes;
+            // 4. 解码 Base64 为字节数组
+            byte[] dataBytes;
             try
             {
-                imageBytes = Convert.FromBase64String(base64);
+                dataBytes = Convert.FromBase64String(base64);
             }
             catch (FormatException)
             {
-                ShowError("Base64 字符串格式无效，请检查输入。");
+                ShowError("Base64 解码失败，请检查输入格式。");
                 return;
             }
 
-            if (imageBytes.Length == 0)
+            if (dataBytes.Length == 0)
             {
                 ShowError("解码后的数据为空。");
                 return;
             }
 
-            // 5. 创建 InMemoryRandomAccessStream 并写入字节
-            var stream = new InMemoryRandomAccessStream();
-            await stream.WriteAsync(imageBytes.AsBuffer());
-            stream.Seek(0);
-
-            // 6. 创建 BitmapImage 并设置源
-            var bitmap = new BitmapImage();
-            try
+            // 5. 根据选择的格式分支处理
+            if (FormatComboBox.SelectedIndex == 0) // JPG 图片
             {
-                await bitmap.SetSourceAsync(stream);
+                await DecodeAsJpegAsync(dataBytes);
             }
-            catch (Exception ex)
+            else // PDF 文档
             {
-                ShowError($"图片解码失败，数据可能不是有效的 JPEG 格式。\n({ex.Message})");
-                return;
+                await DecodeAsPdfAsync(dataBytes);
             }
-
-            // 7. 显示结果
-            ResultImage.Source = bitmap;
-            ResultImage.Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -102,6 +99,118 @@ namespace UsefulTools
         {
             ErrorTextBlock.Text = message;
             ErrorTextBlock.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// 将字节数组解码为 JPEG 图片并显示
+        /// </summary>
+        private async Task DecodeAsJpegAsync(byte[] imageBytes)
+        {
+            var stream = new InMemoryRandomAccessStream();
+            await stream.WriteAsync(imageBytes.AsBuffer());
+            stream.Seek(0);
+
+            var bitmap = new BitmapImage();
+            try
+            {
+                await bitmap.SetSourceAsync(stream);
+            }
+            catch (Exception ex)
+            {
+                ShowError($"图片解码失败，数据可能不是有效的 JPEG 格式。\n({ex.Message})");
+                return;
+            }
+
+            ResultImage.Source = bitmap;
+            ResultImage.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// 将字节数组解码为 PDF 文档并在 WebView2 中显示
+        /// </summary>
+        private async Task DecodeAsPdfAsync(byte[] pdfBytes)
+        {
+            // 验证 PDF 文件头（"%PDF"）
+            if (pdfBytes.Length < 4 ||
+                pdfBytes[0] != 0x25 || pdfBytes[1] != 0x50 ||
+                pdfBytes[2] != 0x44 || pdfBytes[3] != 0x46)
+            {
+                ShowError("输入数据不是有效的 PDF 文件（文件头校验失败）。");
+                return;
+            }
+
+            try
+            {
+                // 写入临时文件
+                string tempPath = Path.Combine(
+                    ApplicationData.Current.TemporaryFolder.Path,
+                    $"decoded_{Guid.NewGuid():N}.pdf");
+                await File.WriteAllBytesAsync(tempPath, pdfBytes);
+
+                // 清理旧临时文件
+                if (_pdfFilePath != null && File.Exists(_pdfFilePath))
+                {
+                    try { File.Delete(_pdfFilePath); }
+                    catch { /* 忽略清理失败 */ }
+                }
+                _pdfFilePath = tempPath;
+
+                // 加载 PDF（Source 属性会自动初始化 CoreWebView2）
+                PdfViewer.Source = new Uri(tempPath);
+                PdfViewer.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex)
+            {
+                ShowError($"PDF 加载失败：{ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 格式下拉框切换事件 — 调整界面控件可见性
+        /// </summary>
+        private async void FormatComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // 1. 清空显示内容
+            CleanupPdfResources();
+            ResultImage.Visibility = Visibility.Collapsed;
+
+            // WebView2 通过导航到空白页来清空
+            PdfViewer.CoreWebView2?.NavigateToString("<html><body></body></html>");
+            PdfViewer.Visibility = Visibility.Collapsed;
+
+            // 2. 清空错误提示
+            ErrorTextBlock.Text = "";
+            ErrorTextBlock.Visibility = Visibility.Collapsed;
+
+            // 3. 重置 PDF 状态
+            _pdfFilePath = null;
+
+            // 4. 根据选择格式调整界面
+            if (FormatComboBox.SelectedIndex == 0) // JPG 图片
+            {
+                DecodeButton.Content = "解码并显示";
+                InputTextBox.Header = "请输入 Base64 字符串";
+                InputTextBox.PlaceholderText = "支持纯 Base64 或 Data URI 格式...";
+            }
+            else // PDF 文档
+            {
+                DecodeButton.Content = "解码并显示 PDF";
+                InputTextBox.Header = "请输入 PDF 的 Base64 字符串";
+                InputTextBox.PlaceholderText = "输入 PDF 文件的 Base64 编码...";
+            }
+        }
+
+        /// <summary>
+        /// 清理 PDF 相关资源
+        /// </summary>
+        private void CleanupPdfResources()
+        {
+            if (_pdfFilePath != null && File.Exists(_pdfFilePath))
+            {
+                try { File.Delete(_pdfFilePath); }
+                catch { /* 忽略清理失败 */ }
+            }
+            _pdfFilePath = null;
         }
     }
 }
