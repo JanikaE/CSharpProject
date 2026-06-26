@@ -46,6 +46,7 @@
                                   SelectedIndex="0">
                                 <ComboBoxItem Content="JPG 图片"/>
                                 <ComboBoxItem Content="PDF 文档"/>
+                                <ComboBoxItem Content="Excel 表格"/>
                             </ComboBox>
 
                             <!-- 输入区域（支持垂直滚动条） -->
@@ -78,6 +79,10 @@
 
                             <!-- PDF 文档显示 -->
                             <controls:WebView2 x:Name="PdfViewer" Grid.Row="0"
+                                           Visibility="Collapsed"/>
+
+                            <!-- Excel 表格显示（WebView2 渲染 HTML 表格） -->
+                            <controls:WebView2 x:Name="ExcelViewer" Grid.Row="0"
                                            Visibility="Collapsed"/>
                         </Grid>
                     </Grid>
