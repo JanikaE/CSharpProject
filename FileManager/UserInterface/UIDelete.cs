@@ -11,6 +11,7 @@ namespace FileManager.UserInterface
         {
             InitializeComponent();
             UpdatePanel();
+            Resize += (s, e) => SetPanelPosition();
         }
 
         private void ButtonAdd_Click(object sender, EventArgs e)
