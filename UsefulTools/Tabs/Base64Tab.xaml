@@ -1,0 +1,72 @@
+<UserControl
+    x:Class="UsefulTools.Tabs.Base64Tab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls">
+
+    <Grid ColumnSpacing="16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- 左侧：输入区域 -->
+        <Grid Grid.Column="0" RowSpacing="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- 错误提示 -->
+            <TextBlock x:Name="ErrorTextBlock" Grid.Row="0"
+                   Foreground="Red" TextWrapping="Wrap" Visibility="Collapsed"/>
+
+            <!-- 格式选择下拉框 -->
+            <ComboBox x:Name="FormatComboBox" Grid.Row="1"
+                  Header="输出格式"
+                  SelectedIndex="0">
+                <ComboBoxItem Content="JPG 图片"/>
+                <ComboBoxItem Content="PDF 文档"/>
+                <ComboBoxItem Content="Excel 表格"/>
+            </ComboBox>
+
+            <!-- 输入区域（支持垂直滚动条） -->
+            <TextBox x:Name="InputTextBox" Grid.Row="2"
+                 Header="请输入 Base64 字符串"
+                 PlaceholderText="支持纯 Base64 或 Data URI 格式..."
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+
+            <!-- 解码按钮 -->
+            <Button x:Name="DecodeButton" Grid.Row="3"
+                Content="解码并显示"
+                HorizontalAlignment="Left"
+                Padding="16,8"/>
+        </Grid>
+
+        <!-- 右侧：显示区域 -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- JPG 图片显示 -->
+            <ScrollViewer Grid.Row="0">
+                <Image x:Name="ResultImage"
+                   Stretch="Uniform"
+                   Visibility="Collapsed"/>
+            </ScrollViewer>
+
+            <!-- PDF 文档显示 -->
+            <controls:WebView2 x:Name="PdfViewer" Grid.Row="0"
+                           Visibility="Collapsed"/>
+
+            <!-- Excel 表格显示（WebView2 渲染 HTML 表格） -->
+            <controls:WebView2 x:Name="ExcelViewer" Grid.Row="0"
+                           Visibility="Collapsed"/>
+        </Grid>
+    </Grid>
+</UserControl>
