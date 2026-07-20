@@ -25,18 +25,16 @@ namespace UsefulTools.Converters
         public static string AutoConvert(string input, NameCase targetCase)
         {
             var trimmed = input.TrimStart();
-            if (trimmed.StartsWith("{") || trimmed.StartsWith("["))
+            if (trimmed.StartsWith('{') || trimmed.StartsWith('['))
                 return ConvertJson(input, targetCase);
-            if (trimmed.StartsWith("<"))
+            if (trimmed.StartsWith('<'))
                 return ConvertXml(input, targetCase);
             throw new FormatException("无法识别输入格式。请输入有效的 JSON 或 XML 字符串。");
         }
 
         public static string ConvertJson(string json, NameCase targetCase)
         {
-            var node = JsonNode.Parse(json);
-            if (node == null)
-                throw new FormatException("JSON 解析失败。请检查输入格式。");
+            var node = JsonNode.Parse(json) ?? throw new FormatException("JSON 解析失败。请检查输入格式。");
             RenameJsonProperties(node, targetCase);
             return node.ToJsonString(_prettyOptions);
         }
@@ -176,11 +174,6 @@ namespace UsefulTools.Converters
 
         private static XElement RenameXmlElement(XElement element, NameCase targetCase)
         {
-            var ns = element.GetDefaultNamespace();
-            var newName = string.IsNullOrEmpty(element.GetPrefixOfNamespace(ns))
-                ? ConvertName(element.Name.LocalName, targetCase)
-                : element.GetPrefixOfNamespace(ns) + ":" + ConvertName(element.Name.LocalName, targetCase);
-
             // Use the same namespace as original
             var xName = element.Name.Namespace + ConvertName(element.Name.LocalName, targetCase);
             var newElement = new XElement(xName);

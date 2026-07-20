@@ -10,7 +10,7 @@ namespace UsefulTools.Decoders
     /// <summary>
     /// PDF 文档解码器 — 将字节数组解码为 PDF 并在 WebView2 中显示
     /// </summary>
-    public class PdfDecoder : IDisposable
+    public partial class PdfDecoder : IDisposable
     {
         private string _tempFilePath;
 
@@ -74,6 +74,7 @@ namespace UsefulTools.Decoders
         public void Dispose()
         {
             CleanupTempFile();
+            GC.SuppressFinalize(this);
         }
     }
 }

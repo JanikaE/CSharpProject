@@ -13,7 +13,7 @@ namespace UsefulTools.Decoders
     /// <summary>
     /// Excel 表格解码器 — 将字节数组解码为 Excel 并以 HTML 表格形式在 WebView2 中显示
     /// </summary>
-    public class ExcelDecoder : IDisposable
+    public partial class ExcelDecoder : IDisposable
     {
         private string _tempFilePath;
 
@@ -91,6 +91,7 @@ namespace UsefulTools.Decoders
         public void Dispose()
         {
             CleanupTempFile();
+            GC.SuppressFinalize(this);
         }
 
         #region HTML 转换
