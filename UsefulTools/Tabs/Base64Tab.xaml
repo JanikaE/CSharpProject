@@ -4,11 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls">
 
-    <Grid ColumnSpacing="16">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <Grid RowSpacing="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" ColumnSpacing="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
         <!-- 左侧：输入区域 -->
         <Grid Grid.Column="0" RowSpacing="12">
@@ -67,6 +73,15 @@
             <!-- Excel 表格显示（WebView2 渲染 HTML 表格） -->
             <controls:WebView2 x:Name="ExcelViewer" Grid.Row="0"
                            Visibility="Collapsed"/>
+            </Grid>
         </Grid>
+
+        <!-- 底部：导出按钮（右下角） -->
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right">
+            <Button x:Name="ExportButton"
+                Content="导出到目录..."
+                IsEnabled="False"
+                Padding="16,8"/>
+        </StackPanel>
     </Grid>
 </UserControl>

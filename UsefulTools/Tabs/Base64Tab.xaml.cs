@@ -1,7 +1,11 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
+using System.Threading.Tasks;
 using UsefulTools.Decoders;
 using UsefulTools.Helpers;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 
 namespace UsefulTools.Tabs
 {
@@ -9,11 +13,13 @@ namespace UsefulTools.Tabs
     {
         private readonly PdfDecoder _pdfDecoder = new();
         private readonly ExcelDecoder _excelDecoder = new();
+        private byte[] _decodedBytes;
 
         public Base64Tab()
         {
             InitializeComponent();
             DecodeButton.Click += DecodeBase64AndShowImage;
+            ExportButton.Click += ExportDecodedContent;
             FormatComboBox.SelectionChanged += FormatComboBox_SelectionChanged;
             Unloaded += OnUnloaded;
         }
@@ -50,7 +56,65 @@ namespace UsefulTools.Tabs
             };
 
             if (error != null)
+            {
                 ShowError(error);
+                return;
+            }
+
+            _decodedBytes = dataBytes;
+            ExportButton.IsEnabled = true;
+            ClearError();
+        }
+
+        private async void ExportDecodedContent(object sender, RoutedEventArgs e)
+        {
+            if (_decodedBytes == null || _decodedBytes.Length == 0)
+            {
+                ShowError("请先解码成功的 Base64 内容。");
+                return;
+            }
+
+            string ext = FormatComboBox.SelectedIndex switch
+            {
+                0 => ".jpg",
+                1 => ".pdf",
+                _ => ExcelDecoder.IsValidExcel(_decodedBytes)
+                    ? (_decodedBytes[0] == 0x50 ? ".xlsx" : ".xls")
+                    : ".xlsx",
+            };
+
+            var picker = new FolderPicker();
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+            picker.FileTypeFilter.Add("*");
+
+            StorageFolder folder = await picker.PickSingleFolderAsync();
+            if (folder == null)
+                return;
+
+            try
+            {
+                string fileName = $"decoded_{DateTime.Now:yyyyMMdd_HHmmss}{ext}";
+                StorageFile file = await folder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName);
+                await FileIO.WriteBytesAsync(file, _decodedBytes);
+                await ShowSuccessDialog($"导出成功：\n{file.Path}");
+            }
+            catch (Exception ex)
+            {
+                ShowError($"导出失败：{ex.Message}");
+            }
+        }
+
+        private async Task ShowSuccessDialog(string message)
+        {
+            var dialog = new ContentDialog
+            {
+                Title = "导出完成",
+                Content = message,
+                CloseButtonText = "确定",
+                XamlRoot = this.XamlRoot,
+            };
+            await dialog.ShowAsync();
         }
 
         private void FormatComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -82,6 +146,8 @@ namespace UsefulTools.Tabs
             ExcelViewer.CoreWebView2?.NavigateToString("<html><body></body></html>");
             ExcelViewer.Visibility = Visibility.Collapsed;
             ResultImage.Visibility = Visibility.Collapsed;
+            _decodedBytes = null;
+            ExportButton.IsEnabled = false;
         }
 
         private void ShowError(string message)
