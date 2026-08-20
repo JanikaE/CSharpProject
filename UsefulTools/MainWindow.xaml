@@ -26,6 +26,13 @@
                     </controls:TabViewItem.IconSource>
                     <tabs:NameCaseTab Margin="20"/>
                 </controls:TabViewItem>
+
+                <controls:TabViewItem Header="文件备份" IsClosable="False">
+                    <controls:TabViewItem.IconSource>
+                        <controls:SymbolIconSource Symbol="Copy"/>
+                    </controls:TabViewItem.IconSource>
+                    <tabs:BackupTab Margin="20"/>
+                </controls:TabViewItem>
             </controls:TabView.TabItems>
         </controls:TabView>
     </Grid>
