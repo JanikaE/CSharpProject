@@ -6,7 +6,7 @@ using UsefulTools.Helpers;
 
 namespace UsefulTools.Tabs
 {
-    public class BackupResultColorConverter : IValueConverter
+    public partial class BackupResultColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

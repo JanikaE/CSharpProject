@@ -8,26 +8,27 @@
     mc:Ignorable="d"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:tabs="using:UsefulTools.Tabs"
+    xmlns:tb="using:H.NotifyIcon"
     Title="UsefulTools">
 
     <Grid>
-        <controls:TabView VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <controls:TabView x:Name="MainTabView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <controls:TabView.TabItems>
-                <controls:TabViewItem Header="base64解码" IsClosable="False">
+                <controls:TabViewItem x:Name="Base64TabItem" Header="base64解码" IsClosable="False">
                     <controls:TabViewItem.IconSource>
                         <controls:SymbolIconSource Symbol="Pictures"/>
                     </controls:TabViewItem.IconSource>
                     <tabs:Base64Tab Margin="20"/>
                 </controls:TabViewItem>
 
-                <controls:TabViewItem Header="字段命名转换" IsClosable="False">
+                <controls:TabViewItem x:Name="NameCaseTabItem" Header="字段命名转换" IsClosable="False">
                     <controls:TabViewItem.IconSource>
                         <controls:SymbolIconSource Symbol="Rename"/>
                     </controls:TabViewItem.IconSource>
                     <tabs:NameCaseTab Margin="20"/>
                 </controls:TabViewItem>
 
-                <controls:TabViewItem Header="文件备份" IsClosable="False">
+                <controls:TabViewItem x:Name="BackupTabItem" Header="文件备份" IsClosable="False">
                     <controls:TabViewItem.IconSource>
                         <controls:SymbolIconSource Symbol="Copy"/>
                     </controls:TabViewItem.IconSource>
@@ -35,5 +36,30 @@
                 </controls:TabViewItem>
             </controls:TabView.TabItems>
         </controls:TabView>
+
+        <tb:TaskbarIcon
+            x:Name="TrayIcon"
+            ToolTipText="UsefulTools"
+            MenuActivation="RightClick"
+            NoLeftClickDelay="True"
+            LeftClickCommand="{x:Bind ReopenWindowCommand}">
+            <tb:TaskbarIcon.IconSource>
+                <tb:GeneratedIconSource
+                    Text="&#xE90F;"
+                    FontFamily="Segoe MDL2 Assets"
+                    Foreground="White"
+                    Background="#FF1F6FEB"
+                    FontSize="80"/>
+            </tb:TaskbarIcon.IconSource>
+            <tb:TaskbarIcon.ContextFlyout>
+                <MenuFlyout AreOpenCloseAnimationsEnabled="False">
+                    <MenuFlyoutItem Text="打开 base64解码" Command="{x:Bind OpenBase64TabCommand}"/>
+                    <MenuFlyoutItem Text="打开 字段命名转换" Command="{x:Bind OpenNameCaseTabCommand}"/>
+                    <MenuFlyoutItem Text="打开 文件备份" Command="{x:Bind OpenBackupTabCommand}"/>
+                    <MenuFlyoutSeparator/>
+                    <MenuFlyoutItem Text="退出" Command="{x:Bind ExitCommand}"/>
+                </MenuFlyout>
+            </tb:TaskbarIcon.ContextFlyout>
+        </tb:TaskbarIcon>
     </Grid>
 </Window>
