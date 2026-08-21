@@ -18,10 +18,7 @@ namespace UsefulTools.Helpers
         {
             get
             {
-                if (_filePath == null)
-                {
-                    _filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "backup.json");
-                }
+                _filePath ??= Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "backup.json");
                 return _filePath;
             }
         }
@@ -34,10 +31,7 @@ namespace UsefulTools.Helpers
                 {
                     lock (_lock)
                     {
-                        if (_instance == null)
-                        {
-                            _instance = Load();
-                        }
+                        _instance ??= Load();
                     }
                 }
                 return _instance;
@@ -47,11 +41,6 @@ namespace UsefulTools.Helpers
         public List<PathPair> PathPairs { get; set; } = [];
 
         public bool IsShowIgnore { get; set; }
-
-        /// <summary>
-        /// 备份策略 0：覆盖；1：追加
-        /// </summary>
-        public int Policy { get; set; }
 
         public void Save()
         {

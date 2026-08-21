@@ -1,8 +1,12 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UsefulTools.Helpers;
 using Windows.Storage;
@@ -10,14 +14,38 @@ using Windows.Storage.Pickers;
 
 namespace UsefulTools.Tabs
 {
-    public sealed partial class BackupTab : UserControl
+    public sealed partial class BackupTab : UserControl, INotifyPropertyChanged
     {
+        private readonly ObservableCollection<BackupResultItem> _results = [];
+        private bool _isBackupRunning;
+
+        public bool IsBackupRunning
+        {
+            get => _isBackupRunning;
+            private set
+            {
+                if (_isBackupRunning != value)
+                {
+                    _isBackupRunning = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(CanExecute));
+                    OnPropertyChanged(nameof(CanModify));
+                }
+            }
+        }
+
+        public bool CanExecute => !_isBackupRunning;
+
+        public bool CanModify => !_isBackupRunning;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public BackupTab()
         {
             InitializeComponent();
             Loaded += OnLoaded;
+            BackupResultListView.ItemsSource = _results;
             BackupShowIgnoreCheckBox.IsChecked = BackupConfig.Instance.IsShowIgnore;
-            BackupPolicyComboBox.SelectedIndex = BackupConfig.Instance.Policy;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -49,6 +77,13 @@ namespace UsefulTools.Tabs
             var nameBox = new TextBox { Header = "名称", Text = existing?.Name ?? "" };
             var sourceBox = new TextBox { Header = "源路径", Text = existing?.SourcePath ?? "" };
             var targetBox = new TextBox { Header = "目标路径", Text = existing?.TargetPath ?? "" };
+            var policyBox = new ComboBox
+            {
+                Header = "备份策略",
+                SelectedIndex = existing?.Policy ?? (int)BackupPolicy.Overwrite,
+            };
+            policyBox.Items.Add("覆盖");
+            policyBox.Items.Add("追加");
             var sourcePicker = new Button { Content = "选择源目录..." };
             var targetPicker = new Button { Content = "选择目标目录..." };
 
@@ -61,6 +96,7 @@ namespace UsefulTools.Tabs
             panel.Children.Add(sourcePicker);
             panel.Children.Add(targetBox);
             panel.Children.Add(targetPicker);
+            panel.Children.Add(policyBox);
 
             var dialog = new ContentDialog
             {
@@ -89,6 +125,7 @@ namespace UsefulTools.Tabs
                         Name = nameBox.Text.Trim(),
                         SourcePath = sourcePath,
                         TargetPath = targetPath,
+                        Policy = policyBox.SelectedIndex,
                     });
                 }
                 else
@@ -96,13 +133,14 @@ namespace UsefulTools.Tabs
                     existing.Name = nameBox.Text.Trim();
                     existing.SourcePath = sourcePath;
                     existing.TargetPath = targetPath;
+                    existing.Policy = policyBox.SelectedIndex;
                 }
                 BackupConfig.Instance.Save();
                 UpdatePathPairPanel();
             }
         }
 
-        private async Task<string> PickFolderAsync()
+        private static async Task<string> PickFolderAsync()
         {
             var picker = new FolderPicker();
             var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
@@ -138,33 +176,57 @@ namespace UsefulTools.Tabs
             }
         }
 
-        private void ExecOne_Click(object sender, RoutedEventArgs e)
+        private async void ExecOne_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button { Tag: PathPair pathPair })
             {
-                RunBackup(new List<PathPair> { pathPair });
+                await RunBackupAsync(new List<PathPair> { pathPair });
             }
         }
 
-        private void ExecBackup_Click(object sender, RoutedEventArgs e)
+        private async void ExecBackup_Click(object sender, RoutedEventArgs e)
         {
-            RunBackup(BackupConfig.Instance.PathPairs);
+            await RunBackupAsync(BackupConfig.Instance.PathPairs);
         }
 
-        private void RunBackup(IEnumerable<PathPair> pathPairs)
+        private async Task RunBackupAsync(IEnumerable<PathPair> pathPairs)
         {
+            if (IsBackupRunning)
+                return;
+
             BackupErrorTextBlock.Visibility = Visibility.Collapsed;
-            List<BackupResultItem> results = BackupService.Execute(
-                pathPairs,
-                BackupPolicyComboBox.SelectedIndex,
-                BackupShowIgnoreCheckBox.IsChecked == true);
-            BackupResultListView.ItemsSource = null;
-            BackupResultListView.ItemsSource = results;
+            _results.Clear();
+            IsBackupRunning = true;
+            BackupStatusPanel.Visibility = Visibility.Visible;
+
+            try
+            {
+                bool showIgnore = BackupShowIgnoreCheckBox.IsChecked == true;
+                await Task.Run(() =>
+                    BackupService.Execute(
+                        pathPairs,
+                        showIgnore,
+                        item => DispatcherQueue.TryEnqueue(() =>
+                        {
+                            _results.Add(item);
+                            ScrollResultsToBottom();
+                        }),
+                        (item, type, message) => DispatcherQueue.TryEnqueue(() =>
+                        {
+                            item.Type = type;
+                            item.Message = message;
+                        })));
+            }
+            finally
+            {
+                IsBackupRunning = false;
+                BackupStatusPanel.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void ClearResults_Click(object sender, RoutedEventArgs e)
         {
-            BackupResultListView.ItemsSource = null;
+            _results.Clear();
         }
 
         private void IsShowIgnore_Changed(object sender, RoutedEventArgs e)
@@ -173,16 +235,55 @@ namespace UsefulTools.Tabs
             BackupConfig.Instance.Save();
         }
 
-        private void Policy_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private ScrollViewer _resultScrollViewer;
+
+        private void ScrollResultsToBottom()
         {
-            BackupConfig.Instance.Policy = BackupPolicyComboBox.SelectedIndex;
-            BackupConfig.Instance.Save();
+            if (_resultScrollViewer == null)
+            {
+                _resultScrollViewer = FindDescendantScrollViewer(BackupResultListView);
+            }
+            if (_resultScrollViewer != null)
+            {
+                DispatcherQueue.TryEnqueue(() =>
+                {
+                    _resultScrollViewer.ChangeView(
+                        null,
+                        _resultScrollViewer.ScrollableHeight,
+                        null,
+                        disableAnimation: true);
+                });
+            }
+        }
+
+        private static ScrollViewer FindDescendantScrollViewer(DependencyObject root)
+        {
+            int count = VisualTreeHelper.GetChildrenCount(root);
+            for (int i = 0; i < count; i++)
+            {
+                var child = VisualTreeHelper.GetChild(root, i);
+                if (child is ScrollViewer scrollViewer)
+                {
+                    return scrollViewer;
+                }
+                var found = FindDescendantScrollViewer(child);
+                if (found != null)
+                {
+                    return found;
+                }
+            }
+            return null;
         }
 
         private void ShowError(string message)
         {
             BackupErrorTextBlock.Text = message;
             BackupErrorTextBlock.Visibility = Visibility.Visible;
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -1,9 +1,14 @@
 <UserControl
     x:Class="UsefulTools.Tabs.BackupTab"
+    x:Name="BackupTabRoot"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:tabs="using:UsefulTools.Tabs">
+
+    <UserControl.Resources>
+        <tabs:BackupPolicyConverter x:Key="BackupPolicyConverter"/>
+    </UserControl.Resources>
 
     <Grid ColumnSpacing="16">
         <Grid.ColumnDefinitions>
@@ -30,7 +35,11 @@
                             <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4"
                                     Padding="8" Margin="0,0,0,8">
                                 <StackPanel Spacing="6">
-                                    <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Policy, Converter={StaticResource BackupPolicyConverter}}"
+                                                   Foreground="Gray"/>
+                                    </StackPanel>
                                     <TextBlock Text="{Binding SourcePath}" TextWrapping="Wrap"/>
                                     <TextBlock Text="{Binding TargetPath}" TextWrapping="Wrap"/>
                                     <StackPanel Orientation="Horizontal" Spacing="8">
@@ -39,10 +48,13 @@
                                         <Button Content="打开目标" Tag="{Binding}"
                                                 Click="OpenTargetPath_Click" Padding="8,4"/>
                                         <Button Content="编辑" Tag="{Binding}"
+                                                IsEnabled="{Binding CanModify, ElementName=BackupTabRoot}"
                                                 Click="EditPathPair_Click" Padding="8,4"/>
                                         <Button Content="执行单项" Tag="{Binding}"
+                                                IsEnabled="{Binding CanExecute, ElementName=BackupTabRoot}"
                                                 Click="ExecOne_Click" Padding="8,4"/>
                                         <Button Content="删除" Tag="{Binding}"
+                                                IsEnabled="{Binding CanModify, ElementName=BackupTabRoot}"
                                                 Click="DeletePathPair_Click" Padding="8,4"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -52,29 +64,24 @@
                 </ItemsControl>
             </ScrollViewer>
 
-            <!-- 底部：添加按钮 + 策略 + 忽略 + 执行 -->
+            <!-- 底部：添加按钮 + 忽略 + 执行 -->
             <Grid Grid.Row="2" RowSpacing="8">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8">
-                    <Button x:Name="BackupAddButton" Content="添加路径" Click="AddPathPair_Click" Padding="16,8"/>
+                    <Button x:Name="BackupAddButton" Content="添加路径"
+                            IsEnabled="{Binding CanModify, ElementName=BackupTabRoot}"
+                            Click="AddPathPair_Click" Padding="16,8"/>
                     <CheckBox x:Name="BackupShowIgnoreCheckBox" Content="显示忽略项"
                               Checked="IsShowIgnore_Changed" Unchecked="IsShowIgnore_Changed"/>
                 </StackPanel>
 
-                <ComboBox x:Name="BackupPolicyComboBox" Grid.Row="1"
-                          Header="备份策略" SelectedIndex="0"
-                          SelectionChanged="Policy_SelectionChanged">
-                    <ComboBoxItem Content="覆盖"/>
-                    <ComboBoxItem Content="追加"/>
-                </ComboBox>
-
-                <Button x:Name="BackupExecButton" Grid.Row="2"
+                <Button x:Name="BackupExecButton" Grid.Row="1"
                         Content="执行备份" HorizontalAlignment="Right" Padding="16,8"
+                        IsEnabled="{Binding CanExecute, ElementName=BackupTabRoot}"
                         Click="ExecBackup_Click"/>
             </Grid>
         </Grid>
@@ -87,7 +94,16 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Text="备份结果" FontWeight="Bold"/>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="备份结果" FontWeight="Bold"/>
+                <StackPanel x:Name="BackupStatusPanel" Orientation="Horizontal" Spacing="6"
+                            Visibility="Collapsed">
+                    <ProgressRing x:Name="BackupProgressRing" Width="16" Height="16"
+                                  IsActive="True"/>
+                    <TextBlock x:Name="BackupStatusTextBlock" Text="正在备份..."
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
 
             <ListView x:Name="BackupResultListView" Grid.Row="1"
                       SelectionMode="None">
@@ -108,6 +124,7 @@
 
             <Button x:Name="BackupClearButton" Grid.Row="2"
                     Content="清空结果" HorizontalAlignment="Right" Padding="16,8"
+                    IsEnabled="{Binding CanModify, ElementName=BackupTabRoot}"
                     Click="ClearResults_Click"/>
         </Grid>
     </Grid>

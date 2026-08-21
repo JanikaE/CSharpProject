@@ -15,7 +15,7 @@ namespace UsefulTools.Tabs
                 BackupResultType.Error or BackupResultType.DirectoryNotFound => new SolidColorBrush(Colors.Red),
                 BackupResultType.New => new SolidColorBrush(Colors.Green),
                 BackupResultType.Overwrite => new SolidColorBrush(Colors.Blue),
-                BackupResultType.Ignore => new SolidColorBrush(Colors.Gray),
+                BackupResultType.Ignore or BackupResultType.Copying => new SolidColorBrush(Colors.Gray),
                 BackupResultType.CreateDirectory => new SolidColorBrush(Colors.Purple),
                 _ => new SolidColorBrush(Colors.Black),
             };
