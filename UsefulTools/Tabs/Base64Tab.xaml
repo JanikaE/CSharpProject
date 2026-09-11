@@ -38,13 +38,19 @@
                 <ComboBoxItem Content="Excel 表格"/>
             </ComboBox>
 
-            <!-- 输入区域（支持垂直滚动条） -->
-            <TextBox x:Name="InputTextBox" Grid.Row="2"
-                 Header="请输入 Base64 字符串"
-                 PlaceholderText="支持纯 Base64 或 Data URI 格式..."
-                 AcceptsReturn="True"
-                 TextWrapping="Wrap"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+            <!-- 输入区域（固定高度 + 内部滚动，避免超长文本溢出控件边界） -->
+            <Grid Grid.Row="2">
+                <Grid x:Name="InputTextBoxHost" VerticalAlignment="Stretch"/>
+                <TextBox x:Name="InputTextBox"
+                     Header="请输入 Base64 字符串"
+                     PlaceholderText="支持纯 Base64 或 Data URI 格式..."
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalAlignment="Top"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     SizeChanged="InputTextBox_SizeChanged"/>
+            </Grid>
 
             <!-- 解码按钮 -->
             <Button x:Name="DecodeButton" Grid.Row="3"

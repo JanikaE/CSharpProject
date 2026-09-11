@@ -29,12 +29,19 @@
                 <ComboBoxItem Content="snake_case"/>
             </ComboBox>
 
-            <TextBox x:Name="CaseInputTextBox" Grid.Row="2"
-                 Header="请输入 JSON 或 XML 字符串"
-                 PlaceholderText="支持 JSON 对象/数组 或 XML 文档..."
-                 AcceptsReturn="True"
-                 TextWrapping="Wrap"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+            <!-- 输入区域（固定高度 + 内部滚动，避免超长文本溢出控件边界） -->
+            <Grid Grid.Row="2">
+                <Grid x:Name="CaseInputTextBoxHost" VerticalAlignment="Stretch"/>
+                <TextBox x:Name="CaseInputTextBox"
+                     Header="请输入 JSON 或 XML 字符串"
+                     PlaceholderText="支持 JSON 对象/数组 或 XML 文档..."
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalAlignment="Top"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     SizeChanged="CaseTextBox_SizeChanged"/>
+            </Grid>
 
             <Button x:Name="CaseConvertButton" Grid.Row="3"
                 Content="转换"
@@ -49,13 +56,20 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBox x:Name="CaseOutputTextBox" Grid.Row="0"
-                 Header="转换结果"
-                 IsReadOnly="True"
-                 AcceptsReturn="True"
-                 TextWrapping="Wrap"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto"
-                 PlaceholderText="转换后的结果将显示在这里..."/>
+            <!-- 输出区域（固定高度 + 内部滚动，避免超长文本溢出控件边界） -->
+            <Grid Grid.Row="0">
+                <Grid x:Name="CaseOutputTextBoxHost" VerticalAlignment="Stretch"/>
+                <TextBox x:Name="CaseOutputTextBox"
+                     Header="转换结果"
+                     IsReadOnly="True"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalAlignment="Top"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     PlaceholderText="转换后的结果将显示在这里..."
+                     SizeChanged="CaseTextBox_SizeChanged"/>
+            </Grid>
 
             <Button x:Name="CaseCopyButton" Grid.Row="1"
                 Content="一键复制"

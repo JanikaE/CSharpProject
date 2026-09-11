@@ -1,5 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.Threading.Tasks;
 using UsefulTools.Decoders;
@@ -18,6 +19,7 @@ namespace UsefulTools.Tabs
         public Base64Tab()
         {
             InitializeComponent();
+            InputTextBoxHost.SizeChanged += (_, e) => InputTextBox.Height = e.NewSize.Height;
             DecodeButton.Click += DecodeBase64AndShowImage;
             ExportButton.Click += ExportDecodedContent;
             FormatComboBox.SelectionChanged += FormatComboBox_SelectionChanged;
@@ -131,6 +133,14 @@ namespace UsefulTools.Tabs
                     1 => ("解码并显示 PDF", "请输入 PDF 的 Base64 字符串", "输入 PDF 文件的 Base64 编码..."),
                     _ => ("解码并显示 Excel", "请输入 Excel 的 Base64 字符串", "输入 Excel 文件的 Base64 编码 (.xlsx/.xls)..."),
                 };
+        }
+
+        private void InputTextBox_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            InputTextBox.Clip = new RectangleGeometry
+            {
+                Rect = new Windows.Foundation.Rect(0, 0, e.NewSize.Width, e.NewSize.Height),
+            };
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
