@@ -11,6 +11,7 @@ namespace UsefulTools
         public ICommand OpenBase64TabCommand { get; }
         public ICommand OpenNameCaseTabCommand { get; }
         public ICommand OpenBackupTabCommand { get; }
+        public ICommand OpenExtractTabCommand { get; }
         public ICommand ExitCommand { get; }
 
         public MainWindow()
@@ -19,6 +20,7 @@ namespace UsefulTools
             OpenBase64TabCommand = new RelayCommand(() => OpenTab(0));
             OpenNameCaseTabCommand = new RelayCommand(() => OpenTab(1));
             OpenBackupTabCommand = new RelayCommand(() => OpenTab(2));
+            OpenExtractTabCommand = new RelayCommand(() => OpenTab(3));
             ExitCommand = new RelayCommand(ExitApplication);
 
             InitializeComponent();

@@ -34,6 +34,13 @@
                     </controls:TabViewItem.IconSource>
                     <tabs:BackupTab Margin="20"/>
                 </controls:TabViewItem>
+
+                <controls:TabViewItem x:Name="ExtractTabItem" Header="文件解压" IsClosable="False">
+                    <controls:TabViewItem.IconSource>
+                        <controls:SymbolIconSource Symbol="Folder"/>
+                    </controls:TabViewItem.IconSource>
+                    <tabs:ExtractTab Margin="20"/>
+                </controls:TabViewItem>
             </controls:TabView.TabItems>
         </controls:TabView>
 
@@ -56,6 +63,7 @@
                     <MenuFlyoutItem Text="打开 base64解码" Command="{x:Bind OpenBase64TabCommand}"/>
                     <MenuFlyoutItem Text="打开 字段命名转换" Command="{x:Bind OpenNameCaseTabCommand}"/>
                     <MenuFlyoutItem Text="打开 文件备份" Command="{x:Bind OpenBackupTabCommand}"/>
+                    <MenuFlyoutItem Text="打开 文件解压" Command="{x:Bind OpenExtractTabCommand}"/>
                     <MenuFlyoutSeparator/>
                     <MenuFlyoutItem Text="退出" Command="{x:Bind ExitCommand}"/>
                 </MenuFlyout>
