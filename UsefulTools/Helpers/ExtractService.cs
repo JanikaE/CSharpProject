@@ -36,6 +36,7 @@ namespace UsefulTools.Helpers
             string targetFolder,
             bool createNamedSubfolder,
             ExtractParallelMode mode,
+            bool deleteArchiveAfterExtraction,
             Action<ExtractItem> onStarted,
             Action<ExtractItem, double> onProgress,
             Action<ExtractItem, ExtractState, string> onCompleted)
@@ -54,7 +55,7 @@ namespace UsefulTools.Helpers
             };
 
             Parallel.ForEach(list, options, item =>
-                ExtractOne(item, targetFolder, createNamedSubfolder, onStarted, onProgress, onCompleted));
+                ExtractOne(item, targetFolder, createNamedSubfolder, deleteArchiveAfterExtraction, onStarted, onProgress, onCompleted));
         }
 
         /// <summary>
@@ -85,6 +86,7 @@ namespace UsefulTools.Helpers
             ExtractItem item,
             string targetFolder,
             bool createNamedSubfolder,
+            bool deleteArchiveAfterExtraction,
             Action<ExtractItem> onStarted,
             Action<ExtractItem, double> onProgress,
             Action<ExtractItem, ExtractState, string> onCompleted)
@@ -109,6 +111,7 @@ namespace UsefulTools.Helpers
                     .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
                     + Path.DirectorySeparatorChar;
 
+                bool skippedUnsafeEntry = false;
                 using (var archive = ZipFile.OpenRead(item.FilePath))
                 {
                     int total = archive.Entries.Count;
@@ -121,6 +124,7 @@ namespace UsefulTools.Helpers
                         // 防御路径穿越：确保解压目标始终位于目标根目录之内
                         if (!entryFull.StartsWith(rootPrefix, StringComparison.OrdinalIgnoreCase))
                         {
+                            skippedUnsafeEntry = true;
                             continue;
                         }
 
@@ -144,7 +148,29 @@ namespace UsefulTools.Helpers
                     }
                 }
 
-                onCompleted?.Invoke(item, ExtractState.Completed, $"已解压到 {destRoot}");
+                string message = $"已解压到 {destRoot}";
+                if (skippedUnsafeEntry)
+                {
+                    message += "；已跳过不安全路径条目，保留原压缩包";
+                }
+                else if (deleteArchiveAfterExtraction)
+                {
+                    // 压缩包句柄已释放，才可移至回收站。
+                    try
+                    {
+                        Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(
+                            item.FilePath,
+                            Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs,
+                            Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin,
+                            Microsoft.VisualBasic.FileIO.UICancelOption.ThrowException);
+                        message += "；压缩包已移至回收站";
+                    }
+                    catch (Exception ex)
+                    {
+                        message += $"；压缩包移至回收站失败：{ex.Message}";
+                    }
+                }
+                onCompleted?.Invoke(item, ExtractState.Completed, message);
             }
             catch (Exception ex)
             {

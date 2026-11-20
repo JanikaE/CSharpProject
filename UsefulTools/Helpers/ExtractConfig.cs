@@ -42,6 +42,9 @@ namespace UsefulTools.Helpers
         /// </summary>
         public bool CreateNamedSubfolder { get; set; } = true;
 
+        /// <summary>成功解压后将原压缩包移至回收站，默认关闭。</summary>
+        public bool DeleteArchiveAfterExtraction { get; set; }
+
         /// <summary>
         /// 并发模式：0=自动（按磁盘类型），1=单包顺序，2=多包并行。默认自动。
         /// </summary>

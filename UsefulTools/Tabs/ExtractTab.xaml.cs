@@ -60,11 +60,18 @@ namespace UsefulTools.Tabs
             // 恢复并发模式与“解压到同名子文件夹”的勾选状态（默认勾选）
             ExtractModeComboBox.SelectedIndex = ExtractConfig.Instance.ParallelMode;
             ExtractSubfolderCheckBox.IsChecked = ExtractConfig.Instance.CreateNamedSubfolder;
+            ExtractDeleteArchiveCheckBox.IsChecked = ExtractConfig.Instance.DeleteArchiveAfterExtraction;
         }
 
         private void ExtractSubfolder_Changed(object sender, RoutedEventArgs e)
         {
             ExtractConfig.Instance.CreateNamedSubfolder = ExtractSubfolderCheckBox.IsChecked == true;
+            ExtractConfig.Instance.Save();
+        }
+
+        private void ExtractDeleteArchive_Changed(object sender, RoutedEventArgs e)
+        {
+            ExtractConfig.Instance.DeleteArchiveAfterExtraction = ExtractDeleteArchiveCheckBox.IsChecked == true;
             ExtractConfig.Instance.Save();
         }
 
@@ -166,6 +173,7 @@ namespace UsefulTools.Tabs
             }
 
             bool createSubfolder = ExtractSubfolderCheckBox.IsChecked == true;
+            bool deleteArchive = ExtractDeleteArchiveCheckBox.IsChecked == true;
             string targetFolder = TargetFolder;
             var parallelMode = (ExtractParallelMode)ExtractModeComboBox.SelectedIndex;
 
@@ -180,6 +188,7 @@ namespace UsefulTools.Tabs
                         targetFolder,
                         createSubfolder,
                         parallelMode,
+                        deleteArchive,
                         item => DispatcherQueue.TryEnqueue(() =>
                         {
                             item.State = ExtractState.Running;

@@ -55,9 +55,15 @@
                 <ComboBoxItem Content="多包并行"/>
             </ComboBox>
 
-            <CheckBox x:Name="ExtractSubfolderCheckBox" Grid.Row="3"
-                      Content="解压到与压缩包同名的子文件夹"
-                      Checked="ExtractSubfolder_Changed" Unchecked="ExtractSubfolder_Changed"/>
+            <StackPanel Grid.Row="3" Spacing="4">
+                <CheckBox x:Name="ExtractSubfolderCheckBox"
+                          Content="解压到与压缩包同名的子文件夹"
+                          Checked="ExtractSubfolder_Changed" Unchecked="ExtractSubfolder_Changed"/>
+                <CheckBox x:Name="ExtractDeleteArchiveCheckBox" Content="解压完成后删除压缩包"
+                          ToolTipService.ToolTip="成功解压后将原压缩包移至回收站"
+                          IsEnabled="{Binding CanModify, ElementName=ExtractTabRoot}"
+                          Checked="ExtractDeleteArchive_Changed" Unchecked="ExtractDeleteArchive_Changed"/>
+            </StackPanel>
 
             <!-- 已选压缩包列表 -->
             <Grid Grid.Row="4" RowSpacing="8">
