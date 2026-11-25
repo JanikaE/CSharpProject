@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
 
 namespace UsefulTools.Decoders
 {
@@ -50,7 +49,8 @@ namespace UsefulTools.Decoders
 
                 // 写入临时文件
                 string tempPath = Path.Combine(
-                    ApplicationData.Current.TemporaryFolder.Path,
+                    // 未打包运行时没有包标识，不能使用 ApplicationData.Current。
+                    Path.GetTempPath(),
                     $"excel_{Guid.NewGuid():N}{ext}");
                 await File.WriteAllBytesAsync(tempPath, excelBytes);
 

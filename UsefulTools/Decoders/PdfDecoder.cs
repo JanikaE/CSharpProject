@@ -3,7 +3,6 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Windows.Storage;
 
 namespace UsefulTools.Decoders
 {
@@ -39,7 +38,8 @@ namespace UsefulTools.Decoders
             {
                 // 写入临时文件
                 string tempPath = Path.Combine(
-                    ApplicationData.Current.TemporaryFolder.Path,
+                    // 未打包运行时没有包标识，不能使用 ApplicationData.Current。
+                    Path.GetTempPath(),
                     $"decoded_{Guid.NewGuid():N}.pdf");
                 await File.WriteAllBytesAsync(tempPath, pdfBytes);
 
